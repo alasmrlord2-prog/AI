@@ -1,0 +1,39 @@
+groups:
+  - name: ai_backend_alerts
+    interval: 30s
+    rules:
+      - alert: HighCPUUsage
+        expr: system_cpu_load > 2
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High CPU usage detected"
+          description: "CPU load is above 2 for more than 5 minutes"
+
+      - alert: HighMemoryUsage
+        expr: (system_memory_used_bytes / (system_memory_used_bytes + 0)) * 100 > 80
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High memory usage detected"
+          description: "Memory usage is above 80%"
+
+      - alert: BackendDown
+        expr: up{job="ai-backend"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Backend is down"
+          description: "The AI backend service is not responding"
+
+      - alert: HighErrorRate
+        expr: rate(chat_errors_total[5m]) > 0.1
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High error rate detected"
+          description: "Chat error rate is above 0.1 errors per second"

@@ -1,0 +1,24 @@
+fastapi
+uvicorn
+requests
+python-multipart
+pydantic
+pydantic-settings
+python-jose[cryptography]
+passlib[bcrypt]
+prometheus-client
+urllib3
+psutil
+sqlalchemy
+alembic
+pytest
+pytest-cov
+pytest-asyncio
+httpx
+watchdog
+docker
+pyyaml
+scikit-learn  # Optional: for ML-based anomaly detection
+ollama  # Optional: for AI explanations (local)
+cryptography  # For secret encryption
+

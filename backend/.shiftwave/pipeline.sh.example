@@ -1,0 +1,35 @@
+#!/bin/bash
+# Example Pipeline Script for .shiftwave/pipeline.sh
+# This script is executed when a pipeline runs
+
+set -e  # Exit on error
+
+echo "🚀 Starting pipeline..."
+
+# Step 1: Build
+echo "📦 Building..."
+# Add your build commands here
+# Example: npm install, pip install -r requirements.txt, etc.
+
+# Step 2: Test
+echo "🧪 Running tests..."
+# Add your test commands here
+# Example: npm test, pytest, etc.
+
+# Step 3: Docker Build
+echo "🐳 Building Docker image..."
+# Add your docker build command here
+# Example: docker build -t myapp:latest .
+
+# Step 4: Docker Push (optional)
+echo "📤 Pushing Docker image..."
+# Add your docker push command here
+# Example: docker push myapp:latest
+
+# Step 5: Deploy
+echo "🚢 Deploying..."
+# Add your deployment commands here
+# Example: docker compose up -d, kubectl apply, etc.
+
+echo "✅ Pipeline completed successfully!"
+

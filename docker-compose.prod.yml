@@ -1,0 +1,157 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ai-agent-backend-prod
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - OLLAMA_URL=http://ollama:11434
+      - DEBUG=false
+      - LOG_LEVEL=INFO
+      - SECRET_KEY=${SECRET_KEY}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+    volumes:
+      - backend_data:/app/data
+      - backend_logs:/app/logs
+      - backend_memory:/app/memory
+    depends_on:
+      - ollama
+      - postgres
+    networks:
+      - ai-agent-network
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_AGENT_API_URL=${NEXT_PUBLIC_AGENT_API_URL:-http://ai-agent.bankid-sy.com}
+        - NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL:-http://ai-agent.bankid-sy.com}
+        - NEXT_PUBLIC_AGENT_WS_URL=${NEXT_PUBLIC_AGENT_WS_URL:-ws://ai-agent.bankid-sy.com/ws/chat}
+    container_name: ai-agent-frontend-prod
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_AGENT_API_URL=${NEXT_PUBLIC_AGENT_API_URL:-http://ai-agent.bankid-sy.com}
+      - NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL:-http://ai-agent.bankid-sy.com}
+      - NEXT_PUBLIC_AGENT_WS_URL=${NEXT_PUBLIC_AGENT_WS_URL:-ws://ai-agent.bankid-sy.com/ws/chat}
+    depends_on:
+      - backend
+    networks:
+      - ai-agent-network
+    restart: always
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: ai-agent-postgres
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB:-ai_agent}
+      - POSTGRES_USER=${POSTGRES_USER:-ai_agent}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - ai-agent-network
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-ai_agent}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ai-agent-ollama-prod
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    networks:
+      - ai-agent-network
+    restart: always
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: ai-agent-prometheus-prod
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=30d'
+    networks:
+      - ai-agent-network
+    restart: always
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: ai-agent-grafana-prod
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD}
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_SERVER_ROOT_URL=${GRAFANA_ROOT_URL}
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    depends_on:
+      - prometheus
+    networks:
+      - ai-agent-network
+    restart: always
+
+  loki:
+    image: grafana/loki:latest
+    container_name: ai-agent-loki-prod
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./loki/loki-config.yml:/etc/loki/local-config.yaml
+      - loki_data:/loki
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - ai-agent-network
+    restart: always
+
+  promtail:
+    image: grafana/promtail:latest
+    container_name: ai-agent-promtail-prod
+    volumes:
+      - ./promtail/promtail-config.yml:/etc/promtail/config.yml
+      - ./backend/logs:/var/log/backend:ro
+    command: -config.file=/etc/promtail/config.yml
+    depends_on:
+      - loki
+    networks:
+      - ai-agent-network
+    restart: always
+
+volumes:
+  backend_data:
+  backend_logs:
+  backend_memory:
+  postgres_data:
+  ollama_data:
+  prometheus_data:
+  grafana_data:
+  loki_data:
+
+networks:
+  ai-agent-network:
+    driver: bridge
+
