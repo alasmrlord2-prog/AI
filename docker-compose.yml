@@ -1,51 +1,26 @@
-version: '3.8'
-
 services:
-  backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    container_name: ai-agent-backend
-    ports:
-      - "8000:8000"
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: ai-agent-postgres
     environment:
-      - DATABASE_URL=sqlite:///./ai_agent.db
-      - OLLAMA_URL=http://ollama:11434
-      - DEBUG=true
-      - LOG_LEVEL=DEBUG
+      POSTGRES_USER: aiagent
+      POSTGRES_PASSWORD: aiagent123
+      POSTGRES_DB: ai_agent_db
+    ports:
+      - "5432:5432"
     volumes:
-      - ./backend:/app
-      - ./:/host/ai-agent:ro  # Mount المجلد الرئيسي للوصول لجميع الملفات (read-only)
-      - backend_data:/app/data
-      - backend_logs:/app/logs
-      - backend_memory:/app/memory
-    depends_on:
-      - ollama
+      - postgres_data:/var/lib/postgresql/data
     networks:
       - ai-agent-network
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aiagent"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    container_name: ai-agent-frontend
-    ports:
-      - "3000:3000"
-    environment:
-      - NEXT_PUBLIC_AGENT_API_URL=http://localhost:8000
-      - NEXT_PUBLIC_BACKEND_URL=http://localhost:8000
-      - NEXT_PUBLIC_AGENT_WS_URL=ws://localhost:8000
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
-      - /app/.next
-    depends_on:
-      - backend
-    networks:
-      - ai-agent-network
-    restart: unless-stopped
-
+  # Ollama Service
   ollama:
     image: ollama/ollama:latest
     container_name: ai-agent-ollama
@@ -57,74 +32,141 @@ services:
       - ai-agent-network
     restart: unless-stopped
 
-  prometheus:
-    image: prom/prometheus:latest
-    container_name: ai-agent-prometheus
+  # Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ai-backend
     ports:
-      - "9090:9090"
-    volumes:
-      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-      - prometheus_data:/prometheus
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
-    networks:
-      - ai-agent-network
-    restart: unless-stopped
-
-  grafana:
-    image: grafana/grafana:latest
-    container_name: ai-agent-grafana
-    ports:
-      - "3001:3000"
+      - "8000:8000"
     environment:
-      - GF_SECURITY_ADMIN_PASSWORD=admin
-      - GF_USERS_ALLOW_SIGN_UP=false
+      - DATABASE_URL=postgresql://aiagent:aiagent123@postgres:5432/ai_agent_db
+      - OLLAMA_URL=http://ollama:11434
+      - DEBUG=true
+      - LOG_LEVEL=INFO
+      - CORS_ORIGINS=["*"]
+      - SECRET_KEY=your-secret-key-change-in-production
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      start_period: 10s
+      retries: 3
     volumes:
-      - grafana_data:/var/lib/grafana
-      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./backend:/app
+      - backend_logs:/app/logs
     depends_on:
-      - prometheus
+      postgres:
+        condition: service_healthy
+      ollama:
+        condition: service_started
     networks:
       - ai-agent-network
     restart: unless-stopped
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload --timeout-keep-alive 600 --timeout-graceful-shutdown 30
 
-  loki:
-    image: grafana/loki:latest
-    container_name: ai-agent-loki
+  # Frontend Dashboard (port 3000)
+  frontend-dashboard:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: ai-agent-frontend-dashboard
     ports:
-      - "3100:3100"
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_AGENT_API_URL=http://localhost:8000
+      - NEXT_PUBLIC_BACKEND_URL=http://localhost:8000
+      - NEXT_PUBLIC_AGENT_WS_URL=ws://localhost:8000
+      - BACKEND_URL=http://backend:8000
+      - PORT=3000
     volumes:
-      - ./loki/loki-config.yml:/etc/loki/local-config.yaml
-      - loki_data:/loki
-    command: -config.file=/etc/loki/local-config.yaml
-    networks:
-      - ai-agent-network
-    restart: unless-stopped
-
-  promtail:
-    image: grafana/promtail:latest
-    container_name: ai-agent-promtail
-    volumes:
-      - ./promtail/promtail-config.yml:/etc/promtail/config.yml
-      - ./backend/logs:/var/log/backend:ro
-    command: -config.file=/etc/promtail/config.yml
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
     depends_on:
-      - loki
+      backend:
+        condition: service_healthy
     networks:
       - ai-agent-network
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:3000 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      start_period: 60s
+      retries: 3
+    command: npm run dev -- -p 3000
+
+  # Frontend CRM (port 3001) - Commented out due to port conflict
+  # frontend-crm:
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile
+  #   container_name: ai-agent-frontend-crm
+  #   ports:
+  #     - "3001:3001"
+  #   environment:
+  #     - NEXT_PUBLIC_AGENT_API_URL=http://localhost:8000
+  #     - NEXT_PUBLIC_BACKEND_URL=http://localhost:8000
+  #     - NEXT_PUBLIC_AGENT_WS_URL=ws://localhost:8000
+  #     - BACKEND_URL=http://backend:8000
+  #     - PORT=3001
+  #   volumes:
+  #     - ./frontend:/app
+  #     - /app/node_modules
+  #     - /app/.next
+  #   depends_on:
+  #     backend:
+  #       condition: service_healthy
+  #   networks:
+  #     - ai-agent-network
+  #   restart: unless-stopped
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:3001 || exit 1"]
+  #     interval: 30s
+  #     timeout: 10s
+  #     start_period: 60s
+  #     retries: 3
+  #   command: npm run dev -- -p 3001
+
+  # Frontend AAA (port 3002)
+  frontend-aaa:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: ai-agent-frontend-aaa
+    ports:
+      - "3002:3002"
+    environment:
+      - NEXT_PUBLIC_AGENT_API_URL=http://localhost:8000
+      - NEXT_PUBLIC_BACKEND_URL=http://localhost:8000
+      - NEXT_PUBLIC_AGENT_WS_URL=ws://localhost:8000
+      - BACKEND_URL=http://backend:8000
+      - PORT=3002
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:3002 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      start_period: 60s
+      retries: 3
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - ai-agent-network
+    restart: unless-stopped
+    command: npm run dev -- -p 3002
 
 volumes:
-  backend_data:
+  postgres_data:
   backend_logs:
-  backend_memory:
   ollama_data:
-  prometheus_data:
-  grafana_data:
-  loki_data:
 
 networks:
   ai-agent-network:
     driver: bridge
-

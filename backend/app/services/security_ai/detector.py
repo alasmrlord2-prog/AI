@@ -4,13 +4,21 @@ Anomaly Detection Engine - 100% Local ML
 """
 import os
 import pickle
-import numpy as np
 from typing import Dict, Any, List, Optional
 from datetime import datetime, timedelta
 from collections import defaultdict, deque
 from pathlib import Path
 from app.core.config import get_settings
 from app.utils.logger import log_info, log_warning
+
+# محاولة استيراد numpy (اختياري)
+try:
+    import numpy as np
+    NUMPY_AVAILABLE = True
+except ImportError:
+    NUMPY_AVAILABLE = False
+    np = None
+    log_warning("numpy not available, using rule-based detection only")
 
 # محاولة استيراد scikit-learn (اختياري)
 try:
@@ -98,10 +106,16 @@ class AnomalyDetector:
         except Exception as e:
             log_warning(f"Error saving ML models: {e}")
     
-    def extract_features(self, events: List[Dict[str, Any]]) -> np.ndarray:
+    def extract_features(self, events: List[Dict[str, Any]]):
         """استخراج features من الأحداث"""
+        if not NUMPY_AVAILABLE:
+            # Fallback to simple list if numpy not available
+            return []
         if not events:
             return np.array([]).reshape(0, 10)
+        
+        if not NUMPY_AVAILABLE:
+            return []
         
         features = []
         
@@ -151,8 +165,8 @@ class AnomalyDetector:
             max(ip_counts.values()) if ip_counts else 0,  # max requests from one IP
             len(user_counts),  # unique users
             max(user_counts.values()) if user_counts else 0,  # max actions from one user
-            np.mean(time_diffs) if time_diffs else 0,  # avg time between events
-            np.std(time_diffs) if time_diffs else 0,  # std of time between events
+            (sum(time_diffs) / len(time_diffs)) if time_diffs else 0,  # avg time between events
+            ((sum((x - (sum(time_diffs) / len(time_diffs))) ** 2 for x in time_diffs) / len(time_diffs)) ** 0.5) if time_diffs and len(time_diffs) > 1 else 0,  # std of time between events
             event_counts.get("login_failed", 0),  # failed logins
             event_counts.get("error", 0),  # errors
         ]

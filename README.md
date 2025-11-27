@@ -1,481 +1,378 @@
-# AI Agent System - نظام الوكيل الذكي
+# 🚀 SHIFTWAVE AI Platform
 
-## 📋 نظرة عامة
+نظام شامل يتكون من **ثلاث واجهات منفصلة تماماً** متصلة بـ Backend موحد.
 
-نظام شامل لإدارة وتشغيل AI Agent مع نظام صلاحيات موحد يتحكم بكل الواجهات والميزات.
+---
 
-## 🏗️ البنية
+## 📋 الواجهات (Frontends)
+
+### 1. Dashboard (AI Agent)
+- **Domain:** `ai-agent.bankid-sy.com`
+- **Port:** 3000
+- **الوظيفة:** واجهة المستخدم العادي
+- **المميزات:**
+  - Chat مع AI Agent
+  - إدارة Services
+  - Monitoring & Analytics
+  - Knowledge Base
+  - Workflows
+
+### 2. CRM (Customer Relationship Management)
+- **Domain:** `crm.bankid-sy.com`
+- **Port:** 3001
+- **الوظيفة:** إدارة Tenants و Users و Subscriptions
+- **المميزات:**
+  - إنشاء وإدارة Tenants
+  - إدارة Users لكل Tenant
+  - إدارة Subscription Plans
+  - Analytics & Reports
+  - Audit Logs
+
+### 3. AAA (Authentication, Authorization, Accounting)
+- **Domain:** `aaa.bankid-sy.com`
+- **Port:** 3002
+- **الوظيفة:** إدارة Authentication و Authorization
+- **المميزات:**
+  - إدارة API Tokens
+  - إدارة Sessions
+  - إدارة Users
+  - Audit Logs
+  - Security Policies
+
+---
+
+## 🏗️ البنية التحتية
+
+### Backend
+- **Technology:** FastAPI (Python 3.11)
+- **Port:** 8000
+- **Database:** PostgreSQL (Docker)
+- **AI:** Ollama (Docker)
+- **Location:** `/home/ai/ai-agent/backend`
+
+### Frontend
+- **Technology:** Next.js 16 (React)
+- **Ports:** 3000 (Dashboard), 3001 (CRM), 3002 (AAA)
+- **Location:** `/home/ai/ai-agent/frontend`
+
+### Reverse Proxy
+- **Technology:** NGINX
+- **Port:** 80
+- **Configs:** `/etc/nginx/sites-available/`
+
+---
+
+## 🚀 التشغيل السريع
+
+### 1. تشغيل Backend فقط
+
+```bash
+cd /home/ai/ai-agent
+./backend-start.sh
+```
+
+**ما يفعله:**
+- يبدأ PostgreSQL (port 5432)
+- يبدأ Ollama (port 11434)
+- يبدأ Backend API (port 8000)
+- يتحقق من صحة Backend
+
+### 2. إيقاف Backend
+
+```bash
+cd /home/ai/ai-agent
+./backend-stop.sh
+```
+
+### 3. إعادة تشغيل Backend
+
+```bash
+cd /home/ai/ai-agent
+./backend-restart.sh
+```
+
+### 4. تشغيل Frontends فقط
+
+```bash
+cd /home/ai/ai-agent
+./frontend-start.sh
+```
+
+**ما يفعله:**
+- يبدأ Dashboard على port 3000
+- يبدأ CRM على port 3001
+- يبدأ AAA على port 3002
+- يتحقق من حالة جميع Frontends
+
+### 5. إيقاف Frontends
+
+```bash
+cd /home/ai/ai-agent
+./frontend-stop.sh
+```
+
+### 6. إعادة تشغيل Frontends
+
+```bash
+cd /home/ai/ai-agent
+./frontend-restart.sh
+```
+
+---
+
+## 📝 Scripts المتاحة
+
+### في الجذر (`/home/ai/ai-agent/`)
+
+#### Backend Scripts
+1. **`backend-start.sh`** - بدء Backend Services (PostgreSQL, Ollama, Backend API)
+2. **`backend-stop.sh`** - إيقاف Backend Services
+3. **`backend-restart.sh`** - إعادة تشغيل Backend Services
+
+#### Frontend Scripts
+4. **`frontend-start.sh`** - بدء جميع Frontends (Dashboard, CRM, AAA)
+5. **`frontend-stop.sh`** - إيقاف جميع Frontends
+6. **`frontend-restart.sh`** - إعادة تشغيل جميع Frontends
+
+---
+
+## 🔐 بيانات الدخول الافتراضية
+
+### Admin User
+- **Email:** `admin@example.com`
+- **Password:** `admin123`
+- **Role:** `admin`
+
+**يمكن استخدامه في:**
+- ✅ Dashboard (`ai-agent.bankid-sy.com`)
+- ✅ CRM (`crm.bankid-sy.com`)
+- ✅ AAA (`aaa.bankid-sy.com`)
+
+---
+
+## 🔄 Workflow الكامل
+
+```
+1. Admin Login إلى CRM
+   └─> http://crm.bankid-sy.com
+   └─> Email: admin@example.com
+   └─> Password: admin123
+
+2. إنشاء Tenant جديد
+   └─> CRM Dashboard → Tenants → Create New Tenant
+
+3. إنشاء User للـ Tenant
+   └─> Tenants → اختر Tenant → Users → Create User
+
+4. User يستخدم Dashboard
+   └─> http://ai-agent.bankid-sy.com
+   └─> Login بـ بيانات User الجديد
+
+5. User يستخدم AAA
+   └─> http://aaa.bankid-sy.com
+   └─> Login بـ نفس بيانات User
+```
+
+---
+
+## 🌐 NGINX Configuration
+
+### Domains
+- `ai-agent.bankid-sy.com` → `localhost:3000` (Dashboard)
+- `crm.bankid-sy.com` → `localhost:3001` (CRM)
+- `aaa.bankid-sy.com` → `localhost:3002` (AAA)
+
+### API Proxy
+جميع `/api/*` requests يتم توجيهها إلى `localhost:8000` (Backend)
+
+### Config Files
+- `/etc/nginx/sites-available/ai-agent.bankid-sy.com`
+- `/etc/nginx/sites-available/crm.bankid-sy.com`
+- `/etc/nginx/sites-available/aaa.bankid-sy.com`
+
+---
+
+## 📊 البنية
 
 ```
 ai-agent/
 ├── backend/              # FastAPI Backend
-│   ├── app/             # Application Code
-│   ├── start.sh         # بدء Backend
-│   ├── stop.sh          # إيقاف Backend
-│   └── restart.sh       # إعادة تشغيل Backend
-├── frontend/            # Next.js Frontend
-│   ├── app/            # Next.js App
-│   ├── start.sh        # بدء Frontend
-│   ├── stop.sh         # إيقاف Frontend
-│   └── restart.sh      # إعادة تشغيل Frontend
-└── README.md           # هذا الملف
+│   ├── app/              # Application code
+│   │   ├── api/          # API endpoints
+│   │   ├── identity/     # Identity service
+│   │   ├── crm/          # CRM service
+│   │   └── main.py       # FastAPI app
+│   └── Dockerfile        # Backend Docker image
+│
+├── frontend/             # Next.js Frontend
+│   ├── app/              # Next.js app directory
+│   │   ├── page.tsx      # Dashboard home
+│   │   ├── crm/          # CRM routes
+│   │   └── aaa/          # AAA routes
+│   ├── components/       # React components
+│   └── Dockerfile        # Frontend Docker image
+│
+├── README.md             # هذا الملف
+├── PROJECT_STRUCTURE.md  # بنية المشروع التفصيلية
+├── SERVICES_TOOLS.md     # جميع Services مع الأدوات والكود
+├── SCRIPTS.md            # دليل السكربتات
+├── docker-compose.yml    # Docker configuration
+│
+├── backend-start.sh      # Start Backend Script
+├── backend-stop.sh       # Stop Backend Script
+├── backend-restart.sh    # Restart Backend Script
+├── frontend-start.sh     # Start Frontend Script
+├── frontend-stop.sh      # Stop Frontend Script
+├── frontend-restart.sh   # Restart Frontend Script
+└── check-endpoints.sh    # Check All Endpoints (Utility)
 ```
 
-## 🚀 البدء السريع
-
-### 1. تشغيل Backend
-
-```bash
-cd /home/ai/ai-agent/backend
-./start.sh
-```
-
-الـ Backend سيعمل على: http://localhost:8000
-
-### 2. تشغيل Frontend
-
-```bash
-cd /home/ai/ai-agent/frontend
-./start.sh
-```
-
-الـ Frontend سيعمل على: http://localhost:3000
-
-### 3. الوصول للنظام
-
-- **Frontend**: http://localhost:3000
-- **Backend API**: http://localhost:8000/api
-- **API Docs**: http://localhost:8000/docs
-
-## 📊 مخطط النظام الكامل - Complete System Architecture
-
-```mermaid
-graph TB
-    subgraph FE["Frontend - Next.js :3000"]
-        direction TB
-        HOME[Home/Agent Console]
-        MONITOR[Monitoring]
-        LOGS[Logs]
-        TOOLS[Tools]
-        CICD[CI/CD]
-        DEBUGGER[AI Debugger]
-        BACKUP[Backup & Restore]
-        WORKFLOWS[Workflows]
-        SECURITY[Security Center]
-        SIEM[SIEM/SOC]
-        THREAT[Threat Detection]
-        ABAC[ABAC]
-        TENANTS[Tenants]
-        BILLING[Billing]
-        APPROVALS[Approvals]
-        SETTINGS[Settings]
-        VISUALIZATION[Visualization]
-        KNOWLEDGE[Knowledge Base]
-        AUDIT[Audit Trail]
-        INCIDENTS[Incidents]
-        COST[Cost Analyzer]
-        PERFORMANCE[Performance Tuner]
-        GLOBAL[Global Search]
-        SNAPSHOTS[Snapshots]
-        INCIDENT_CENTER[Incident Center]
-        SECRETS[Secret Management]
-        DEPENDENCY[Service Dependency]
-        KERNEL[Kernel Metrics]
-        HARDENING[Auto-Hardening]
-        SHADOW[Shadow Deployment]
-        BEHAVIOR[Behavior Alerts]
-        BLUEPRINT[Blueprint Generator]
-        CODE_REVIEW[Code Review]
-        PLUGINS[Plugin Store]
-        WORKFLOW_BUILDER[Workflow Builder]
-        AGENT_MESH[Agent Mesh]
-        DIGITAL_TWIN[Digital Twin]
-    end
-    
-    subgraph BE["Backend - FastAPI :8000"]
-        direction TB
-        API[FastAPI Server]
-        
-        AUTH_API[Auth API]
-        CHAT_API[Chat API]
-        LOGS_API[Logs API]
-        TOOLS_API[Tools API]
-        MONITOR_API[Monitor API]
-        CICD_API[CI/CD API]
-        DEBUGGER_API[Debugger API]
-        BACKUP_API[Backup API]
-        WORKFLOWS_API[Workflows API]
-        SECURITY_API[Security API]
-        THREAT_API[Threat Detection API]
-        ABAC_API[ABAC API]
-        BILLING_API[Billing API]
-        APPROVALS_API[Approvals API]
-        PERMISSIONS_API[Permissions API]
-        SETTINGS_API[Settings API]
-        VISUALIZATION_API[Visualization API]
-        AUDIT_API[Audit API]
-        INCIDENTS_API[Incidents API]
-        MONITORING_API[Monitoring API]
-        COST_API[Cost Analyzer API]
-        PERFORMANCE_API[Performance Tuner API]
-        GLOBAL_API[Global Search API]
-        SNAPSHOTS_API[Snapshots API]
-        INCIDENT_CENTER_API[Incident Center API]
-        SECRETS_API[Secrets API]
-        DEPENDENCY_API[Dependency API]
-        KERNEL_API[Kernel Metrics API]
-        HARDENING_API[Hardening API]
-        SHADOW_API[Shadow Deployment API]
-        BEHAVIOR_API[Behavior Alerts API]
-        BLUEPRINT_API[Blueprint API]
-        CODE_REVIEW_API[Code Review API]
-        PLUGINS_API[Plugins API]
-        WORKFLOW_BUILDER_API[Workflow Builder API]
-        AGENT_MESH_API[Agent Mesh API]
-        DIGITAL_TWIN_API[Digital Twin API]
-        
-        SECURITY_SVC[Security Service]
-        MONITORING_SVC[Monitoring Service]
-        BACKUP_SVC[Backup Service]
-        WORKFLOW_SVC[Workflow Service]
-        INCIDENT_SVC[Incident Service]
-        AI_SVC[AI Services]
-        
-        DB[(SQLite DB)]
-        MEMORY[Memory Storage]
-        LOGS_STORE[Logs Storage]
-    end
-    
-    subgraph EXT["External Services"]
-        OLLAMA[Ollama AI :11434]
-        PROMETHEUS[Prometheus :9090]
-        GRAFANA[Grafana :3001]
-    end
-    
-    HOME --> API
-    MONITOR --> API
-    LOGS --> API
-    TOOLS --> API
-    CICD --> API
-    DEBUGGER --> API
-    BACKUP --> API
-    WORKFLOWS --> API
-    SECURITY --> API
-    SIEM --> API
-    THREAT --> API
-    ABAC --> API
-    TENANTS --> API
-    BILLING --> API
-    APPROVALS --> API
-    SETTINGS --> API
-    VISUALIZATION --> API
-    KNOWLEDGE --> API
-    AUDIT --> API
-    INCIDENTS --> API
-    COST --> API
-    PERFORMANCE --> API
-    GLOBAL --> API
-    SNAPSHOTS --> API
-    INCIDENT_CENTER --> API
-    SECRETS --> API
-    DEPENDENCY --> API
-    KERNEL --> API
-    HARDENING --> API
-    SHADOW --> API
-    BEHAVIOR --> API
-    BLUEPRINT --> API
-    CODE_REVIEW --> API
-    PLUGINS --> API
-    WORKFLOW_BUILDER --> API
-    AGENT_MESH --> API
-    DIGITAL_TWIN --> API
-    
-    API --> AUTH_API
-    API --> CHAT_API
-    API --> LOGS_API
-    API --> TOOLS_API
-    API --> MONITOR_API
-    API --> CICD_API
-    API --> DEBUGGER_API
-    API --> BACKUP_API
-    API --> WORKFLOWS_API
-    API --> SECURITY_API
-    API --> THREAT_API
-    API --> ABAC_API
-    API --> BILLING_API
-    API --> APPROVALS_API
-    API --> PERMISSIONS_API
-    API --> SETTINGS_API
-    API --> VISUALIZATION_API
-    API --> AUDIT_API
-    API --> INCIDENTS_API
-    API --> MONITORING_API
-    API --> COST_API
-    API --> PERFORMANCE_API
-    API --> GLOBAL_API
-    API --> SNAPSHOTS_API
-    API --> INCIDENT_CENTER_API
-    API --> SECRETS_API
-    API --> DEPENDENCY_API
-    API --> KERNEL_API
-    API --> HARDENING_API
-    API --> SHADOW_API
-    API --> BEHAVIOR_API
-    API --> BLUEPRINT_API
-    API --> CODE_REVIEW_API
-    API --> PLUGINS_API
-    API --> WORKFLOW_BUILDER_API
-    API --> AGENT_MESH_API
-    API --> DIGITAL_TWIN_API
-    
-    AUTH_API --> SECURITY_SVC
-    CHAT_API --> AI_SVC
-    MONITOR_API --> MONITORING_SVC
-    SECURITY_API --> SECURITY_SVC
-    BACKUP_API --> BACKUP_SVC
-    WORKFLOWS_API --> WORKFLOW_SVC
-    INCIDENTS_API --> INCIDENT_SVC
-    THREAT_API --> SECURITY_SVC
-    COST_API --> AI_SVC
-    PERFORMANCE_API --> AI_SVC
-    
-    SECURITY_SVC --> DB
-    MONITORING_SVC --> DB
-    BACKUP_SVC --> MEMORY
-    WORKFLOW_SVC --> DB
-    INCIDENT_SVC --> DB
-    AI_SVC --> MEMORY
-    
-    AI_SVC --> OLLAMA
-    MONITORING_SVC --> PROMETHEUS
-    VISUALIZATION_API --> GRAFANA
-    
-    style FE fill:#3b82f6,color:#fff
-    style BE fill:#10b981,color:#fff
-    style EXT fill:#f59e0b,color:#fff
-    style DB fill:#8b5cf6,color:#fff
-    style MEMORY fill:#8b5cf6,color:#fff
-```
-
-## 🔐 نظام الصلاحيات
-
-النظام يحتوي على نظام صلاحيات موحد يتحكم بكل الواجهات:
-
-### Agent Modes
-- **Safe**: قراءة فقط، بدون run_shell
-- **DevOps**: كل الصلاحيات مع approval للعمليات الخطيرة
-- **Root**: كل الصلاحيات بدون قيود
-- **Short**: جلسة واحدة بدون حفظ
-
-### Memory Modes
-- **Off**: لا حفظ
-- **Short**: ذاكرة مؤقتة
-- **Long**: حفظ طويل الأمد
-
-## 🛠️ السكربتات المتاحة
-
-### Backend Scripts
-
-```bash
-cd /home/ai/ai-agent/backend
-
-./start.sh      # بدء Backend
-./stop.sh       # إيقاف Backend
-./restart.sh    # إعادة تشغيل Backend
-```
-
-### Frontend Scripts
-
-```bash
-cd /home/ai/ai-agent/frontend
-
-./start.sh      # بدء Frontend
-./stop.sh       # إيقاف Frontend
-./restart.sh    # إعادة تشغيل Frontend
-```
-
-## 📡 API Endpoints الرئيسية
-
-### Core APIs
-- `GET /health` - فحص حالة النظام
-- `POST /api/auth/login` - تسجيل الدخول
-- `POST /api/chat` - محادثة مع AI Agent
-- `GET /api/logs` - الحصول على السجلات
-- `GET /api/monitor` - مراقبة النظام
-
-### DevOps APIs
-- `POST /api/cicd/deploy` - نشر التطبيقات
-- `POST /api/debugger/analyze` - تحليل الأخطاء
-- `POST /api/backup/create` - إنشاء نسخة احتياطية
-- `POST /api/workflows/execute` - تنفيذ سير العمل
-
-### Security APIs
-- `POST /api/security/scan` - فحص الأمان
-- `GET /api/threat-detection/alerts` - تنبيهات التهديدات
-- `GET /api/abac/validate` - التحقق من الصلاحيات
-
-### Management APIs
-- `GET /api/billing/invoices` - الفواتير
-- `POST /api/approvals/request` - طلب موافقة
-- `GET /api/permissions/list` - قائمة الصلاحيات
-
-## 🔧 الإعدادات
-
-### Backend Settings
-
-في `backend/memory/settings.json`:
-
-```json
-{
-  "agent_mode": "devops",
-  "memory_mode": "short",
-  "allow_shell": false,
-  "allow_read_file": true,
-  "require_approval": ["run_shell", "write_file"]
-}
-```
-
-### Frontend Settings
-
-في `frontend/.env.local`:
-
-```env
-NEXT_PUBLIC_API_URL=http://localhost:8000/api
-```
-
-## ✅ Approval System
-
-النظام يحتوي على نظام موافقات تلقائي:
-
-1. العمليات الخطيرة تحتاج موافقة
-2. يتم إنشاء pending action تلقائياً
-3. Admin/DevOps يوافقون من Dashboard
-4. بعد الموافقة، يتم التنفيذ تلقائياً
-
-## 🔍 Troubleshooting
-
-### Backend لا يعمل
-
-```bash
-cd /home/ai/ai-agent/backend
-./stop.sh
-./start.sh
-```
-
-**ملاحظة**: السكربتات تتحقق تلقائياً من Docker containers وتتعامل معها.
-
-### Frontend لا يعمل
-
-```bash
-cd /home/ai/ai-agent/frontend
-./stop.sh
-./start.sh
-```
-
-### مشاكل Dependencies
-
-إذا واجهت أخطاء مثل `ModuleNotFoundError`:
-
-```bash
-cd /home/ai/ai-agent/backend
-python3 -m pip install -r requirements.txt
-```
-
-السكربت `start.sh` يتحقق تلقائياً من Dependencies ويقوم بتثبيتها إذا لزم الأمر.
-
-### Port مستخدم
-
-```bash
-# Backend (8000)
-lsof -ti:8000 | xargs kill -9
-
-# Frontend (3000)
-lsof -ti:3000 | xargs kill -9
-```
-
-### مشاكل الاتصال بين Frontend و Backend
-
-1. تأكد من أن Backend يعمل: `curl http://localhost:8000/health`
-2. تأكد من أن Frontend يعمل: `curl http://localhost:3000`
-3. تحقق من CORS في Backend (يجب أن يكون `allow_origins=["*"]`)
-
-## 📝 Logs
-
-### Backend Logs
-```bash
-tail -f /home/ai/ai-agent/backend/backend.log
-```
-
-### Frontend Logs
-```bash
-tail -f /tmp/frontend.log
-```
-
-## 🔗 روابط مفيدة
-
-- **Backend API Docs**: http://localhost:8000/docs
-- **Backend Health**: http://localhost:8000/health
-- **Frontend**: http://localhost:3000
-
-## 📊 الميزات المتاحة
-
-### Core Features
-- ✅ Agent Console - واجهة المحادثة مع AI
-- ✅ Monitoring - مراقبة النظام
-- ✅ Logs - إدارة السجلات
-- ✅ Tools - أدوات النظام
-
-### DevOps Features
-- ✅ CI/CD - النشر التلقائي
-- ✅ AI Debugger - مصحح الأخطاء بالذكاء الاصطناعي
-- ✅ Backup & Restore - النسخ الاحتياطي
-- ✅ Workflows - إدارة سير العمل
-
-### Security Features
-- ✅ Security Center - مركز الأمان
-- ✅ SIEM/SOC - مراقبة الأمان
-- ✅ Threat Detection - كشف التهديدات
-- ✅ ABAC - التحكم بالوصول المتقدم
-
-### Management Features
-- ✅ Tenants - إدارة المواقع
-- ✅ Billing - إدارة الفواتير
-- ✅ Approvals - نظام الموافقات
-- ✅ Settings - الإعدادات
-
-### Advanced Features
-- ✅ Visualization - تصور البيانات
-- ✅ Knowledge Base - قاعدة المعرفة
-- ✅ Audit Trail - سجل التدقيق
-- ✅ Incidents - إدارة الحوادث
-
-### AI Advanced Features
-- ✅ Cost Analyzer - تحليل التكاليف
-- ✅ Performance Tuner - ضبط الأداء
-- ✅ Global Search - البحث الشامل
-- ✅ Snapshots & Rollback - اللقطات والتراجع
-- ✅ Incident Command Center - مركز قيادة الحوادث
-- ✅ Secret Management - إدارة الأسرار
-- ✅ Service Dependency - تبعيات الخدمات
-- ✅ Kernel Metrics - مقاييس النواة
-- ✅ Auto-Hardening - التأمين التلقائي
-- ✅ Shadow Deployment - النشر الخفي
-- ✅ Behavior Alerts - تنبيهات السلوك
-- ✅ Blueprint Generator - مولد المخططات
-- ✅ Code Review - مراجعة الكود
-- ✅ Plugin Store - متجر الإضافات
-- ✅ Workflow Builder - بناء سير العمل
-- ✅ Agent Mesh - شبكة الوكلاء
-- ✅ Digital Twin - التوأم الرقمي
-
-## 📄 الترخيص
-
-هذا المشروع خاص.
-
-## 👥 المساهمون
-
-AI Agent Team
+## 🐳 Docker Containers
+
+جميع الخدمات تعمل في Docker containers منفصلة:
+
+### Backend Containers
+- **`ai-backend`** - Backend API (port 8000)
+- **`ai-agent-postgres`** - PostgreSQL Database (port 5432)
+- **`ai-agent-ollama`** - Ollama Service (port 11434)
+
+### Frontend Containers
+- **`ai-agent-frontend-dashboard`** - Dashboard Frontend (port 3000)
+- **`ai-agent-frontend-crm`** - CRM Frontend (port 3001)
+- **`ai-agent-frontend-aaa`** - AAA Frontend (port 3002)
 
 ---
 
-**ملاحظة**: تأكد من تشغيل Backend قبل Frontend للحصول على أفضل تجربة.
+## 🔧 المتطلبات
+
+### Backend
+- Python 3.11
+- uvicorn
+- FastAPI
+- PostgreSQL (Docker)
+- Ollama (Docker)
+
+### Frontend
+- Node.js 18+
+- npm
+- Next.js 16
+
+### System
+- NGINX
+- Docker & Docker Compose (اختياري)
+
+---
+
+## 📝 Logs
+
+### Docker Logs
+
+```bash
+# Backend logs
+docker compose logs -f backend
+
+# Frontend logs
+docker compose logs -f frontend-dashboard
+docker compose logs -f frontend-crm
+docker compose logs -f frontend-aaa
+
+# All logs
+docker compose logs -f
+
+# Specific service logs
+docker compose logs -f postgres
+docker compose logs -f ollama
+```
+
+---
+
+## ✅ التحقق من الحالة
+
+### Backend
+```bash
+curl http://localhost:8000/health
+```
+
+### Frontend
+```bash
+curl http://localhost:3000  # Dashboard
+curl http://localhost:3001  # CRM
+curl http://localhost:3002  # AAA
+```
+
+### Ports
+```bash
+ss -tlnp | grep -E ':(3000|3001|3002|8000)'
+```
+
+---
+
+## 🐛 Troubleshooting
+
+### Backend لا يبدأ
+1. تحقق من Docker: `docker ps -a | grep ai-backend`
+2. تحقق من Logs: `docker compose logs backend`
+3. تحقق من Port 8000: `ss -tlnp | grep 8000`
+4. أعد تشغيل: `./backend-restart.sh`
+
+### Frontend لا يبدأ
+1. تحقق من Docker: `docker ps -a | grep frontend`
+2. تحقق من Logs: `docker compose logs frontend-dashboard`
+3. تحقق من Ports: `ss -tlnp | grep -E ':(3000|3001|3002)'`
+4. أعد تشغيل: `./frontend-restart.sh`
+
+### 502 Bad Gateway
+1. تحقق من أن Frontend يعمل: `curl http://localhost:3001`
+2. تحقق من NGINX config: `sudo nginx -t`
+3. أعد تحميل NGINX: `sudo systemctl reload nginx`
+
+### تنظيف شامل
+```bash
+./clean-containers.sh
+./start-all.sh
+```
+
+---
+
+## 📚 الوثائق
+
+- **`PROJECT_STRUCTURE.md`** - بنية المشروع التفصيلية
+- **`SERVICES_TOOLS.md`** - جميع Services مع الأدوات والكود المستخدم
+
+---
+
+## 🎯 الميزات الرئيسية
+
+### Dashboard
+- ✅ Chat مع AI Agent
+- ✅ إدارة Services (Security, DevOps, AI)
+- ✅ Monitoring & Analytics
+- ✅ Knowledge Base
+- ✅ Workflows Builder
+
+### CRM
+- ✅ إدارة Tenants
+- ✅ إدارة Users
+- ✅ إدارة Subscriptions
+- ✅ Analytics & Reports
+- ✅ Audit Logs
+
+### AAA
+- ✅ إدارة API Tokens
+- ✅ إدارة Sessions
+- ✅ إدارة Users
+- ✅ Security Policies
+- ✅ Audit Logs
+
+---
+
+## 📞 الدعم
+
+للمساعدة أو الأسئلة، راجع:
+- `PROJECT_STRUCTURE.md` - للبنية التفصيلية
+- `SERVICES_TOOLS.md` - للأدوات والكود
+
+---
+
+**تم التطوير بواسطة:** Shiftwave Team  
+**الإصدار:** 1.0.0

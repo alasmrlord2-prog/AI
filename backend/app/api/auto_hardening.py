@@ -29,14 +29,42 @@ async def apply_hardening(current_user: dict = Depends(get_current_user)):
 
 @router.get("/status")
 async def get_status(current_user: dict = Depends(get_current_user)):
-    """الحصول على حالة التحصين"""
+    """الحصول على حالة التحصين - allows guest access with timeout protection"""
+    import asyncio
+    
     try:
         check_action_permission("security.hardening", current_user)
     except HTTPException:
         pass
     
-    hardening = get_auto_hardening()
-    status = hardening.get_status()
-    
-    return status
+    try:
+        # Use timeout to prevent hanging (max 3 seconds) - OPTIMIZED
+        loop = asyncio.get_event_loop()
+        hardening = get_auto_hardening()
+        status = await asyncio.wait_for(
+            loop.run_in_executor(None, hardening.get_status),
+            timeout=3.0  # Reduced to 3 seconds for faster response
+        )
+        return status
+    except asyncio.TimeoutError:
+        # Return error on timeout, not default values
+        return {
+            "error": "timeout - hardening endpoint not responding",
+            "enabled": None,
+            "actions_today": None,
+            "actions": None,
+            "last_action": None,
+            "status": "timeout"
+        }
+    except Exception as e:
+        # Return actual error, not default values
+        print(f"Error getting hardening status: {e}")
+        return {
+            "error": str(e),
+            "enabled": None,
+            "actions_today": None,
+            "actions": None,
+            "last_action": None,
+            "status": "error"
+        }
 

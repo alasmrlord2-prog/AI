@@ -36,16 +36,37 @@ async def get_alerts(
     resolved: Optional[bool] = Query(None, description="Filter by resolved status"),
     current_user: dict = Depends(get_current_user)
 ):
-    """الحصول على التنبيهات"""
+    """الحصول على التنبيهات - allows guest access - optimized for speed"""
     try:
         check_action_permission("alerts.view", current_user)
     except HTTPException:
         pass
     
-    alerter = get_behavior_alerter()
-    alerts = alerter.get_alerts(severity=severity, hours=hours, resolved=resolved)
-    
-    return {"alerts": alerts, "count": len(alerts)}
+    try:
+        import asyncio
+        
+        # Use timeout to prevent hanging (max 3 seconds) - OPTIMIZED
+        loop = asyncio.get_event_loop()
+        alerter = get_behavior_alerter()
+        alerts = await asyncio.wait_for(
+            loop.run_in_executor(None, lambda: alerter.get_alerts(severity=severity, hours=hours, resolved=resolved)),
+            timeout=3.0  # Reduced to 3 seconds for faster response
+        )
+        return {"alerts": alerts, "count": len(alerts)}
+    except asyncio.TimeoutError:
+        # Return error on timeout, not empty response
+        return {
+            "error": "timeout - behavior alerts endpoint not responding",
+            "alerts": [],
+            "count": None
+        }
+    except Exception as e:
+        # Return actual error, not default response
+        return {
+            "error": str(e),
+            "alerts": [],
+            "count": None
+        }
 
 
 @router.post("/{alert_id}/acknowledge")

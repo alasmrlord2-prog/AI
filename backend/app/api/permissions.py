@@ -198,3 +198,34 @@ async def get_feature_permission(
         "action_id": result.action_id
     }
 
+
+@router.get("/features")
+async def get_all_features(
+    current_user: Optional[Dict] = Depends(get_current_user_optional)
+):
+    """
+    Get all feature permissions - dynamically from permission engine, no hardcoded values
+    """
+    engine = get_permission_engine()
+    
+    # Return all features with their current permission status
+    features = []
+    for action, feature_config in FEATURE_PERMISSIONS.items():
+        result = engine.check_permission(action)
+        features.append({
+            "action": action,
+            "description": feature_config.get("description", ""),
+            "tools": feature_config.get("tools", []),
+            "requires_approval": feature_config.get("requires_approval", False),
+            "allowed": result.allowed,
+            "current_requires_approval": result.requires_approval,
+            "reason": result.reason
+        })
+    
+    return {
+        "features": features,
+        "total": len(features),
+        "agent_mode": engine.settings.agent_mode,
+        "memory_mode": engine.settings.memory_mode
+    }
+

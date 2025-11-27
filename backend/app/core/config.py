@@ -1,7 +1,9 @@
 """Configuration management using Pydantic Settings."""
 from pydantic_settings import BaseSettings
-from typing import List, Optional
+from pydantic import field_validator
+from typing import List, Optional, Union
 from functools import lru_cache
+import json
 
 
 class Settings(BaseSettings):
@@ -13,7 +15,7 @@ class Settings(BaseSettings):
     DEBUG: bool = False
     
     # Database
-    DATABASE_URL: str = "sqlite:///./ai_agent.db"
+    DATABASE_URL: str = "postgresql://aiagent:aiagent123@postgres:5432/ai_agent_db"
     
     # Security
     SECRET_KEY: str = "your-secret-key-here-change-in-production"
@@ -26,6 +28,39 @@ class Settings(BaseSettings):
     
     # CORS - Allow all origins in development
     CORS_ORIGINS: List[str] = ["*"]
+    
+    @field_validator('CORS_ORIGINS', mode='before')
+    @classmethod
+    def parse_cors_origins(cls, v: Union[str, List[str]]) -> List[str]:
+        """Parse CORS_ORIGINS from JSON string or list."""
+        if isinstance(v, str):
+            # Remove any extra quotes or brackets
+            v = v.strip()
+            # Try to parse as JSON first
+            try:
+                # Handle JSON array string like '["http://localhost:3000", ...]'
+                if v.startswith('[') and v.endswith(']'):
+                    parsed = json.loads(v)
+                    if isinstance(parsed, list):
+                        return parsed
+                # Handle single JSON string
+                parsed = json.loads(v)
+                if isinstance(parsed, list):
+                    return parsed
+                elif isinstance(parsed, str):
+                    # Single string, return as list
+                    return [parsed]
+            except (json.JSONDecodeError, ValueError):
+                # If not JSON, treat as comma-separated string
+                if ',' in v:
+                    # Remove brackets if present
+                    v = v.strip('[]')
+                    return [origin.strip().strip('"').strip("'") for origin in v.split(',')]
+                else:
+                    return [v.strip()]
+        elif isinstance(v, list):
+            return v
+        return ["*"]
     
     # Monitoring
     PROMETHEUS_ENABLED: bool = True
@@ -72,6 +107,7 @@ class Settings(BaseSettings):
         env_file = ".env"
         env_file_encoding = "utf-8"
         case_sensitive = True
+        extra = "ignore"  # Ignore extra environment variables
 
 
 @lru_cache()

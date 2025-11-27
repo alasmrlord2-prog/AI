@@ -36,15 +36,42 @@ def run(_=None):
     except:
         result["disk"] = "error"
 
-    # Check services
+    # Check services - skip systemctl in Docker containers (it doesn't work)
+    # Instead, check if processes are running - OPTIMIZED: faster checks with shorter timeouts
     services = ["ssh", "nginx", "docker"]
     status = {}
+    
+    import subprocess
+    import os
 
+    # Check if we're in a Docker container
+    is_docker = os.path.exists("/.dockerenv") or (os.path.exists("/proc/1/cgroup") and "docker" in open("/proc/1/cgroup").read())
+    
     for s in services:
         try:
-            out = os.popen(f"systemctl is-active {s}").read().strip()
-            status[s] = out
-        except:
+            if is_docker:
+                # In Docker, check if process exists instead of using systemctl - FASTER
+                result_proc = subprocess.run(
+                    ["pgrep", "-f", s],
+                    capture_output=True,
+                    text=True,
+                    timeout=0.5  # Reduced to 0.5 seconds for faster response
+                )
+                status[s] = "active" if result_proc.returncode == 0 else "inactive"
+            else:
+                # On host system, use systemctl - FASTER
+                result_proc = subprocess.run(
+                    ["systemctl", "is-active", s],
+                    capture_output=True,
+                    text=True,
+                    timeout=1  # Reduced to 1 second per service
+                )
+                status[s] = result_proc.stdout.strip() if result_proc.returncode == 0 else "inactive"
+        except (subprocess.TimeoutExpired, FileNotFoundError):
+            status[s] = "unknown"
+        except Exception as e:
+            # Log the error for debugging
+            print(f"Error checking service {s}: {e}")
             status[s] = "unknown"
 
     result["services"] = status

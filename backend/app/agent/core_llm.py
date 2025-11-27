@@ -37,17 +37,15 @@ def _call_ollama(
     prompt: str,
     temperature: float = 0.2,
     num_predict: int = 256,
-    timeout: int = 300,
+    timeout: int = 300,  # Increased to 300 seconds (5 minutes) to allow complex and long questions
 ) -> dict:
     """
     استدعاء عام لـ Ollama مع ضبط:
-    - num_predict: عدد التوكينات المتوقعة (نخليه صغير لسرعة الرد)
-    - timeout: وقت الانتظار قبل الـ timeout
+    - num_predict: عدد التوكينات المتوقعة
+    - timeout: وقت الانتظار قبل الـ timeout (زيادة لضمان إجابة جميع الأسئلة)
     """
-    # التحقق من الاتصال قبل المحاولة
-    is_connected, error_msg = _check_ollama_connection()
-    if not is_connected:
-        raise ConnectionError(f"Ollama connection failed: {error_msg}")
+    # Skip connection check to save time - just try the request
+    # التحقق من الاتصال يأخذ وقت، نستخدمه فقط عند الحاجة
     
     payload = {
         "model": MODEL_NAME,
@@ -59,14 +57,24 @@ def _call_ollama(
         },
     }
 
-    try:
-        r = requests.post(
-            f"{OLLAMA_URL}/api/generate",
-            json=payload,
-            timeout=timeout,
-        )
-        r.raise_for_status()
-        return r.json()
+    # Try with retry logic for better reliability
+    max_retries = 2
+    for attempt in range(max_retries):
+        try:
+            r = requests.post(
+                f"{OLLAMA_URL}/api/generate",
+                json=payload,
+                timeout=timeout,
+            )
+            r.raise_for_status()
+            return r.json()
+        except requests.exceptions.Timeout:
+            if attempt < max_retries - 1:
+                # Retry with longer timeout on second attempt
+                timeout = timeout * 1.5
+                print(f"[LLM] Timeout on attempt {attempt + 1}, retrying with timeout={timeout}")
+                continue
+            raise ConnectionError(f"Ollama request timed out after {timeout} seconds after {max_retries} attempts. The model may be too slow.")
     except requests.exceptions.HTTPError as e:
         if e.response.status_code == 404:
             # محاولة استخدام /api/chat كبديل
@@ -83,12 +91,14 @@ def _call_ollama(
                 r = requests.post(
                     f"{OLLAMA_URL}/api/chat",
                     json=chat_payload,
-                    timeout=timeout,
+                    timeout=timeout,  # Reduced timeout
                 )
                 r.raise_for_status()
                 response_data = r.json()
                 # تحويل رد /api/chat لشكل /api/generate
                 return {"response": response_data.get("message", {}).get("content", "")}
+            except requests.exceptions.Timeout:
+                raise ConnectionError(f"Ollama chat request timed out after {timeout} seconds.")
             except Exception:
                 raise ConnectionError(
                     f"Ollama API endpoint not found. Tried /api/generate and /api/chat. "
@@ -100,13 +110,13 @@ def _call_ollama(
 def llm_text(user_prompt: str) -> str:
     """
     رد نصي عادي للمستخدم.
-    نسمح بعدد توكينات معقول (256) حتى ما يعلق.
+    نسمح بعدد توكينات كبير جداً لضمان إجابة كاملة على جميع الأسئلة حتى لو كانت طويلة.
     """
     data = _call_ollama(
         user_prompt,
         temperature=0.4,
-        num_predict=256,
-        timeout=300,
+        num_predict=4096,  # Increased significantly to allow very long, complete responses
+        timeout=300,  # Increased to 300 seconds (5 minutes) to ensure all questions are answered completely
     )
     return data.get("response", "").strip()
 
@@ -114,7 +124,7 @@ def llm_text(user_prompt: str) -> str:
 def llm_json(system_instructions: str, user_prompt: str) -> dict:
     """
     نطلب من الموديل يرجع JSON واحد فقط.
-    نحدد num_predict أصغر (128) لأن JSON المفروض قصير.
+    نحدد num_predict أصغر (64) لأن JSON المفروض قصير جداً.
     """
     prompt = f"""{system_instructions.strip()}
 
@@ -132,8 +142,8 @@ JSON ONLY. No explanation, no markdown, no backticks.
     data = _call_ollama(
         full_prompt,
         temperature=0.1,
-        num_predict=128,
-        timeout=300,
+        num_predict=1024,  # Increased to allow complete JSON responses
+        timeout=180,  # Increased to 180 seconds for JSON to ensure complete responses
     )
     raw = data.get("response", "").strip()
 

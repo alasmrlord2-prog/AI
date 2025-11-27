@@ -1,12 +1,13 @@
 """
 Network Scanner - ماسح الشبكة
 """
-import subprocess
 from typing import Dict, Any
 from .base import calculate_risk_score
 from app.utils.error_handler import handle_scan_errors, ScanExecutionError
 from app.utils.logger import log_info, log_error
 from app.utils.cache import cached
+from app.utils.env_adapter import env_adapter
+from app.utils.capability_detector import capability_detector
 from datetime import timedelta
 
 @handle_scan_errors
@@ -17,6 +18,13 @@ def scan_network_security(detailed: bool = False) -> Dict[str, Any]:
     Args:
         detailed: If True, includes detailed information (ports, interfaces, firewall, DNS)
     """
+    # Check capabilities before scanning
+    if not capability_detector.is_feature_available("network_scan_basic"):
+        return {
+            "error": "Network scanning not available. Install 'ss' or 'netstat'",
+            "capabilities": capability_detector.get_scan_features(),
+        }
+    
     results = {
         "suspicious_connections": [],
         "open_ports": [],
@@ -39,21 +47,18 @@ def scan_network_security(detailed: bool = False) -> Dict[str, Any]:
     try:
         log_info("Scanning network security")
         
-        # Get listening ports - try ss first, fallback to netstat
-        try:
-            result = subprocess.run(
-                ["ss", "-tlnp"],
-                capture_output=True,
-                text=True,
-                timeout=5
-            )
-        except FileNotFoundError:
-            result = subprocess.run(
-                ["netstat", "-tlnp"],
-                capture_output=True,
-                text=True,
-                timeout=5
-            )
+        # Get listening ports - use EnvAdapter with automatic fallback
+        result = env_adapter.exec_with_fallback(
+            primary_cmd=["ss", "-tlnp"],
+            fallback_cmd=["netstat", "-tlnp"],
+            timeout=5
+        )
+        
+        if not result.success:
+            return {
+                "error": f"Failed to get network info: {result.stderr}",
+                "capabilities": capability_detector.get_scan_features(),
+            }
         
         for line in result.stdout.split("\n")[1:]:
             if not line.strip():
@@ -89,24 +94,19 @@ def scan_network_security(detailed: bool = False) -> Dict[str, Any]:
                     else:
                         results["summary"]["medium_risk"] += 1
         
-        # Check for suspicious connections
-        try:
-            conn_result = subprocess.run(
-                ["ss", "-tn"],
-                capture_output=True,
-                text=True,
-                timeout=5
-            )
-        except FileNotFoundError:
-            conn_result = subprocess.run(
-                ["netstat", "-tn"],
-                capture_output=True,
-                text=True,
-                timeout=5
-            )
+        # Check for suspicious connections - use EnvAdapter with fallback
+        conn_result = env_adapter.exec_with_fallback(
+            primary_cmd=["ss", "-tn"],
+            fallback_cmd=["netstat", "-tn"],
+            timeout=5
+        )
+        
+        if not conn_result.success:
+            log_error(f"Failed to get connections: {conn_result.stderr}", context="scan_network_security")
+            # Continue with available data
         
         ip_counts = {}
-        for line in conn_result.stdout.split("\n")[1:]:
+        for line in (conn_result.stdout or "").split("\n")[1:]:
             if not line.strip():
                 continue
             parts = line.split()

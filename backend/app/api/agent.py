@@ -6,7 +6,7 @@ router = APIRouter(tags=["agent"])
 
 # Import agent function
 try:
-    from agent.think_and_act import think_and_act
+    from app.agent.think_and_act import think_and_act
 except ImportError as e:
     def think_and_act(message: str) -> str:
         return f"Agent not available: {str(e)}"

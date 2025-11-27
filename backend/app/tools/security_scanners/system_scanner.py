@@ -1,13 +1,14 @@
 """
 System Scanner - ماسح النظام
 """
-import subprocess
 import pwd
 from typing import Dict, Any
 from .base import calculate_risk_score
 from app.utils.error_handler import handle_scan_errors, ScanExecutionError
 from app.utils.logger import log_info, log_error
 from app.utils.cache import cached
+from app.utils.env_adapter import env_adapter
+from app.utils.capability_detector import capability_detector
 from datetime import timedelta
 
 @handle_scan_errors
@@ -32,32 +33,26 @@ def scan_system_security() -> Dict[str, Any]:
     try:
         log_info("Scanning system security")
         
-        # System info
-        try:
-            uname = subprocess.run(["uname", "-a"], capture_output=True, text=True, timeout=5)
-            results["system_info"]["os"] = uname.stdout.strip() if uname.returncode == 0 else "Unknown"
-        except:
-            results["system_info"]["os"] = "Unknown"
+        # System info - use EnvAdapter
+        uname_result = env_adapter.exec(["uname", "-a"], timeout=5)
+        results["system_info"]["os"] = uname_result.stdout.strip() if uname_result.success else "Unknown"
+        results["system_info"]["platform"] = env_adapter.get_system_info()
         
-        # Check for root login
-        try:
-            passwd_result = subprocess.run(
+        # Check for root login - use EnvAdapter
+        if env_adapter.tool_installed("grep"):
+            passwd_result = env_adapter.exec(
                 ["grep", "^root:", "/etc/passwd"],
-                capture_output=True,
-                text=True,
                 timeout=5
             )
-            if passwd_result.returncode == 0:
+            if passwd_result.success and passwd_result.stdout:
                 shell = passwd_result.stdout.split(":")[-1].strip()
-                if shell != "/sbin/nologin" and shell != "/bin/false":
+                if shell not in ["/sbin/nologin", "/bin/false"]:
                     results["security_issues"].append({
                         "type": "root_login_enabled",
                         "severity": "high",
                         "message": "Root login may be enabled",
                     })
                     results["summary"]["high_risk"] += 1
-        except:
-            pass
         
         # Check users
         try:
@@ -72,18 +67,17 @@ def scan_system_security() -> Dict[str, Any]:
                         "shell": user.pw_shell,
                     })
             results["users"] = users
-        except:
+        except Exception as e:
+            log_error(e, context="scan_system_security: get_users")
             pass
         
-        # Check for sudo users
-        try:
-            sudo_result = subprocess.run(
+        # Check for sudo users - use EnvAdapter
+        if env_adapter.tool_installed("grep"):
+            sudo_result = env_adapter.exec(
                 ["grep", "-E", "^[^#].*ALL.*NOPASSWD", "/etc/sudoers"],
-                capture_output=True,
-                text=True,
                 timeout=5
             )
-            if sudo_result.returncode == 0 and sudo_result.stdout.strip():
+            if sudo_result.success and sudo_result.stdout.strip():
                 results["security_issues"].append({
                     "type": "passwordless_sudo",
                     "severity": "high",
@@ -91,36 +85,28 @@ def scan_system_security() -> Dict[str, Any]:
                     "details": sudo_result.stdout.strip(),
                 })
                 results["summary"]["high_risk"] += 1
-        except:
-            pass
         
-        # Check running services
-        try:
-            systemctl_result = subprocess.run(
+        # Check running services - use capability detection
+        if capability_detector.is_feature_available("service_scan"):
+            systemctl_result = env_adapter.exec(
                 ["systemctl", "list-units", "--type=service", "--state=running", "--no-pager"],
-                capture_output=True,
-                text=True,
                 timeout=10
             )
-            if systemctl_result.returncode == 0:
+            if systemctl_result.success:
                 services = []
                 for line in systemctl_result.stdout.split("\n")[1:]:
                     if line.strip() and ".service" in line:
                         service_name = line.split()[0]
                         services.append(service_name)
                 results["services"] = services[:20]  # Limit to 20
-        except:
-            pass
         
-        # Check for suspicious processes
-        try:
-            ps_result = subprocess.run(
+        # Check for suspicious processes - use EnvAdapter
+        if capability_detector.is_feature_available("process_scan"):
+            ps_result = env_adapter.exec(
                 ["ps", "aux"],
-                capture_output=True,
-                text=True,
                 timeout=5
             )
-            if ps_result.returncode == 0:
+            if ps_result.success:
                 suspicious_keywords = ["nc ", "netcat", "nmap", "masscan", "hydra", "sqlmap"]
                 processes = []
                 for line in ps_result.stdout.split("\n")[1:]:
@@ -135,27 +121,20 @@ def scan_system_security() -> Dict[str, Any]:
                             })
                             results["summary"]["high_risk"] += 1
                 results["processes"] = processes
-        except:
-            pass
         
-        # Check file permissions
-        try:
-            find_result = subprocess.run(
-                ["find", "/tmp", "/var/tmp", "-type", "f", "-perm", "-002", "2>/dev/null", "|", "head", "-10"],
-                shell=True,
-                capture_output=True,
-                text=True,
+        # Check file permissions - use EnvAdapter
+        if env_adapter.tool_installed("find"):
+            find_result = env_adapter.exec(
+                ["find", "/tmp", "/var/tmp", "-type", "f", "-perm", "-002"],
                 timeout=5
             )
-            if find_result.stdout.strip():
+            if find_result.success and find_result.stdout.strip():
                 results["security_issues"].append({
                     "type": "world_writable_files",
                     "severity": "medium",
                     "message": "World-writable files found in /tmp",
                 })
                 results["summary"]["medium_risk"] += 1
-        except:
-            pass
         
     except Exception as e:
         log_error(e, context="scan_system_security")

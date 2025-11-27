@@ -21,8 +21,14 @@ def log_chat(role: str, session_id: Optional[str], content: str, meta: Optional[
         "content": content,
         "meta": meta or {},
     }
-    with open(chat_log_file, "a", encoding="utf-8") as f:
-        f.write(json.dumps(data, ensure_ascii=False) + "\n")
+    try:
+        os.makedirs(os.path.dirname(chat_log_file), exist_ok=True)
+        with open(chat_log_file, "a", encoding="utf-8") as f:
+            f.write(json.dumps(data, ensure_ascii=False) + "\n")
+    except (PermissionError, OSError) as e:
+        # Log to stderr if file logging fails
+        import sys
+        print(f"Warning: Could not write to chat log: {e}", file=sys.stderr)
 
 
 def load_settings() -> SettingsModel:

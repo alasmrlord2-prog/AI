@@ -2,12 +2,20 @@
 AI Threat Detection API - 100% Local/Offline
 واجهات API لكشف التهديدات - محلي بالكامل
 """
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from typing import List, Dict, Any, Optional
 from app.api.auth import get_current_user
 from app.services.ai_threat_detection import get_threat_detector
-from app.services.security_ai.orchestrator import get_security_ai_orchestrator
 from app.core.permission_helpers import check_action_permission
+
+# Lazy import for security_ai to avoid startup errors
+try:
+    from app.services.security_ai.orchestrator import get_security_ai_orchestrator
+    SECURITY_AI_AVAILABLE = True
+except ImportError as e:
+    SECURITY_AI_AVAILABLE = False
+    def get_security_ai_orchestrator():
+        raise HTTPException(status_code=503, detail="Security AI module not available")
 
 router = APIRouter(prefix="/api/security/threat-detection", tags=["threat-detection"])
 
@@ -38,19 +46,64 @@ async def analyze_logs(
 
 @router.get("/summary")
 async def get_threat_summary(
-    hours: int = 24,
+    hours: int = Query(24, description="Number of hours to look back"),
     current_user: dict = Depends(get_current_user)
 ):
-    """ملخص التهديدات"""
+    """ملخص التهديدات - allows guest access with timeout protection"""
+    import asyncio
+    
     try:
         check_action_permission("security.threat_detection", current_user)
     except HTTPException:
         pass
     
-    detector = get_threat_detector()
-    summary = detector.get_threat_summary(hours)
-    
-    return summary
+    try:
+        detector = get_threat_detector()
+        
+        # Run threat summary calculation in executor with reasonable timeout (max 3 seconds) - OPTIMIZED
+        loop = asyncio.get_event_loop()
+        summary = await asyncio.wait_for(
+            loop.run_in_executor(None, detector.get_threat_summary, hours),
+            timeout=3.0  # Reduced to 3 seconds for faster response
+        )
+        
+        # Ensure response format matches frontend expectations
+        if "severity_breakdown" in summary:
+            severity_breakdown = summary.get("severity_breakdown", {})
+            return {
+                "total_threats": summary.get("total_threats", 0),
+                "critical": severity_breakdown.get("critical", 0),
+                "high": severity_breakdown.get("high", 0),
+                "medium": severity_breakdown.get("medium", 0),
+                "low": severity_breakdown.get("low", 0),
+                "last_24h": []
+            }
+        
+        return summary
+    except asyncio.TimeoutError:
+        # Return error on timeout, not default values
+        print("Timeout getting threat summary - endpoint not responding")
+        return {
+            "error": "timeout - threat detection endpoint not responding",
+            "total_threats": None,
+            "critical": None,
+            "high": None,
+            "medium": None,
+            "low": None,
+            "last_24h": []
+        }
+    except Exception as e:
+        # Return actual error, not default values
+        print(f"Error getting threat summary: {e}")
+        return {
+            "error": str(e),
+            "total_threats": None,
+            "critical": None,
+            "high": None,
+            "medium": None,
+            "low": None,
+            "last_24h": []
+        }
 
 
 @router.post("/baseline/update")
@@ -82,6 +135,8 @@ async def get_incidents(
     except HTTPException:
         pass
     
+    if not SECURITY_AI_AVAILABLE:
+        return {"incidents": [], "count": 0}
     orchestrator = get_security_ai_orchestrator()
     incidents = orchestrator.get_incidents(hours=hours, severity=severity)
     
@@ -96,6 +151,8 @@ async def get_status(current_user: dict = Depends(get_current_user)):
     except HTTPException:
         pass
     
+    if not SECURITY_AI_AVAILABLE:
+        return {"status": "unavailable", "message": "Security AI module not available"}
     orchestrator = get_security_ai_orchestrator()
     status = orchestrator.get_status()
     
@@ -110,6 +167,8 @@ async def start_security_ai(current_user: dict = Depends(get_current_user)):
     except HTTPException:
         pass
     
+    if not SECURITY_AI_AVAILABLE:
+        raise HTTPException(status_code=503, detail="Security AI module not available")
     orchestrator = get_security_ai_orchestrator()
     orchestrator.start()
     
@@ -124,6 +183,8 @@ async def stop_security_ai(current_user: dict = Depends(get_current_user)):
     except HTTPException:
         pass
     
+    if not SECURITY_AI_AVAILABLE:
+        raise HTTPException(status_code=503, detail="Security AI module not available")
     orchestrator = get_security_ai_orchestrator()
     orchestrator.stop()
     

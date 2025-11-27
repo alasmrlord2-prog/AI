@@ -47,6 +47,9 @@ def verify_token(token: str) -> Optional[Dict[str, Any]]:
             algorithms=[settings.JWT_ALGORITHM]
         )
         return payload
-    except JWTError:
+    except JWTError as e:
+        # Log the error for debugging (optional, can be removed in production)
+        import logging
+        logging.debug(f"Token verification failed: {str(e)}")
         return None
 

@@ -1,6 +1,5 @@
 """CI/CD Service - Git Integration and Pipeline Runner."""
 import os
-import subprocess
 import json
 import shutil
 from datetime import datetime
@@ -8,6 +7,8 @@ from typing import Dict, List, Optional
 from pathlib import Path
 import asyncio
 from enum import Enum
+from app.utils.env_adapter import env_adapter
+from app.utils.capability_detector import capability_detector
 
 
 class PipelineStatus(Enum):
@@ -31,6 +32,15 @@ class CICDService:
     
     def clone_repo(self, repo_url: str, repo_name: str, branch: str = "main") -> Dict:
         """Clone a repository."""
+        # Check if git is available
+        if not capability_detector.is_feature_available("git_operations"):
+            return {
+                "success": False,
+                "error": "Git operations not available. Install 'git' CLI",
+                "repo_path": None,
+                "capabilities": capability_detector.get_scan_features(),
+            }
+        
         try:
             repo_path = self.repos_dir / repo_name
             
@@ -38,15 +48,13 @@ class CICDService:
             if repo_path.exists():
                 shutil.rmtree(repo_path)
             
-            # Clone repository
-            result = subprocess.run(
+            # Clone repository - use EnvAdapter
+            result = env_adapter.exec(
                 ["git", "clone", "-b", branch, repo_url, str(repo_path)],
-                capture_output=True,
-                text=True,
                 timeout=300
             )
             
-            if result.returncode != 0:
+            if not result.success:
                 return {
                     "success": False,
                     "error": result.stderr,
@@ -57,12 +65,6 @@ class CICDService:
                 "success": True,
                 "repo_path": str(repo_path),
                 "message": f"Repository cloned successfully"
-            }
-        except subprocess.TimeoutExpired:
-            return {
-                "success": False,
-                "error": "Clone operation timed out",
-                "repo_path": None
             }
         except Exception as e:
             return {
@@ -82,21 +84,24 @@ class CICDService:
                     "error": "Repository not found"
                 }
             
-            # Fetch and pull
-            subprocess.run(
+            # Fetch and pull - use EnvAdapter
+            fetch_result = env_adapter.exec(
                 ["git", "-C", str(repo_path), "fetch", "origin"],
-                capture_output=True,
-                check=True
+                timeout=60
             )
             
-            result = subprocess.run(
+            if not fetch_result.success:
+                return {
+                    "success": False,
+                    "error": f"Failed to fetch: {fetch_result.stderr}"
+                }
+            
+            result = env_adapter.exec(
                 ["git", "-C", str(repo_path), "pull", "origin", branch],
-                capture_output=True,
-                text=True,
                 timeout=300
             )
             
-            if result.returncode != 0:
+            if not result.success:
                 return {
                     "success": False,
                     "error": result.stderr
@@ -123,23 +128,19 @@ class CICDService:
                     "error": "Repository not found"
                 }
             
-            # Get current branch
-            branch_result = subprocess.run(
-                ["git", "-C", str(repo_path), "branch", "--show-current"],
-                capture_output=True,
-                text=True
+            # Get current branch - use EnvAdapter
+            branch_result = env_adapter.exec(
+                ["git", "-C", str(repo_path), "branch", "--show-current"]
             )
-            branch = branch_result.stdout.strip() if branch_result.returncode == 0 else "unknown"
+            branch = branch_result.stdout.strip() if branch_result.success else "unknown"
             
-            # Get last commit
-            commit_result = subprocess.run(
-                ["git", "-C", str(repo_path), "log", "-1", "--format=%H|%s|%an|%ad", "--date=iso"],
-                capture_output=True,
-                text=True
+            # Get last commit - use EnvAdapter
+            commit_result = env_adapter.exec(
+                ["git", "-C", str(repo_path), "log", "-1", "--format=%H|%s|%an|%ad", "--date=iso"]
             )
             
             commit_info = {}
-            if commit_result.returncode == 0:
+            if commit_result.success:
                 parts = commit_result.stdout.strip().split("|")
                 if len(parts) >= 4:
                     commit_info = {
@@ -216,14 +217,24 @@ class CICDService:
         try:
             self.pipelines[pipeline_id]["status"] = PipelineStatus.RUNNING.value
             
+            # Check if bash is available
+            if not env_adapter.tool_installed("bash"):
+                raise ValueError("bash is not available. Cannot execute pipeline script.")
+            
             # Prepare environment
             env = os.environ.copy()
             env.update(env_vars)
             
             # Make script executable
-            os.chmod(script_path, 0o755)
+            try:
+                os.chmod(script_path, 0o755)
+            except (OSError, PermissionError) as e:
+                self.pipelines[pipeline_id]["error"] = f"Failed to make script executable: {str(e)}"
+                self.pipelines[pipeline_id]["status"] = PipelineStatus.FAILED.value
+                return
             
-            # Run pipeline
+            # Run pipeline using asyncio (needed for real-time log streaming)
+            # Note: asyncio.create_subprocess_exec is appropriate here for async pipeline execution
             process = await asyncio.create_subprocess_exec(
                 "bash",
                 str(script_path),

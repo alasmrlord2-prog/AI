@@ -20,6 +20,7 @@ class AutoHardening:
         self.settings = get_settings()
         self.hardening_applied = False
         self.backup_configs: Dict[str, str] = {}
+        self.actions_history: List[Dict[str, Any]] = []  # Track all hardening actions
     
     def _check_offline_mode(self):
         """التحقق من OFFLINE_MODE"""
@@ -92,6 +93,13 @@ class AutoHardening:
                 errors.append(result.get("error"))
             
             self.hardening_applied = True
+            
+            # Track this hardening action
+            self.actions_history.append({
+                "timestamp": datetime.now().isoformat(),
+                "actions_taken": actions_taken,
+                "count": len(actions_taken)
+            })
             
             log_warning("AUTO-HARDENING MODE ACTIVATED")
             
@@ -269,9 +277,19 @@ class AutoHardening:
     
     def get_status(self) -> Dict[str, Any]:
         """الحصول على حالة التحصين"""
+        # Count actions applied today
+        today = datetime.now().date()
+        today_actions = 0
+        for action in self.actions_history:
+            action_date = datetime.fromisoformat(action["timestamp"]).date()
+            if action_date == today:
+                today_actions += action.get("count", 0)
+        
         return {
             "hardening_applied": self.hardening_applied,
             "backup_configs": list(self.backup_configs.keys()),
+            "actions_today": today_actions,
+            "total_actions": sum(a.get("count", 0) for a in self.actions_history),
             "timestamp": datetime.now().isoformat()
         }
 

@@ -45,6 +45,12 @@ class IncidentService:
             )
         """)
         
+        # Create index on detected_at for faster date queries
+        cursor.execute("""
+            CREATE INDEX IF NOT EXISTS idx_incidents_detected_at 
+            ON incidents(detected_at)
+        """)
+        
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS incident_timeline (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,

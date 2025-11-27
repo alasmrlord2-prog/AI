@@ -1,10 +1,11 @@
 """Deploy Engine - Docker Compose, Kubernetes, and RSync deployment."""
-import subprocess
 import os
 import json
 from typing import Dict, Optional, List
 from pathlib import Path
 import yaml
+from app.utils.env_adapter import env_adapter
+from app.utils.capability_detector import capability_detector
 
 
 class DeployEngine:
@@ -21,6 +22,14 @@ class DeployEngine:
         services: Optional[List[str]] = None
     ) -> Dict:
         """Deploy using Docker Compose."""
+        # Check if Docker Compose is available
+        if not capability_detector.is_feature_available("container_runtime"):
+            return {
+                "success": False,
+                "error": "Docker Compose not available. Install 'docker' or 'docker-compose'",
+                "capabilities": capability_detector.get_scan_features(),
+            }
+        
         try:
             compose_path = Path(compose_file)
             
@@ -30,39 +39,46 @@ class DeployEngine:
                     "error": f"Docker Compose file not found: {compose_file}"
                 }
             
-            # Build command
-            cmd = ["docker", "compose", "-f", str(compose_path)]
+            # Build command - try docker compose first, fallback to docker-compose
+            docker_compose_cmd = env_adapter.find_tool("docker", "docker-compose")
+            if not docker_compose_cmd:
+                return {
+                    "success": False,
+                    "error": "Docker Compose not found"
+                }
+            
+            # Use docker compose (new) or docker-compose (old)
+            if "docker-compose" in docker_compose_cmd:
+                cmd = ["docker-compose", "-f", str(compose_path)]
+            else:
+                cmd = ["docker", "compose", "-f", str(compose_path)]
             
             if project_name:
                 cmd.extend(["-p", project_name])
             
-            # Pull images
-            pull_result = subprocess.run(
+            # Pull images - use EnvAdapter
+            pull_result = env_adapter.exec(
                 cmd + ["pull"],
-                capture_output=True,
-                text=True,
                 timeout=600
             )
             
-            if pull_result.returncode != 0:
+            if not pull_result.success:
                 return {
                     "success": False,
                     "error": f"Failed to pull images: {pull_result.stderr}"
                 }
             
-            # Start services
+            # Start services - use EnvAdapter
             up_cmd = cmd + ["up", "-d"]
             if services:
                 up_cmd.extend(services)
             
-            up_result = subprocess.run(
+            up_result = env_adapter.exec(
                 up_cmd,
-                capture_output=True,
-                text=True,
                 timeout=600
             )
             
-            if up_result.returncode != 0:
+            if not up_result.success:
                 return {
                     "success": False,
                     "error": f"Failed to start services: {up_result.stderr}"
@@ -74,11 +90,6 @@ class DeployEngine:
                 "output": up_result.stdout
             }
             
-        except subprocess.TimeoutExpired:
-            return {
-                "success": False,
-                "error": "Deployment timed out"
-            }
         except Exception as e:
             return {
                 "success": False,
@@ -101,16 +112,22 @@ class DeployEngine:
                     "error": f"Kubernetes manifest not found: {manifest_file}"
                 }
             
+            # Check if kubectl is available
+            if not capability_detector.is_feature_available("kubernetes_scan"):
+                return {
+                    "success": False,
+                    "error": "Kubernetes deployment not available. Install 'kubectl' CLI",
+                    "capabilities": capability_detector.get_scan_features(),
+                }
+            
             if apply:
-                # Apply manifest
-                result = subprocess.run(
+                # Apply manifest - use EnvAdapter
+                result = env_adapter.exec(
                     ["kubectl", "apply", "-f", str(manifest_path), "-n", namespace],
-                    capture_output=True,
-                    text=True,
                     timeout=300
                 )
                 
-                if result.returncode != 0:
+                if not result.success:
                     return {
                         "success": False,
                         "error": f"Failed to apply manifest: {result.stderr}"
@@ -122,29 +139,22 @@ class DeployEngine:
                     "output": result.stdout
                 }
             else:
-                # Just validate
-                result = subprocess.run(
+                # Just validate - use EnvAdapter
+                result = env_adapter.exec(
                     ["kubectl", "apply", "--dry-run=client", "-f", str(manifest_path)],
-                    capture_output=True,
-                    text=True,
                     timeout=60
                 )
                 
                 return {
-                    "success": result.returncode == 0,
-                    "message": "Validation successful" if result.returncode == 0 else "Validation failed",
-                    "output": result.stdout if result.returncode == 0 else result.stderr
+                    "success": result.success,
+                    "message": "Validation successful" if result.success else "Validation failed",
+                    "output": result.stdout if result.success else result.stderr
                 }
                 
-        except subprocess.TimeoutExpired:
+        except Exception as e:
             return {
                 "success": False,
-                "error": "Kubernetes operation timed out"
-            }
-        except FileNotFoundError:
-            return {
-                "success": False,
-                "error": "kubectl not found. Please install Kubernetes CLI."
+                "error": str(e)
             }
         except Exception as e:
             return {
@@ -162,6 +172,14 @@ class DeployEngine:
         delete: bool = False
     ) -> Dict:
         """Deploy using RSync."""
+        # Check if rsync is available
+        if not capability_detector.is_feature_available("file_sync"):
+            return {
+                "success": False,
+                "error": "RSync deployment not available. Install 'rsync'",
+                "capabilities": capability_detector.get_scan_features(),
+            }
+        
         try:
             # Build rsync command
             cmd = ["rsync", "-avz"]
@@ -187,15 +205,13 @@ class DeployEngine:
             
             cmd.append(dest)
             
-            # Execute rsync
-            result = subprocess.run(
+            # Execute rsync - use EnvAdapter
+            result = env_adapter.exec(
                 cmd,
-                capture_output=True,
-                text=True,
                 timeout=600
             )
             
-            if result.returncode != 0:
+            if not result.success:
                 return {
                     "success": False,
                     "error": f"RSync failed: {result.stderr}"
@@ -207,10 +223,10 @@ class DeployEngine:
                 "output": result.stdout
             }
             
-        except subprocess.TimeoutExpired:
+        except Exception as e:
             return {
                 "success": False,
-                "error": "RSync operation timed out"
+                "error": str(e)
             }
         except Exception as e:
             return {
@@ -226,15 +242,16 @@ class DeployEngine:
         """Get deployment status."""
         try:
             if deployment_type == "docker-compose":
-                # Check docker compose services
-                result = subprocess.run(
-                    ["docker", "compose", "-f", identifier, "ps"],
-                    capture_output=True,
-                    text=True,
-                    timeout=30
-                )
+                # Check docker compose services - use EnvAdapter
+                docker_compose_cmd = env_adapter.find_tool("docker", "docker-compose")
+                if "docker-compose" in docker_compose_cmd:
+                    cmd = ["docker-compose", "-f", identifier, "ps"]
+                else:
+                    cmd = ["docker", "compose", "-f", identifier, "ps"]
                 
-                if result.returncode != 0:
+                result = env_adapter.exec(cmd, timeout=30)
+                
+                if not result.success:
                     return {
                         "success": False,
                         "error": result.stderr
@@ -247,15 +264,13 @@ class DeployEngine:
                 }
             
             elif deployment_type == "kubernetes":
-                # Check kubernetes deployment
-                result = subprocess.run(
+                # Check kubernetes deployment - use EnvAdapter
+                result = env_adapter.exec(
                     ["kubectl", "get", "deployment", identifier, "-o", "json"],
-                    capture_output=True,
-                    text=True,
                     timeout=30
                 )
                 
-                if result.returncode != 0:
+                if not result.success:
                     return {
                         "success": False,
                         "error": result.stderr

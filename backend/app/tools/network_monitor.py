@@ -4,13 +4,13 @@ import re
 from typing import Dict, List, Any
 
 def get_network_interfaces() -> List[str]:
-    """Get list of network interfaces"""
+    """Get list of network interfaces - from system, no hardcoded defaults"""
     try:
         result = subprocess.run(
             ["ip", "link", "show"],
             capture_output=True,
             text=True,
-            timeout=5
+            timeout=2  # Reduced to 2 seconds for faster response
         )
         interfaces = []
         for line in result.stdout.split("\n"):
@@ -20,9 +20,24 @@ def get_network_interfaces() -> List[str]:
                     iface = parts[1].split("@")[0].strip()
                     if iface and iface not in interfaces:
                         interfaces.append(iface)
+        
+        # If no interfaces found, try alternative method
+        if not interfaces:
+            try:
+                # Try reading from /sys/class/net
+                import os
+                net_dir = "/sys/class/net"
+                if os.path.exists(net_dir):
+                    interfaces = [d for d in os.listdir(net_dir) if d != "lo" and os.path.isdir(os.path.join(net_dir, d))]
+            except:
+                pass
+        
+        # If still no interfaces, return empty list (not hardcoded defaults)
         return interfaces
-    except Exception:
-        return ["eth0", "ens3", "enp0s3"]  # Common defaults
+    except Exception as e:
+        # Return empty list on error, not hardcoded defaults
+        print(f"Error getting network interfaces: {e}")
+        return []
 
 def get_network_stats() -> Dict[str, Any]:
     """Get network statistics from /proc/net/dev"""
@@ -89,12 +104,13 @@ def get_active_connections() -> Dict[str, Any]:
     """Get active network connections"""
     try:
         # Try ss first, fallback to netstat
+        # OPTIMIZED: Reduced timeout for faster response
         try:
             result = subprocess.run(
                 ["ss", "-tun"],
                 capture_output=True,
                 text=True,
-                timeout=5
+                timeout=2  # Reduced to 2 seconds for faster response
             )
         except FileNotFoundError:
             # Fallback to netstat
@@ -102,7 +118,7 @@ def get_active_connections() -> Dict[str, Any]:
                 ["netstat", "-tun"],
                 capture_output=True,
                 text=True,
-                timeout=5
+                timeout=2  # Reduced to 2 seconds for faster response
             )
         
         connections = {
