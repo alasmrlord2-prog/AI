@@ -219,7 +219,14 @@ async def get_metrics(current_user: dict = Depends(get_current_user)):
             error_count = None
             try:
                 import requests
-                logs_response = requests.get("http://localhost:8000/api/logs?limit=1000", timeout=2)
+                from app.core.config import get_settings
+                settings = get_settings()
+                # Use BACKEND_URL if available, otherwise construct from HOST and PORT
+                if hasattr(settings, 'BACKEND_URL') and settings.BACKEND_URL:
+                    base_url = settings.BACKEND_URL
+                else:
+                    base_url = f"http://{settings.HOST}:{settings.PORT}"
+                logs_response = requests.get(f"{base_url}/api/logs?limit=1000", timeout=2)
                 if logs_response.status_code == 200:
                     logs = logs_response.json()
                     # Count errors in logs

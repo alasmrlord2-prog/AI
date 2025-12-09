@@ -147,22 +147,20 @@ async def get_today_incidents_stats(
         return result
         
     except asyncio.TimeoutError:
-        # Return error on timeout, not default values
+        # Return safe defaults on timeout
         print("Timeout getting today's stats - endpoint not responding")
         return {
-            "error": "timeout - database endpoint not responding",
-            "total_today": None,
-            "resolved_today": None,
-            "open_today": None
+            "total_today": 0,
+            "resolved_today": 0,
+            "open_today": 0
         }
     except Exception as e:
-        # Return actual error, not default values
+        # Return safe defaults on error
         print(f"Error getting today's stats: {e}")
         return {
-            "error": str(e),
-            "total_today": None,
-            "resolved_today": None,
-            "open_today": None
+            "total_today": 0,
+            "resolved_today": 0,
+            "open_today": 0
         }
 
 

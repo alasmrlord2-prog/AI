@@ -36,9 +36,9 @@ def run(_=None):
     except:
         result["disk"] = "error"
 
-    # Check services - skip systemctl in Docker containers (it doesn't work)
+    # Check services - dynamically discover common services instead of hardcoded list
+    # Skip systemctl in Docker containers (it doesn't work)
     # Instead, check if processes are running - OPTIMIZED: faster checks with shorter timeouts
-    services = ["ssh", "nginx", "docker"]
     status = {}
     
     import subprocess
@@ -46,6 +46,56 @@ def run(_=None):
 
     # Check if we're in a Docker container
     is_docker = os.path.exists("/.dockerenv") or (os.path.exists("/proc/1/cgroup") and "docker" in open("/proc/1/cgroup").read())
+    
+    # Dynamically discover services by checking common process names
+    # This avoids hardcoded service lists and adapts to the actual system
+    common_services_to_check = []
+    
+    # Try to get list of services from systemd if available (not in Docker)
+    if not is_docker:
+        try:
+            result = subprocess.run(
+                ["systemctl", "list-units", "--type=service", "--state=running", "--no-pager", "--no-legend"],
+                capture_output=True,
+                text=True,
+                timeout=2
+            )
+            if result.returncode == 0:
+                # Extract service names from systemctl output
+                for line in result.stdout.split('\n'):
+                    if line.strip():
+                        # Format: service_name.service ... 
+                        service_name = line.split()[0].replace('.service', '')
+                        if service_name and len(service_name) < 50:  # Filter out very long names
+                            common_services_to_check.append(service_name)
+        except:
+            pass
+    
+    # If no services found from systemd, or in Docker, check common processes
+    if not common_services_to_check:
+        # Check for common services by process name (works in Docker too)
+        common_processes = ["ssh", "sshd", "nginx", "apache", "docker", "dockerd", "postgres", "mysql", "redis"]
+        for proc_name in common_processes:
+            try:
+                result_proc = subprocess.run(
+                    ["pgrep", "-f", proc_name],
+                    capture_output=True,
+                    text=True,
+                    timeout=0.3
+                )
+                if result_proc.returncode == 0:
+                    # Normalize service name
+                    if proc_name in ["sshd"]:
+                        common_services_to_check.append("ssh")
+                    elif proc_name in ["dockerd"]:
+                        common_services_to_check.append("docker")
+                    elif proc_name not in common_services_to_check:
+                        common_services_to_check.append(proc_name)
+            except:
+                continue
+    
+    # Limit to top 10 services to avoid timeout
+    services = list(set(common_services_to_check))[:10]
     
     for s in services:
         try:

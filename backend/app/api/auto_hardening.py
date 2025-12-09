@@ -47,24 +47,22 @@ async def get_status(current_user: dict = Depends(get_current_user)):
         )
         return status
     except asyncio.TimeoutError:
-        # Return error on timeout, not default values
+        # Return safe defaults on timeout
         return {
-            "error": "timeout - hardening endpoint not responding",
-            "enabled": None,
-            "actions_today": None,
-            "actions": None,
-            "last_action": None,
-            "status": "timeout"
+            "hardening_applied": False,
+            "backup_configs": [],
+            "actions_today": 0,
+            "total_actions": 0,
+            "timestamp": None
         }
     except Exception as e:
-        # Return actual error, not default values
+        # Return safe defaults on error
         print(f"Error getting hardening status: {e}")
         return {
-            "error": str(e),
-            "enabled": None,
-            "actions_today": None,
-            "actions": None,
-            "last_action": None,
-            "status": "error"
+            "hardening_applied": False,
+            "backup_configs": [],
+            "actions_today": 0,
+            "total_actions": 0,
+            "timestamp": None
         }
 

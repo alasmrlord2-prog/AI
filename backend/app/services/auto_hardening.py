@@ -281,9 +281,15 @@ class AutoHardening:
         today = datetime.now().date()
         today_actions = 0
         for action in self.actions_history:
-            action_date = datetime.fromisoformat(action["timestamp"]).date()
-            if action_date == today:
-                today_actions += action.get("count", 0)
+            try:
+                action_timestamp = action.get("timestamp")
+                if action_timestamp:
+                    action_date = datetime.fromisoformat(action_timestamp).date()
+                    if action_date == today:
+                        today_actions += action.get("count", 0)
+            except (ValueError, TypeError, KeyError):
+                # Skip actions with invalid timestamps
+                continue
         
         return {
             "hardening_applied": self.hardening_applied,

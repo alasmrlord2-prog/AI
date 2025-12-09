@@ -111,6 +111,16 @@ class IncidentService:
             conn.close()
             return None
         
+        # Safely parse actions_taken JSON
+        actions_taken = []
+        if row["actions_taken"]:
+            try:
+                actions_taken = json.loads(row["actions_taken"])
+                if not isinstance(actions_taken, list):
+                    actions_taken = []
+            except (json.JSONDecodeError, TypeError):
+                actions_taken = []
+        
         incident = {
             "id": row["id"],
             "title": row["title"],
@@ -120,7 +130,7 @@ class IncidentService:
             "detected_at": row["detected_at"],
             "resolved_at": row["resolved_at"],
             "root_cause": row["root_cause"],
-            "actions_taken": json.loads(row["actions_taken"]) if row["actions_taken"] else [],
+            "actions_taken": actions_taken,
             "detected_by": row["detected_by"],
             "resolved_by": row["resolved_by"],
             "created_at": row["created_at"]
@@ -134,11 +144,21 @@ class IncidentService:
         
         timeline = []
         for t_row in timeline_rows:
+            # Safely parse details JSON
+            details = {}
+            if t_row["details"]:
+                try:
+                    details = json.loads(t_row["details"])
+                    if not isinstance(details, dict):
+                        details = {}
+                except (json.JSONDecodeError, TypeError):
+                    details = {}
+            
             timeline.append({
                 "timestamp": t_row["timestamp"],
                 "action": t_row["action"],
                 "user": t_row["user"],
-                "details": json.loads(t_row["details"]) if t_row["details"] else {}
+                "details": details
             })
         
         incident["timeline"] = timeline
@@ -238,6 +258,16 @@ class IncidentService:
         
         incidents = []
         for row in rows:
+            # Safely parse actions_taken JSON
+            actions_taken = []
+            if row["actions_taken"]:
+                try:
+                    actions_taken = json.loads(row["actions_taken"])
+                    if not isinstance(actions_taken, list):
+                        actions_taken = []
+                except (json.JSONDecodeError, TypeError):
+                    actions_taken = []
+            
             incident = {
                 "id": row["id"],
                 "title": row["title"],
@@ -247,7 +277,7 @@ class IncidentService:
                 "detected_at": row["detected_at"],
                 "resolved_at": row["resolved_at"],
                 "root_cause": row["root_cause"],
-                "actions_taken": json.loads(row["actions_taken"]) if row["actions_taken"] else [],
+                "actions_taken": actions_taken,
                 "detected_by": row["detected_by"],
                 "resolved_by": row["resolved_by"]
             }

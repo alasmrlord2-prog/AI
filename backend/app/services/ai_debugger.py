@@ -76,8 +76,12 @@ class LogWatcher(FileSystemEventHandler):
 class AIDebugger:
     """AI-powered debugger for analyzing and fixing errors."""
     
-    def __init__(self, ollama_url: str = "http://localhost:11434"):
+    def __init__(self, ollama_url: Optional[str] = None):
         """Initialize AI Debugger."""
+        from app.core.config import get_settings
+        if ollama_url is None:
+            settings = get_settings()
+            ollama_url = settings.OLLAMA_URL
         self.ollama_url = ollama_url
         self.observer = None
         self.watchers = {}

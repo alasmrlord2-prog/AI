@@ -15,16 +15,19 @@ class Settings(BaseSettings):
     DEBUG: bool = False
     
     # Database
-    DATABASE_URL: str = "postgresql://aiagent:aiagent123@postgres:5432/ai_agent_db"
+    DATABASE_URL: str = ""  # Must be set via environment variable for SaaS
     
     # Security
-    SECRET_KEY: str = "your-secret-key-here-change-in-production"
-    JWT_SECRET_KEY: str = "your-jwt-secret-key-here"
+    SECRET_KEY: str = ""  # Must be set via environment variable for SaaS
+    JWT_SECRET_KEY: str = ""  # Must be set via environment variable for SaaS
     JWT_ALGORITHM: str = "HS256"
     JWT_EXPIRATION_HOURS: int = 24
     
     # OLLAMA
-    OLLAMA_URL: str = "http://localhost:11434"
+    OLLAMA_URL: str = ""  # Must be set via environment variable for SaaS
+    
+    # Backend URL (for internal API calls)
+    BACKEND_URL: Optional[str] = None  # If None, will be constructed from HOST:PORT
     
     # CORS - Allow all origins in development
     CORS_ORIGINS: List[str] = ["*"]
@@ -72,12 +75,12 @@ class Settings(BaseSettings):
     LOG_DIR: str = "logs"
     
     # AWS
-    AWS_REGION: Optional[str] = "us-east-1"
+    AWS_REGION: Optional[str] = None  # Must be set via environment variable for SaaS
     AWS_ACCESS_KEY_ID: Optional[str] = None
     AWS_SECRET_ACCESS_KEY: Optional[str] = None
     
     # Email
-    SMTP_HOST: Optional[str] = "smtp.gmail.com"
+    SMTP_HOST: Optional[str] = None  # Must be set via environment variable for SaaS
     SMTP_PORT: int = 587
     SMTP_USER: Optional[str] = None
     SMTP_PASSWORD: Optional[str] = None

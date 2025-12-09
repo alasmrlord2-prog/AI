@@ -75,36 +75,41 @@ def _call_ollama(
                 print(f"[LLM] Timeout on attempt {attempt + 1}, retrying with timeout={timeout}")
                 continue
             raise ConnectionError(f"Ollama request timed out after {timeout} seconds after {max_retries} attempts. The model may be too slow.")
-    except requests.exceptions.HTTPError as e:
-        if e.response.status_code == 404:
-            # محاولة استخدام /api/chat كبديل
-            try:
-                chat_payload = {
-                    "model": MODEL_NAME,
-                    "messages": [{"role": "user", "content": prompt}],
-                    "stream": False,
-                    "options": {
-                        "temperature": temperature,
-                        "num_predict": num_predict,
-                    },
-                }
-                r = requests.post(
-                    f"{OLLAMA_URL}/api/chat",
-                    json=chat_payload,
-                    timeout=timeout,  # Reduced timeout
-                )
-                r.raise_for_status()
-                response_data = r.json()
-                # تحويل رد /api/chat لشكل /api/generate
-                return {"response": response_data.get("message", {}).get("content", "")}
-            except requests.exceptions.Timeout:
-                raise ConnectionError(f"Ollama chat request timed out after {timeout} seconds.")
-            except Exception:
-                raise ConnectionError(
-                    f"Ollama API endpoint not found. Tried /api/generate and /api/chat. "
-                    f"Make sure Ollama is running at {OLLAMA_URL} and model '{MODEL_NAME}' is available."
-                )
-        raise
+        except requests.exceptions.HTTPError as e:
+            if e.response.status_code == 404:
+                # محاولة استخدام /api/chat كبديل
+                try:
+                    chat_payload = {
+                        "model": MODEL_NAME,
+                        "messages": [{"role": "user", "content": prompt}],
+                        "stream": False,
+                        "options": {
+                            "temperature": temperature,
+                            "num_predict": num_predict,
+                        },
+                    }
+                    r = requests.post(
+                        f"{OLLAMA_URL}/api/chat",
+                        json=chat_payload,
+                        timeout=timeout,  # Reduced timeout
+                    )
+                    r.raise_for_status()
+                    response_data = r.json()
+                    # تحويل رد /api/chat لشكل /api/generate
+                    return {"response": response_data.get("message", {}).get("content", "")}
+                except requests.exceptions.Timeout:
+                    raise ConnectionError(f"Ollama chat request timed out after {timeout} seconds.")
+                except Exception:
+                    raise ConnectionError(
+                        f"Ollama API endpoint not found. Tried /api/generate and /api/chat. "
+                        f"Make sure Ollama is running at {OLLAMA_URL} and model '{MODEL_NAME}' is available."
+                    )
+            raise
+        except Exception as e:
+            # For other exceptions, raise them
+            if attempt < max_retries - 1:
+                continue
+            raise
 
 
 def llm_text(user_prompt: str) -> str:

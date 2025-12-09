@@ -1,5 +1,6 @@
 """Authentication-related models."""
 from pydantic import BaseModel
+from typing import Optional
 
 
 class LoginRequest(BaseModel):
@@ -19,6 +20,7 @@ class RegisterRequest(BaseModel):
 class TokenResponse(BaseModel):
     """Token response model."""
     access_token: str
+    refresh_token: Optional[str] = None  # ✅ NEW: Refresh token support
     token_type: str = "bearer"
     user: dict
 

@@ -285,23 +285,35 @@ class AIThreatDetector:
         """ملخص التهديدات خلال فترة زمنية"""
         cutoff = datetime.now() - timedelta(hours=hours)
         
-        recent_threats = [
-            e for e in self.recent_events
-            if e.get("type") == "threat"
-            and datetime.fromisoformat(e.get("timestamp", "")) > cutoff
-        ]
+        recent_threats = []
+        for e in self.recent_events:
+            if e.get("type") == "threat":
+                try:
+                    event_timestamp = datetime.fromisoformat(e.get("timestamp", ""))
+                    if event_timestamp > cutoff:
+                        recent_threats.append(e)
+                except (ValueError, TypeError):
+                    # Skip events with invalid timestamps
+                    continue
         
         severity_counts = defaultdict(int)
         pattern_counts = defaultdict(int)
         
         for event in recent_threats:
             threat_data = event.get("data", {})
+            if not threat_data:
+                continue
+                
+            # Get severity from threat_data (the main threat object)
             severity = threat_data.get("severity", "unknown")
             severity_counts[severity] += 1
             
-            for threat in threat_data.get("threats", []):
-                pattern = threat.get("pattern", "unknown")
-                pattern_counts[pattern] += 1
+            # Get individual threat patterns from threats list
+            threats_list = threat_data.get("threats", [])
+            for threat in threats_list:
+                if isinstance(threat, dict):
+                    pattern = threat.get("pattern", "unknown")
+                    pattern_counts[pattern] += 1
         
         return {
             "total_threats": len(recent_threats),

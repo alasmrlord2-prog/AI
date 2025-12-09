@@ -86,15 +86,79 @@ def _decide_action(user_message: str, history) -> dict:
     # Simple keyword-based decision for common queries to avoid LLM call
     user_lower = user_message.lower().strip()
     
-    # Check for service-related queries
-    if any(keyword in user_lower for keyword in ["nginx", "service", "check", "status", "systemctl"]):
-        if "nginx" in user_lower:
+    # Check for service-related queries - extract service name dynamically
+    if any(keyword in user_lower for keyword in ["service", "check", "status", "systemctl"]):
+        # Try to extract service name from user message
+        words = user_lower.split()
+        
+        # Service name mapping with common typos and variations
+        service_mapping = {
+            "nginx": "nginx", "ngonx": "nginx", "ngix": "nginx", "ngnix": "nginx",
+            "apache": "apache", "apach": "apache", "apach2": "apache2", "apache2": "apache2",
+            "mysql": "mysql", "mysqld": "mysql", "mariadb": "mariadb",
+            "postgres": "postgres", "postgresql": "postgresql", "postgres": "postgres",
+            "redis": "redis", "reddis": "redis",
+            "docker": "docker", "dockerd": "docker",
+            "ssh": "ssh", "sshd": "ssh",
+            "ollama": "ollama", "ollam": "ollama"
+        }
+        
+        service_keywords = list(service_mapping.keys())
+        detected_service = None
+        
+        # First, try to find service name directly in the message (with typo correction)
+        for word in words:
+            # Remove common punctuation
+            clean_word = word.strip(".,!?;:")
+            # Check exact match or typo match
+            if clean_word in service_mapping:
+                detected_service = service_mapping[clean_word]
+                break
+            # Fuzzy match for common typos - check similarity
+            for key, value in service_mapping.items():
+                # Check if words are similar (at least 3 chars match at start)
+                if len(clean_word) >= 3 and len(key) >= 3:
+                    # Check if first 3-4 characters match (handles typos like ngonx -> nginx)
+                    min_len = min(len(clean_word), len(key), 4)
+                    if clean_word[:min_len] == key[:min_len] or clean_word.startswith(key[:3]) or key.startswith(clean_word[:3]):
+                        # Additional check: if lengths are similar (within 2 chars)
+                        if abs(len(clean_word) - len(key)) <= 2:
+                            detected_service = value
+                            break
+            if detected_service:
+                break
+        
+        # If not found, try pattern matching: "check <service>" or "status <service>"
+        if not detected_service:
+            for i, word in enumerate(words):
+                if word in ["check", "status"] and i + 1 < len(words):
+                    # Skip articles and common words
+                    for j in range(i + 1, min(i + 4, len(words))):  # Check up to 3 words ahead
+                        next_word = words[j].strip(".,!?;:")
+                        if next_word not in ["service", "of", "the", "a", "an", "on", "in", "at"]:
+                            # Try to match with service mapping
+                            if next_word in service_mapping:
+                                detected_service = service_mapping[next_word]
+                                break
+                            # Try fuzzy match
+                            for key, value in service_mapping.items():
+                                if next_word.startswith(key[:3]) or key.startswith(next_word[:3]):
+                                    if len(next_word) >= 3 and len(key) >= 3:
+                                        detected_service = value
+                                        break
+                        if detected_service:
+                            break
+                if detected_service:
+                    break
+        
+        # If service detected, use check_service tool
+        if detected_service:
             return {
                 "mode": "tool",
                 "tool_name": "check_service",
-                "tool_args": "nginx",  # check_service.run() takes a string argument, not keyword
+                "tool_args": detected_service,  # Use detected service name, not hardcoded
                 "answer": "",
-                "thought": "nginx service check detected",
+                "thought": f"service check detected for: {detected_service}",
             }
     
     # Check for file reading queries
@@ -157,10 +221,21 @@ JSON ONLY.
         except Exception as e2:
             # If even the fallback fails, provide a helpful response based on the question
             print(f"[Agent] Fallback also failed: {e2}")
-            # Try to provide a basic response based on keywords
+            # Try to provide a basic response based on keywords - no hardcoded service names
             user_lower = user_message.lower()
-            if any(kw in user_lower for kw in ["nginx", "service", "خدمة"]):
-                fallback_answer = "يمكنك فحص حالة خدمة nginx باستخدام: systemctl status nginx أو ps aux | grep nginx"
+            if any(kw in user_lower for kw in ["service", "خدمة", "check", "status"]):
+                # Extract service name dynamically if mentioned
+                words = user_lower.split()
+                service_name = None
+                for i, word in enumerate(words):
+                    if word in ["check", "status"] and i + 1 < len(words):
+                        service_name = words[i + 1]
+                        break
+                
+                if service_name:
+                    fallback_answer = f"يمكنك فحص حالة خدمة {service_name} باستخدام: systemctl status {service_name} أو ps aux | grep {service_name}"
+                else:
+                    fallback_answer = "يمكنك فحص حالة أي خدمة باستخدام: systemctl status <service_name> أو ps aux | grep <service_name>"
             elif any(kw in user_lower for kw in ["gitlab", "git lab"]):
                 fallback_answer = "للتثبيت على السيرفر، يمكنك استخدام Docker أو التثبيت المباشر. هل تريد المساعدة في خطوات محددة؟"
             else:
@@ -256,12 +331,22 @@ def think_and_act(user_message: str) -> str:
                     output = tool_fn({"cmd": str(tool_args)})
             elif tool_name == "check_service":
                 # check_service.run() takes a string argument directly
+                # Extract and save service name for later use in response formatting
+                service_name = None
                 if isinstance(tool_args, dict):
-                    # Extract service name from dict if passed as dict
-                    service_name = tool_args.get("service") or tool_args.get("svc") or list(tool_args.values())[0] if tool_args else "nginx"
-                    output = tool_fn(service_name)
+                    # Extract service name from dict if passed as dict - no hardcoded fallback
+                    service_name = tool_args.get("service") or tool_args.get("svc") or (list(tool_args.values())[0] if tool_args else None)
+                    if not service_name:
+                        raise ValueError("Service name not provided in tool_args")
+                    service_name = str(service_name)
                 else:
-                    output = tool_fn(str(tool_args))
+                    if not tool_args:
+                        raise ValueError("Service name not provided")
+                    service_name = str(tool_args)
+                
+                # Store service name in tool_args for later use in response formatting
+                tool_args = service_name
+                output = tool_fn(service_name)
             elif tool_name == "read_file":
                 # read_file.run() takes a string path
                 if isinstance(tool_args, dict):
@@ -292,13 +377,63 @@ def think_and_act(user_message: str) -> str:
             # For most tools, use output directly without LLM follow-up to save time
             # Only use LLM for complex tool outputs that need interpretation
             if tool_name == "check_service":
-                # Format service check output nicely
-                if "active" in output_str.lower() or "running" in output_str.lower():
-                    final = f"✅ الخدمة تعمل بشكل صحيح.\n\n{output_str}"
-                elif "inactive" in output_str.lower() or "stopped" in output_str.lower():
-                    final = f"❌ الخدمة متوقفة.\n\n{output_str}"
+                # Get service name - it's already stored in tool_args as string from above
+                service_name = str(tool_args) if tool_args else "service"
+                
+                # Build comprehensive response with explanation and commands
+                output_lower = output_str.lower()
+                is_running = any(indicator in output_lower for indicator in [
+                    "running", "active", "found in docker", "appears to be running"
+                ])
+                is_stopped = any(indicator in output_lower for indicator in [
+                    "inactive", "stopped", "not found", "not running"
+                ])
+                
+                # Build detailed response
+                response_parts = []
+                
+                # Status summary
+                if is_running:
+                    response_parts.append(f"✅ **Status:** {service_name} service is running")
+                elif is_stopped:
+                    response_parts.append(f"❌ **Status:** {service_name} service is not running or not found")
                 else:
-                    final = f"ℹ️ حالة الخدمة:\n\n{output_str}"
+                    response_parts.append(f"ℹ️ **Status:** {service_name} service status check")
+                
+                # Add tool output
+                if output_str.strip():
+                    response_parts.append(f"\n**Check Results:**\n```\n{output_str.strip()}\n```")
+                
+                # Add helpful commands and explanation
+                response_parts.append(f"\n## How to Check {service_name} on Linux:\n")
+                response_parts.append("### 1. Using systemctl (systemd systems):")
+                response_parts.append(f"```bash\nsystemctl status {service_name}\n```")
+                response_parts.append(f"```bash\nsystemctl is-active {service_name}\n```")
+                response_parts.append(f"```bash\nsystemctl is-enabled {service_name}\n```")
+                
+                response_parts.append("\n### 2. Check if process is running:")
+                response_parts.append(f"```bash\nps aux | grep {service_name}\n```")
+                response_parts.append(f"```bash\npgrep -f {service_name}\n```")
+                response_parts.append(f"```bash\npidof {service_name}\n```")
+                
+                response_parts.append("\n### 3. Check service ports (if applicable):")
+                response_parts.append(f"```bash\nnetstat -tulpn | grep {service_name}\n```")
+                response_parts.append(f"```bash\nss -tulpn | grep {service_name}\n```")
+                response_parts.append(f"```bash\nlsof -i | grep {service_name}\n```")
+                
+                response_parts.append("\n### 4. Check service logs:")
+                # Use journalctl for systemd services (works for all modern Linux services)
+                response_parts.append(f"```bash\njournalctl -u {service_name} -n 50\n```")
+                response_parts.append(f"```bash\njournalctl -u {service_name} -f\n```")
+                
+                # Docker fallback - if service is docker or detected in docker environment
+                if service_name.lower() in ["docker", "dockerd"] or "docker" in output_lower or "container" in output_lower:
+                    response_parts.append("\n### 5. Docker-specific commands:")
+                    response_parts.append(f"```bash\ndocker ps | grep {service_name}\n```")
+                    response_parts.append(f"```bash\ndocker logs {service_name}\n```")
+                    response_parts.append(f"```bash\ndocker logs -f {service_name}\n```")
+                
+                final = "\n".join(response_parts)
             else:
                 # For other tools, use output directly
                 final = output_str

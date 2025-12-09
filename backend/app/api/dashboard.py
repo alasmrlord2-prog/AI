@@ -1,8 +1,6 @@
 """Dashboard API endpoints."""
 from fastapi import APIRouter, Depends
 from typing import Dict, Any
-import os
-import subprocess
 import time
 from app.api.auth import get_current_user
 
@@ -57,14 +55,23 @@ async def get_dashboard_stats(current_user: dict = Depends(get_current_user)):
                     raise Exception("App instance not available")
             except Exception as e:
                 print(f"Error counting modules: {e}")
+                import traceback
+                if hasattr(get_settings(), 'DEBUG') and get_settings().DEBUG:
+                    traceback.print_exc()
                 # Try to get from capabilities endpoint if available
                 try:
-                    base_url = get_settings().BACKEND_URL if hasattr(get_settings(), 'BACKEND_URL') else "http://localhost:8000"
+                    settings = get_settings()
+                    # Use BACKEND_URL if available, otherwise construct from HOST and PORT
+                    if hasattr(settings, 'BACKEND_URL') and settings.BACKEND_URL:
+                        base_url = settings.BACKEND_URL
+                    else:
+                        base_url = f"http://{settings.HOST}:{settings.PORT}"
                     response = requests.get(f"{base_url}/api/capabilities", timeout=2)  # Reduced to 2 seconds
                     if response.status_code == 200:
                         data = response.json()
                         modules_count = len(data.get("capabilities", []))
-                except:
+                except Exception as e:
+                    print(f"Error getting modules from capabilities endpoint: {e}")
                     modules_count = None  # Keep as None if all methods fail
             
             # Check AI Status (Ollama) - real endpoint check
@@ -84,7 +91,14 @@ async def get_dashboard_stats(current_user: dict = Depends(get_current_user)):
                     ai_status_text = "Unavailable"
             except Exception as e:
                 ai_status = "⚠️"
-                ai_status_text = f"Error: {str(e)[:30]}"
+                error_msg = str(e)
+                # Truncate long error messages
+                if len(error_msg) > 50:
+                    error_msg = error_msg[:47] + "..."
+                ai_status_text = f"Error: {error_msg}"
+                if hasattr(get_settings(), 'DEBUG') and get_settings().DEBUG:
+                    import traceback
+                    traceback.print_exc()
             
             # Calculate Security Health from real threat detection endpoint
             security_health = None
@@ -98,13 +112,24 @@ async def get_dashboard_stats(current_user: dict = Depends(get_current_user)):
                     
                     if threat_summary:
                         total_threats = threat_summary.get("total_threats", 0)
-                        critical = threat_summary.get("critical", 0) or threat_summary.get("severity_breakdown", {}).get("critical", 0)
-                        high = threat_summary.get("high", 0) or threat_summary.get("severity_breakdown", {}).get("high", 0)
+                        # Get severity counts from severity_breakdown dict
+                        severity_breakdown = threat_summary.get("severity_breakdown", {})
+                        critical = severity_breakdown.get("critical", 0)
+                        high = severity_breakdown.get("high", 0)
+                        medium = severity_breakdown.get("medium", 0)
+                        low = severity_breakdown.get("low", 0)
                         
-                        threat_penalty = (critical * 5) + (high * 2)
+                        # Calculate security health: penalize based on threat severity
+                        threat_penalty = (critical * 10) + (high * 5) + (medium * 2) + (low * 1)
                         security_health = max(0, 100 - threat_penalty)
+                    else:
+                        # If no threat summary, assume healthy
+                        security_health = 100.0
                 except Exception as e:
                     print(f"Direct service call failed: {e}")
+                    import traceback
+                    if hasattr(get_settings(), 'DEBUG') and get_settings().DEBUG:
+                        traceback.print_exc()
                     # Set default if direct call fails
                     security_health = 100.0
                 
@@ -113,11 +138,15 @@ async def get_dashboard_stats(current_user: dict = Depends(get_current_user)):
                     from app.services.auto_hardening import get_auto_hardening
                     hardening = get_auto_hardening()
                     hardening_status = hardening.get_status()
-                    # If hardening is enabled and working, add bonus
-                    if hardening_status and hardening_status.get("enabled", False):
+                    # If hardening is applied and working, add bonus
+                    # get_status returns "hardening_applied" boolean, not "enabled"
+                    if hardening_status and hardening_status.get("hardening_applied", False):
                         if security_health is not None:
                             security_health = min(100, security_health + 5)
-                except:
+                except Exception as e:
+                    # Log error but don't fail the whole request
+                    if hasattr(get_settings(), 'DEBUG') and get_settings().DEBUG:
+                        print(f"Hardening status check failed: {e}")
                     pass  # If hardening service fails, continue without bonus
                     
             except Exception as e:
@@ -125,25 +154,33 @@ async def get_dashboard_stats(current_user: dict = Depends(get_current_user)):
                 # If all methods fail, set default value instead of None
                 security_health = 100.0  # Default to 100% if can't calculate
             
+            # Ensure security_health always has a value
+            if security_health is None:
+                security_health = 100.0
+            
             return {
-                "total_modules": modules_count,
+                "total_modules": modules_count if modules_count is not None else 0,
                 "ai_status": ai_status,
                 "ai_status_text": ai_status_text,
-                "security_health": round(security_health, 1) if security_health is not None else None
+                "security_health": round(security_health, 1)
             }
         except Exception as e:
             print(f"Error getting dashboard stats: {e}")
-            # Return error indicators, not default values
+            # Return error indicators with safe defaults
             return {
-                "total_modules": None,
+                "total_modules": 0,
                 "ai_status": "❌",
                 "ai_status_text": f"Error: {str(e)[:50]}",
-                "security_health": None
+                "security_health": 0.0
             }
     
     try:
         # Run with timeout (max 6 seconds) - OPTIMIZED: reduced timeout since we're using faster checks
-        loop = asyncio.get_event_loop()
+        # Use get_running_loop() if available (Python 3.7+), otherwise get_event_loop()
+        try:
+            loop = asyncio.get_running_loop()
+        except RuntimeError:
+            loop = asyncio.get_event_loop()
         result = await asyncio.wait_for(
             loop.run_in_executor(None, get_stats_data),
             timeout=6.0  # Reduced to 6 seconds - endpoints are now faster
@@ -153,22 +190,22 @@ async def get_dashboard_stats(current_user: dict = Depends(get_current_user)):
         _dashboard_cache["timestamp"] = time.time()
         return result
     except asyncio.TimeoutError:
-        # Return timeout error, not default values
+        # Return timeout error with safe defaults
         error_result = {
-            "total_modules": None,
+            "total_modules": 0,
             "ai_status": "⚠️",
             "ai_status_text": "Timeout - endpoints not responding",
-            "security_health": None
+            "security_health": 0.0
         }
         # Don't cache errors
         return error_result
     except Exception as e:
-        # Return actual error, not default values
+        # Return actual error with safe defaults
         error_result = {
-            "total_modules": None,
+            "total_modules": 0,
             "ai_status": "❌",
             "ai_status_text": f"Error: {str(e)[:50]}",
-            "security_health": None
+            "security_health": 0.0
         }
         # Don't cache errors
         return error_result

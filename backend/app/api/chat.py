@@ -40,7 +40,11 @@ async def chat(req: ChatRequest):
             
             # Run think_and_act in executor with timeout (max 600 seconds for chat)
             # Increased timeout significantly to allow agent to answer all questions, even very long ones
-            loop = asyncio.get_event_loop()
+            # Use get_running_loop() if available (Python 3.7+), otherwise get_event_loop()
+            try:
+                loop = asyncio.get_running_loop()
+            except RuntimeError:
+                loop = asyncio.get_event_loop()
             reply = await asyncio.wait_for(
                 loop.run_in_executor(None, think_and_act, req.message.strip()),
                 timeout=600.0  # 600 second timeout (10 minutes) to ensure all questions are answered completely

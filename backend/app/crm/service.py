@@ -92,8 +92,8 @@ class CRMService:
                 "is_expired": subscription_status.get("is_expired", True),
                 "is_in_grace": subscription_status.get("is_in_grace", False),
                 "days_until_expiry": subscription_status.get("days_until_expiry"),
-                "start_at": subscription.start_at.isoformat() if subscription else None,
-                "end_at": subscription.end_at.isoformat() if subscription else None
+                "start_at": subscription.start_at.isoformat() if subscription and subscription.start_at else None,
+                "end_at": subscription.end_at.isoformat() if subscription and subscription.end_at else None
             },
             "users": users_data,
             "usage": usage,
@@ -197,7 +197,11 @@ class CRMService:
                 "email_verified": user.email_verified,
                 "last_login_at": user.last_login_at.isoformat() if user.last_login_at else None,
                 "last_login_ip": last_login.ip_address if last_login else None,
-                "last_login_location": f"{last_login.location_city}, {last_login.location_country}" if last_login and last_login.location_city else None,
+                "last_login_location": (
+                    f"{last_login.location_city}, {last_login.location_country}" 
+                    if last_login and last_login.location_city and last_login.location_country
+                    else (last_login.location_city if last_login and last_login.location_city else None)
+                ),
                 "sessions": sessions_data,
                 "active_sessions_count": len(sessions_data),
                 "api_tokens_count": tokens_count,

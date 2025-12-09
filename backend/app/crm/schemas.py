@@ -1,6 +1,6 @@
 """CRM Schemas - Pydantic models for CRM responses."""
 from pydantic import BaseModel, EmailStr, Field
-from typing import Optional, List, Dict, Any
+from typing import Optional, List, Dict, Any, Literal
 from datetime import datetime
 from uuid import UUID
 from decimal import Decimal
@@ -182,4 +182,14 @@ class TenantListResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class TenantUserCreate(BaseModel):
+    """Schema for creating a tenant user from CRM."""
+    email: EmailStr
+    password: str = Field(..., min_length=8)
+    full_name: Optional[str] = None
+    role: Literal["admin", "manager", "member"] = "member"
+    status: Literal["active", "invited", "suspended"] = "invited"
+    email_verified: Optional[bool] = False
 

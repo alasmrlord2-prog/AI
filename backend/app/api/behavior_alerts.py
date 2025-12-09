@@ -54,18 +54,17 @@ async def get_alerts(
         )
         return {"alerts": alerts, "count": len(alerts)}
     except asyncio.TimeoutError:
-        # Return error on timeout, not empty response
+        # Return safe defaults on timeout
         return {
-            "error": "timeout - behavior alerts endpoint not responding",
             "alerts": [],
-            "count": None
+            "count": 0
         }
     except Exception as e:
-        # Return actual error, not default response
+        # Return safe defaults on error
+        print(f"Error getting behavior alerts: {e}")
         return {
-            "error": str(e),
             "alerts": [],
-            "count": None
+            "count": 0
         }
 
 

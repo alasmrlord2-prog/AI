@@ -81,27 +81,27 @@ async def get_threat_summary(
         
         return summary
     except asyncio.TimeoutError:
-        # Return error on timeout, not default values
+        # Return safe defaults on timeout
         print("Timeout getting threat summary - endpoint not responding")
         return {
-            "error": "timeout - threat detection endpoint not responding",
-            "total_threats": None,
-            "critical": None,
-            "high": None,
-            "medium": None,
-            "low": None,
+            "total_threats": 0,
+            "critical": 0,
+            "high": 0,
+            "medium": 0,
+            "low": 0,
+            "severity_breakdown": {"critical": 0, "high": 0, "medium": 0, "low": 0},
             "last_24h": []
         }
     except Exception as e:
-        # Return actual error, not default values
+        # Return safe defaults on error
         print(f"Error getting threat summary: {e}")
         return {
-            "error": str(e),
-            "total_threats": None,
-            "critical": None,
-            "high": None,
-            "medium": None,
-            "low": None,
+            "total_threats": 0,
+            "critical": 0,
+            "high": 0,
+            "medium": 0,
+            "low": 0,
+            "severity_breakdown": {"critical": 0, "high": 0, "medium": 0, "low": 0},
             "last_24h": []
         }
 

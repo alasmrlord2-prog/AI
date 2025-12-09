@@ -1,11 +1,14 @@
 import time
 import requests
+from app.core.config import get_settings
 
 # Wait for Ollama to wake up
+settings = get_settings()
+ollama_url = settings.OLLAMA_URL if settings.OLLAMA_URL else "http://ollama:11434"  # Fallback for Docker
 while True:
     try:
         print("Checking Ollama...")
-        requests.get("http://ollama:11434/api/tags", timeout=3)
+        requests.get(f"{ollama_url}/api/tags", timeout=3)
         print("Ollama is ready!")
         break
     except Exception as e:

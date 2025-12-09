@@ -7,7 +7,7 @@ router = APIRouter(prefix="/api/monitor", tags=["monitor"])
 settings = get_settings()
 
 # Simple in-memory cache for monitor data (TTL: 5 seconds)
-_monitor_cache = {"data": None, "timestamp": 0}
+_monitor_cache = {"data": None, "timestamp": 0, "prev_net_io": {}}
 CACHE_TTL = 5  # Cache for 5 seconds to reduce load and prevent timeout
 
 # Import monitoring tools
@@ -128,10 +128,39 @@ async def monitor_status():
         base_data["network_tx_mbps"] = total.get("tx_mbps") or network.get("tx_mbps") or network.get("tx")
         connections = network.get("connections", {})
         base_data["network_connections"] = connections.get("total") if isinstance(connections, dict) else None
+        
+        # Calculate packets per second
+        try:
+            import psutil
+            net_io = psutil.net_io_counters()
+            if net_io:
+                # Get previous values from cache if available
+                prev_cache = _monitor_cache.get("prev_net_io", {})
+                prev_packets = prev_cache.get("packets", 0)
+                prev_time = prev_cache.get("time", time.time())
+                current_packets = net_io.packets_sent + net_io.packets_recv
+                time_diff = time.time() - prev_time
+                if time_diff > 0 and prev_packets > 0:
+                    packets_per_sec = (current_packets - prev_packets) / time_diff
+                    base_data["network_packets_per_sec"] = max(0, packets_per_sec)  # Ensure non-negative
+                    _monitor_cache["prev_net_io"] = {"packets": current_packets, "time": time.time()}
+                else:
+                    # First run or no previous data
+                    base_data["network_packets_per_sec"] = 0
+                    _monitor_cache["prev_net_io"] = {"packets": current_packets, "time": time.time()}
+            else:
+                base_data["network_packets_per_sec"] = None
+        except ImportError:
+            # psutil not available
+            base_data["network_packets_per_sec"] = None
+        except Exception as e:
+            print(f"Error calculating network packets per sec: {e}")
+            base_data["network_packets_per_sec"] = None
     else:
         base_data["network_rx_mbps"] = None
         base_data["network_tx_mbps"] = None
         base_data["network_connections"] = None
+        base_data["network_packets_per_sec"] = None
     
     # Disk I/O (for Frontend compatibility)
     if isinstance(base_data.get("disk"), dict):
@@ -142,6 +171,57 @@ async def monitor_status():
     else:
         base_data["disk_read_mbps"] = None
         base_data["disk_write_mbps"] = None
+    
+    # Uptime
+    try:
+        import psutil
+        boot_time = psutil.boot_time()
+        uptime_seconds = time.time() - boot_time
+        base_data["uptime_days"] = uptime_seconds / 86400  # Convert to days
+    except Exception as e:
+        print(f"Error getting uptime: {e}")
+        base_data["uptime_days"] = None
+    
+    # Kernel Metrics (Context Switches, Interrupts, Processes)
+    try:
+        from app.services.live_kernel_metrics import get_kernel_metrics
+        kernel_metrics = get_kernel_metrics()
+        
+        # Get context switches and interrupts from /proc/stat
+        try:
+            with open("/proc/stat", "r") as f:
+                for line in f:
+                    if line.startswith("ctxt"):
+                        # Context switches: ctxt 1234567890
+                        parts = line.split()
+                        if len(parts) >= 2:
+                            base_data.setdefault("kernel_metrics", {})["context_switches"] = int(parts[1])
+                    elif line.startswith("intr"):
+                        # Interrupts: intr 1234567890 ...
+                        parts = line.split()
+                        if len(parts) >= 2:
+                            base_data.setdefault("kernel_metrics", {})["interrupts"] = int(parts[1])
+        except Exception as e:
+            print(f"Error reading /proc/stat: {e}")
+            base_data.setdefault("kernel_metrics", {})["context_switches"] = None
+            base_data.setdefault("kernel_metrics", {})["interrupts"] = None
+        
+        # Get process count
+        try:
+            import psutil
+            process_count = len(psutil.pids())
+            base_data.setdefault("kernel_metrics", {})["processes"] = process_count
+        except Exception as e:
+            print(f"Error getting process count: {e}")
+            base_data.setdefault("kernel_metrics", {})["processes"] = None
+            
+    except Exception as e:
+        print(f"Error getting kernel metrics: {e}")
+        base_data["kernel_metrics"] = {
+            "context_switches": None,
+            "interrupts": None,
+            "processes": None
+        }
     
     # Update cache
     _monitor_cache["data"] = base_data

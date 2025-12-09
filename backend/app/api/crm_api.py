@@ -8,6 +8,7 @@ from datetime import datetime
 from app.core.database import get_db
 from app.core.aaa_middleware import get_current_user_context
 from app.crm import service as crm_service
+from app.crm.schemas import TenantUserCreate
 
 router = APIRouter(prefix="/api/crm", tags=["CRM"])
 
@@ -93,7 +94,7 @@ async def get_tenant_users(
 @router.post("/tenants/{tenant_id}/users", response_model=dict)
 async def create_tenant_user(
     tenant_id: UUID,
-    user_data: dict,
+    user_data: TenantUserCreate,
     user_context: Dict[str, Any] = Depends(get_current_user_context),
     db: Session = Depends(get_db)
 ):
@@ -105,24 +106,23 @@ async def create_tenant_user(
     try:
         # Create user using Identity Service
         user_create = UserCreate(
-            email=user_data.get("email"),
-            password=user_data.get("password"),
-            full_name=user_data.get("full_name"),
+            email=user_data.email,
+            password=user_data.password,
+            full_name=user_data.full_name,
             tenant_id=tenant_id
         )
         
         user = identity_service.IdentityService.create_user(db, user_create)
         
         # Add user to tenant with role
-        role = user_data.get("role", "member")
         tenant_user = identity_service.IdentityService.add_user_to_tenant(
-            db, tenant_id, user.id, role
+            db, tenant_id, user.id, user_data.role
         )
         
         # Activate user if specified
-        if user_data.get("status") == "active":
+        if user_data.status == "active":
             user.status = "active"
-            user.email_verified = user_data.get("email_verified", False)
+            user.email_verified = user_data.email_verified
             db.commit()
             db.refresh(user)
         
