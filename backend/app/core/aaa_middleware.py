@@ -1,11 +1,16 @@
 """AAA Middleware - Authentication, Authorization, Accounting."""
+import logging
+
 from fastapi import Request, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, Tuple
 from uuid import UUID
 from datetime import datetime
 
+from jose import JWTError, ExpiredSignatureError, jwt
+
+from app.core.config import get_settings
 from app.core.database import get_db
 from app.core.security import verify_token
 from app.identity import service as identity_service
@@ -15,22 +20,67 @@ from app.audit import service as audit_service
 
 security = HTTPBearer(auto_error=False)
 
+logger = logging.getLogger(__name__)
+
+settings = get_settings()
+
 
 class AAAMiddleware:
     """AAA Middleware for request authentication, authorization, and accounting."""
+
+    @staticmethod
+    def _set_auth_error(
+        request: Request,
+        code: str,
+        message: str,
+        *,
+        extra: Optional[Dict[str, Any]] = None,
+    ) -> None:
+        """Persist structured auth error and log it."""
+        request.state.auth_error = {"code": code, "message": message}
+        logger.warning(
+            "AAA authentication failed: %s",
+            message,
+            extra={"code": code, **(extra or {})},
+        )
+
+    @staticmethod
+    def _decode_token_with_reason(token: str) -> Tuple[Optional[Dict[str, Any]], Optional[Dict[str, str]]]:
+        """Decode JWT token and return payload or structured error."""
+        try:
+            payload = jwt.decode(
+                token,
+                settings.JWT_SECRET_KEY,
+                algorithms=[settings.JWT_ALGORITHM],
+            )
+            return payload, None
+        except ExpiredSignatureError:
+            return None, {"code": "token_expired", "message": "Token has expired"}
+        except JWTError as exc:  # includes JWTClaimsError, JWTSignatureError, etc.
+            return None, {"code": "invalid_token", "message": f"Token verification failed: {exc}"}
 
     @staticmethod
     async def authenticate_request(request: Request) -> Optional[Dict[str, Any]]:
         """Authenticate request and return user context."""
         # Get token from header
         authorization = request.headers.get("Authorization")
-        if not authorization or not authorization.startswith("Bearer "):
+        if not authorization or not authorization.lower().startswith("bearer "):
+            AAAMiddleware._set_auth_error(
+                request,
+                "missing_authorization",
+                "Missing or invalid Authorization header",
+            )
             return None
 
-        token = authorization.replace("Bearer ", "")
-        payload = verify_token(token)
+        token = authorization.split(" ", 1)[1]
+        payload, token_error = AAAMiddleware._decode_token_with_reason(token)
 
-        if not payload:
+        if token_error:
+            AAAMiddleware._set_auth_error(
+                request,
+                token_error["code"],
+                token_error["message"],
+            )
             return None
 
         # Get user from database
@@ -39,16 +89,35 @@ class AAAMiddleware:
             # Validate and parse user_id from token
             sub = payload.get("sub")
             if not sub:
+                AAAMiddleware._set_auth_error(
+                    request,
+                    "missing_subject",
+                    "Token missing 'sub' claim",
+                )
                 return None
             
+
             try:
                 user_id = UUID(sub)
             except (ValueError, TypeError):
+                AAAMiddleware._set_auth_error(
+                    request,
+                    "invalid_subject_format",
+                    "Token 'sub' is not a valid UUID",
+                    extra={"sub": sub},
+                )
                 return None
             
+
             user = identity_service.IdentityService.get_user_by_id(db, user_id)
 
             if not user or user.status != "active":
+                AAAMiddleware._set_auth_error(
+                    request,
+                    "user_inactive_or_missing",
+                    "User not found or inactive",
+                    extra={"user_id": str(user_id)},
+                )
                 return None
 
             # Get tenant
@@ -59,6 +128,10 @@ class AAAMiddleware:
                     tenant_id = UUID(tenant_id_str)
                 except (ValueError, TypeError):
                     tenant_id = None
+
+            # Clear any previous authentication error on successful authentication
+            if hasattr(request.state, "auth_error"):
+                request.state.auth_error = None
 
             return {
                 "user_id": user_id,
@@ -298,9 +371,11 @@ async def get_current_user_context(request: Request) -> Dict[str, Any]:
     """Dependency to get current user context from request."""
     user_context = await AAAMiddleware.authenticate_request(request)
     if not user_context:
+        detail = getattr(request.state, "auth_error", {"code": "not_authenticated", "message": "Not authenticated"})
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Not authenticated"
+            detail=detail,
+            headers={"WWW-Authenticate": "Bearer"},
         )
     return user_context
 

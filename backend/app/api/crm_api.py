@@ -41,6 +41,44 @@ async def list_tenants(
         )
 
 
+@router.post("/tenants", response_model=dict)
+async def create_tenant(
+    tenant_data: dict,
+    user_context: Dict[str, Any] = Depends(get_current_user_context),
+    db: Session = Depends(get_db)
+):
+    """Create a new tenant."""
+    from app.identity import service as identity_service
+    from app.identity.schemas import TenantCreate
+    
+    try:
+        tenant_create = TenantCreate(
+            name=tenant_data.get("name"),
+            type=tenant_data.get("type", "company"),
+            contact_email=tenant_data.get("contact_email"),
+            contact_phone=tenant_data.get("contact_phone")
+        )
+        
+        tenant = identity_service.IdentityService.create_tenant(db, tenant_create)
+        
+        return {
+            "id": str(tenant.id),
+            "name": tenant.name,
+            "type": tenant.type,
+            "status": tenant.status,
+            "contact_email": tenant.contact_email,
+            "contact_phone": tenant.contact_phone,
+            "created_at": tenant.created_at.isoformat() if tenant.created_at else None
+        }
+    except ValueError as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error creating tenant: {str(e)}"
+        )
+
+
 @router.get("/tenants/{tenant_id}/dashboard", response_model=dict)
 async def get_tenant_dashboard(
     tenant_id: UUID,

@@ -22,6 +22,12 @@ class Settings(BaseSettings):
     JWT_SECRET_KEY: str = ""  # Must be set via environment variable for SaaS
     JWT_ALGORITHM: str = "HS256"
     JWT_EXPIRATION_HOURS: int = 24
+
+    # Default admin bootstrap (used if database is empty)
+    DEFAULT_ADMIN_EMAIL: str = "admin@example.com"
+    DEFAULT_ADMIN_PASSWORD: str = "admin123"
+    DEFAULT_ADMIN_FULL_NAME: str = "Admin User"
+    DEFAULT_TENANT_NAME: str = "Default Organization"
     
     # OLLAMA
     OLLAMA_URL: str = ""  # Must be set via environment variable for SaaS

@@ -68,14 +68,21 @@ def get_current_user(credentials: Optional[HTTPAuthorizationCredentials] = Depen
     # ✅ IMPROVED: Enrich payload with user data from Identity Service if available
     try:
         from app.identity import service as identity_service
+        from uuid import UUID
         db = next(get_db())
         try:
             user_id = payload.get("sub")
             if user_id:
-                user = identity_service.IdentityService.get_user_by_id(db, int(user_id))
+                try:
+                    user_uuid = UUID(str(user_id))
+                except ValueError:
+                    logger.warning(f"Invalid user_id in token: {user_id}")
+                    user_uuid = None
+
+                user = identity_service.IdentityService.get_user_by_id(db, user_uuid) if user_uuid else None
                 if user:
                     # Get active tenant
-                    tenant_users = identity_service.IdentityService.get_tenant_users(db, user.id)
+                    tenant_users = identity_service.IdentityService.get_user_tenant_memberships(db, user.id)
                     active_tenant_user = tenant_users[0] if tenant_users else None
                     
                     return {
@@ -184,7 +191,7 @@ async def login(req: LoginRequest, request: Request):
                     raise AuthenticationError("Incorrect email or password")
                 
                 # ✅ IMPROVED: Get user's tenant(s) - handle multiple tenants
-                tenant_users = identity_service.IdentityService.get_tenant_users(db, user.id)
+                tenant_users = identity_service.IdentityService.get_user_tenant_memberships(db, user.id)
                 
                 if not tenant_users:
                     logger.warning(f"User {user.email} has no tenant assignments")

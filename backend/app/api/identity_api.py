@@ -16,37 +16,41 @@ settings = get_settings()
 router = APIRouter(prefix="/api/identity", tags=["Identity"])
 
 
-# Authentication
-@router.post("/login", response_model=schemas.LoginResponse)
-async def login(
-    login_data: schemas.LoginRequest,
-    request: Request,
-    db: Session = Depends(get_db)
-):
-    """Login endpoint."""
-    # Check if no users exist - create default admin user
+# Setup endpoint - create default admin if no users exist
+@router.post("/setup-default-admin")
+async def setup_default_admin(db: Session = Depends(get_db)):
+    """Create default admin user if no users exist. Only works when database is empty."""
     from app.identity.models import User
+    from app.identity.schemas import UserCreate, TenantCreate
+    
     user_count = db.query(User).count()
-    if user_count == 0:
-        # Create default admin user and tenant
-        from app.identity.schemas import UserCreate, TenantCreate
-        from app.core.security import get_password_hash
-        
+    if user_count > 0:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Users already exist. Cannot create default admin."
+        )
+    
+    try:
+        # bcrypt limits password length to 72 bytes; enforce to avoid hashing errors
+        default_password = "admin123"
+        if len(default_password.encode()) > 72:
+            default_password = default_password.encode()[:72].decode(errors="ignore")
+
         # Create tenant
         tenant = identity_service.IdentityService.create_tenant(
             db,
             TenantCreate(
                 name="Default Organization",
                 type="company",
-                contact_email=login_data.email,
+                contact_email="admin@example.com",
                 contact_phone="+1234567890"
             )
         )
         
-        # Create user
+        # Create user with default password: admin123
         user_data = UserCreate(
-            email=login_data.email,
-            password=login_data.password,
+            email="admin@example.com",
+            password=default_password,
             full_name="Admin User",
             tenant_id=tenant.id
         )
@@ -58,6 +62,33 @@ async def login(
         
         # Add user as owner
         identity_service.IdentityService.add_user_to_tenant(db, tenant.id, user.id, role="owner")
+        
+        return {
+            "message": "Default admin user created successfully",
+            "email": "admin@example.com",
+            "password": "admin123",
+            "tenant_id": str(tenant.id),
+            "user_id": str(user.id)
+        }
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to create default admin: {str(e)}"
+        )
+
+
+# Authentication
+@router.post("/login", response_model=schemas.LoginResponse)
+async def login(
+    login_data: schemas.LoginRequest,
+    request: Request,
+    db: Session = Depends(get_db)
+):
+    """Login endpoint."""
+    # Ensure default admin + tenant exist and tables are ready
+    # This will create the admin user if it doesn't exist
+    identity_service.IdentityService.ensure_default_admin(db)
     
     # Authenticate user
     user = identity_service.IdentityService.authenticate_user(
@@ -81,7 +112,7 @@ async def login(
         }
 
     # Get user's tenant
-    tenant_users = identity_service.IdentityService.get_tenant_users(db, user.id)
+    tenant_users = identity_service.IdentityService.get_user_tenant_memberships(db, user.id)
     tenant = None
     if tenant_users:
         tenant_user = tenant_users[0]
@@ -416,4 +447,88 @@ async def create_project(
         "tenant_id": str(project.tenant_id),
         "department_id": str(project.department_id) if project.department_id else None
     }
+
+
+# Debug endpoint - Check default admin status
+@router.get("/debug/default-admin", response_model=dict)
+async def check_default_admin_status(db: Session = Depends(get_db)):
+    """Check the status of the default admin user (for debugging)."""
+    from app.identity.models import User, TenantUser
+    from app.core.config import get_settings
+    import logging
+    
+    logger = logging.getLogger(__name__)
+    settings = get_settings()
+    email = settings.DEFAULT_ADMIN_EMAIL
+    password = settings.DEFAULT_ADMIN_PASSWORD
+    
+    try:
+        # Ensure admin exists - but catch any errors
+        try:
+            admin_user = identity_service.IdentityService.ensure_default_admin(db)
+        except Exception as e:
+            logger.error(f"Error in ensure_default_admin: {e}")
+            return {
+                "error": str(e),
+                "email": email,
+                "message": "Failed to ensure default admin user"
+            }
+        
+        # Get user from DB
+        user = db.query(User).filter(User.email == email).first()
+        
+        if not user:
+            return {
+                "exists": False,
+                "email": email,
+                "message": "Admin user not found even after ensure_default_admin"
+            }
+        
+        # Check password - skip verification if it causes issues
+        password_valid = None
+        password_check_error = None
+        if user.password_hash:
+            try:
+                from app.core.security import verify_password
+                # Ensure password is within bcrypt limit
+                safe_password = password
+                if len(safe_password.encode('utf-8')) > 72:
+                    safe_password = safe_password.encode('utf-8')[:72].decode('utf-8', errors='ignore')
+                password_valid = verify_password(safe_password, user.password_hash)
+            except Exception as e:
+                logger.error(f"Error verifying password: {e}")
+                password_check_error = str(e)
+                password_valid = None
+        
+        # Get tenant memberships
+        memberships = identity_service.IdentityService.get_user_tenant_memberships(db, user.id)
+        
+        return {
+            "exists": True,
+            "email": user.email,
+            "status": user.status,
+            "email_verified": user.email_verified,
+            "full_name": user.full_name,
+            "password_hash_exists": bool(user.password_hash),
+            "password_valid": password_valid,
+            "password_check_error": password_check_error,
+            "default_password": password,
+            "default_password_length": len(password.encode('utf-8')),
+            "tenant_memberships": [
+                {
+                    "tenant_id": str(m.tenant_id),
+                    "role": m.role,
+                    "status": m.status
+                }
+                for m in memberships
+            ],
+            "message": "Admin user exists and is ready" if (password_valid and user.status == "active") else "Admin user exists but may need configuration"
+        }
+    except Exception as e:
+        logger.error(f"Unexpected error in check_default_admin_status: {e}")
+        return {
+            "error": str(e),
+            "email": email,
+            "message": "Unexpected error occurred"
+        }
 

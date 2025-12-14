@@ -2,23 +2,40 @@
 from datetime import datetime, timedelta
 from typing import Optional, Dict, Any
 from jose import JWTError, jwt
-from passlib.context import CryptContext
+import bcrypt
 from app.core.config import get_settings
 
 settings = get_settings()
 
-# Password hashing
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+def _normalize_bcrypt_secret(secret: str) -> bytes:
+    """Ensure a bcrypt secret is within the 72-byte limit.
+
+    Bcrypt only considers the first 72 bytes of the input. We proactively truncate
+    to avoid runtime crashes while keeping behaviour consistent with bcrypt's
+    native handling.
+    """
+    secret_bytes = secret.encode("utf-8")
+    if len(secret_bytes) > 72:
+        return secret_bytes[:72]
+    return secret_bytes
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     """Verify a password against a hash."""
-    return pwd_context.verify(plain_password, hashed_password)
+    try:
+        normalized = _normalize_bcrypt_secret(plain_password)
+        return bcrypt.checkpw(normalized, hashed_password.encode('utf-8'))
+    except Exception:
+        return False
 
 
 def get_password_hash(password: str) -> str:
     """Hash a password."""
-    return pwd_context.hash(password)
+    normalized = _normalize_bcrypt_secret(password)
+    salt = bcrypt.gensalt()
+    hashed = bcrypt.hashpw(normalized, salt)
+    return hashed.decode('utf-8')
 
 
 def create_access_token(data: Dict[str, Any], expires_delta: Optional[timedelta] = None) -> str:

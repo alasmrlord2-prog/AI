@@ -75,9 +75,9 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - NEXT_PUBLIC_AGENT_API_URL=http://localhost:8000
-      - NEXT_PUBLIC_BACKEND_URL=http://localhost:8000
-      - NEXT_PUBLIC_AGENT_WS_URL=ws://localhost:8000
+      - NEXT_PUBLIC_AGENT_API_URL=http://ai-agent.bankid-sy.com
+      - NEXT_PUBLIC_BACKEND_URL=http://ai-agent.bankid-sy.com
+      - NEXT_PUBLIC_AGENT_WS_URL=ws://ai-agent.bankid-sy.com/ws/chat
       - BACKEND_URL=http://backend:8000
       - PORT=3000
     volumes:
@@ -91,44 +91,44 @@ services:
       - ai-agent-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:3000 || exit 1"]
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider --timeout=5 http://localhost:3000 || exit 1"]
       interval: 30s
       timeout: 10s
       start_period: 60s
       retries: 3
     command: npm run dev -- -p 3000
 
-  # Frontend CRM (port 3001) - Commented out due to port conflict
-  # frontend-crm:
-  #   build:
-  #     context: ./frontend
-  #     dockerfile: Dockerfile
-  #   container_name: ai-agent-frontend-crm
-  #   ports:
-  #     - "3001:3001"
-  #   environment:
-  #     - NEXT_PUBLIC_AGENT_API_URL=http://localhost:8000
-  #     - NEXT_PUBLIC_BACKEND_URL=http://localhost:8000
-  #     - NEXT_PUBLIC_AGENT_WS_URL=ws://localhost:8000
-  #     - BACKEND_URL=http://backend:8000
-  #     - PORT=3001
-  #   volumes:
-  #     - ./frontend:/app
-  #     - /app/node_modules
-  #     - /app/.next
-  #   depends_on:
-  #     backend:
-  #       condition: service_healthy
-  #   networks:
-  #     - ai-agent-network
-  #   restart: unless-stopped
-  #   healthcheck:
-  #     test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:3001 || exit 1"]
-  #     interval: 30s
-  #     timeout: 10s
-  #     start_period: 60s
-  #     retries: 3
-  #   command: npm run dev -- -p 3001
+  # Frontend CRM (port 3001)
+  frontend-crm:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: ai-agent-frontend-crm
+    ports:
+      - "3001:3001"
+    environment:
+      - NEXT_PUBLIC_AGENT_API_URL=http://ai-agent.bankid-sy.com
+      - NEXT_PUBLIC_BACKEND_URL=http://ai-agent.bankid-sy.com
+      - NEXT_PUBLIC_AGENT_WS_URL=ws://ai-agent.bankid-sy.com/ws/chat
+      - BACKEND_URL=http://backend:8000
+      - PORT=3001
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - ai-agent-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:3001 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      start_period: 60s
+      retries: 3
+    command: npm run dev -- -p 3001
 
   # Frontend AAA (port 3002)
   frontend-aaa:
@@ -139,9 +139,9 @@ services:
     ports:
       - "3002:3002"
     environment:
-      - NEXT_PUBLIC_AGENT_API_URL=http://localhost:8000
-      - NEXT_PUBLIC_BACKEND_URL=http://localhost:8000
-      - NEXT_PUBLIC_AGENT_WS_URL=ws://localhost:8000
+      - NEXT_PUBLIC_AGENT_API_URL=http://ai-agent.bankid-sy.com
+      - NEXT_PUBLIC_BACKEND_URL=http://ai-agent.bankid-sy.com
+      - NEXT_PUBLIC_AGENT_WS_URL=ws://ai-agent.bankid-sy.com/ws/chat
       - BACKEND_URL=http://backend:8000
       - PORT=3002
     healthcheck:
