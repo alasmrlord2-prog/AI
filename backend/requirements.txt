@@ -23,4 +23,6 @@ pyyaml
 scikit-learn  # Optional: for ML-based anomaly detection
 ollama  # Optional: for AI explanations (local)
 cryptography  # For secret encryption
+redis  # Redis client for caching
+hiredis  # Fast Redis protocol parser
 

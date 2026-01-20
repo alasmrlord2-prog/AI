@@ -342,21 +342,57 @@ class IdentityService:
         device_info: Optional[str] = None,
         ip_address: Optional[str] = None,
         user_agent: Optional[str] = None,
-        expires_hours: int = 24
+        expires_hours: int = 24,
+        tenant_id: Optional[UUID] = None
     ) -> Session:
-        """Create a new session."""
-        session = Session(
-            user_id=user_id,
-            token=token,
-            device_info=device_info,
+        """Create a new session using SessionManager (matches migration 002 schema)."""
+        from app.core.session_manager import SessionManager
+        from app.core.security import hash_token, create_refresh_token
+        
+        # Hash the token for storage
+        token_hash = hash_token(token)
+        
+        # Create refresh token
+        refresh_token_data = {
+            "sub": str(user_id),
+            "tenant_id": str(tenant_id) if tenant_id else None,
+        }
+        refresh_token = create_refresh_token(refresh_token_data)
+        refresh_token_hash = hash_token(refresh_token)
+        
+        # Calculate expiry times
+        expires_at = datetime.utcnow() + timedelta(hours=expires_hours)
+        refresh_expires_at = datetime.utcnow() + timedelta(days=30)
+        
+        # Use SessionManager to create session (matches DB schema)
+        session_model = SessionManager.create_session(
+            db,
+            user_id,
+            tenant_id,
+            token,
+            refresh_token,
+            expires_at,
+            refresh_expires_at,
             ip_address=ip_address,
-            user_agent=user_agent,
-            expires_at=datetime.utcnow() + timedelta(hours=expires_hours),
-            is_active=True
+            user_agent=user_agent or device_info
         )
-        db.add(session)
-        db.commit()
-        db.refresh(session)
+        
+        # Return Session model for backward compatibility
+        # Map SessionModel to Session
+        session = Session()
+        session.id = session_model.id
+        session.user_id = session_model.user_id
+        session.tenant_id = session_model.tenant_id
+        session.token_hash = session_model.token_hash
+        session.refresh_token_hash = session_model.refresh_token_hash
+        session.expires_at = session_model.expires_at
+        session.refresh_expires_at = session_model.refresh_expires_at
+        session.ip_address = session_model.ip_address
+        session.user_agent = session_model.user_agent
+        session.revoked = session_model.revoked
+        session.created_at = session_model.created_at
+        session.last_used_at = session_model.last_used_at
+        
         return session
 
     @staticmethod

@@ -7,6 +7,13 @@ cd "$(dirname "$0")"
 
 echo "🚀 Starting Frontend Services..."
 
+# Check if backend is running
+if ! curl -s http://localhost:8000/health > /dev/null 2>&1; then
+    echo "⚠️  Backend is not running. Starting backend first..."
+    ./backend-start.sh
+    sleep 5
+fi
+
 # Clean up old containers
 echo "🧹 Cleaning up old containers..."
 docker rm -f ai-agent-frontend-dashboard ai-agent-frontend-crm ai-agent-frontend-aaa 2>/dev/null || true
@@ -31,14 +38,25 @@ echo "🚀 Starting frontend containers..."
 docker compose up -d frontend-dashboard frontend-crm frontend-aaa
 
 echo "⏳ Waiting for frontends to be ready..."
-sleep 10
+sleep 15
 
 # Check frontend services
 echo ""
 echo "✅ Frontend Services Status:"
-echo "   Dashboard (3000): $(curl -s -o /dev/null -w '%{http_code}' http://localhost:3000 2>/dev/null || echo '000')"
-echo "   CRM (3001): $(curl -s -o /dev/null -w '%{http_code}' http://localhost:3001 2>/dev/null || echo '000')"
-echo "   AAA (3002): $(curl -s -o /dev/null -w '%{http_code}' http://localhost:3002 2>/dev/null || echo '000')"
+for port in 3000 3001 3002; do
+    name=""
+    case $port in
+        3000) name="Dashboard" ;;
+        3001) name="CRM" ;;
+        3002) name="AAA" ;;
+    esac
+    status=$(curl -s -o /dev/null -w '%{http_code}' http://localhost:${port} 2>/dev/null || echo '000')
+    if [ "$status" = "200" ] || [ "$status" = "000" ]; then
+        echo "   ${name} (${port}): http://localhost:${port} [Status: ${status}]"
+    else
+        echo "   ${name} (${port}): http://localhost:${port} [Status: ${status}]"
+    fi
+done
 
 echo ""
 echo "📝 View logs:"

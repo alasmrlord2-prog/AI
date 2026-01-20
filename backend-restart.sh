@@ -11,7 +11,7 @@ echo "🔄 Restarting Backend Services..."
 ./backend-stop.sh
 
 # Wait a bit
-sleep 2
+sleep 3
 
 # Start again
 ./backend-start.sh

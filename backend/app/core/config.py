@@ -1,6 +1,6 @@
 """Configuration management using Pydantic Settings."""
 from pydantic_settings import BaseSettings
-from pydantic import field_validator
+from pydantic import field_validator, model_validator
 from typing import List, Optional, Union
 from functools import lru_cache
 import json
@@ -31,6 +31,10 @@ class Settings(BaseSettings):
     
     # OLLAMA
     OLLAMA_URL: str = ""  # Must be set via environment variable for SaaS
+    
+    # Redis Cache
+    REDIS_URL: str = "redis://localhost:6379/0"
+    REDIS_ENABLED: bool = True
     
     # Backend URL (for internal API calls)
     BACKEND_URL: Optional[str] = None  # If None, will be constructed from HOST:PORT
@@ -117,6 +121,16 @@ class Settings(BaseSettings):
         env_file_encoding = "utf-8"
         case_sensitive = True
         extra = "ignore"  # Ignore extra environment variables
+
+    @model_validator(mode="after")
+    def validate_secrets(self) -> "Settings":
+        """Ensure required secrets exist in production mode."""
+        if not self.DEBUG:
+            if not self.SECRET_KEY:
+                raise ValueError("SECRET_KEY must be set when DEBUG is false")
+            if not self.JWT_SECRET_KEY:
+                raise ValueError("JWT_SECRET_KEY must be set when DEBUG is false")
+        return self
 
 
 @lru_cache()

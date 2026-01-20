@@ -8,6 +8,12 @@ from app.core.config import get_settings
 settings = get_settings()
 
 
+def _require_jwt_secret() -> None:
+    """Ensure JWT secret is configured."""
+    if not settings.JWT_SECRET_KEY:
+        raise RuntimeError("JWT_SECRET_KEY is not configured")
+
+
 def _normalize_bcrypt_secret(secret: str) -> bytes:
     """Ensure a bcrypt secret is within the 72-byte limit.
 
@@ -39,8 +45,14 @@ def get_password_hash(password: str) -> str:
 
 
 def create_access_token(data: Dict[str, Any], expires_delta: Optional[timedelta] = None) -> str:
-    """Create a JWT access token."""
+    """Create a JWT access token with tenant_id requirement."""
+    _require_jwt_secret()
     to_encode = data.copy()
+    
+    # Require tenant_id for multi-tenancy
+    if "tenant_id" not in to_encode:
+        raise ValueError("tenant_id is required in token data for multi-tenant isolation")
+    
     if expires_delta:
         expire = datetime.utcnow() + expires_delta
     else:
@@ -55,9 +67,39 @@ def create_access_token(data: Dict[str, Any], expires_delta: Optional[timedelta]
     return encoded_jwt
 
 
+def create_refresh_token(data: Dict[str, Any], expires_delta: Optional[timedelta] = None) -> str:
+    """Create a JWT refresh token."""
+    _require_jwt_secret()
+    to_encode = data.copy()
+    
+    # Refresh tokens have longer expiry (7 days default)
+    if expires_delta:
+        expire = datetime.utcnow() + expires_delta
+    else:
+        expire = datetime.utcnow() + timedelta(days=7)
+    
+    to_encode.update({
+        "exp": expire,
+        "type": "refresh"  # Mark as refresh token
+    })
+    encoded_jwt = jwt.encode(
+        to_encode,
+        settings.JWT_SECRET_KEY,
+        algorithm=settings.JWT_ALGORITHM
+    )
+    return encoded_jwt
+
+
+def hash_token(token: str) -> str:
+    """Hash a token for storage (one-way hash)."""
+    import hashlib
+    return hashlib.sha256(token.encode()).hexdigest()
+
+
 def verify_token(token: str) -> Optional[Dict[str, Any]]:
     """Verify and decode a JWT token."""
     try:
+        _require_jwt_secret()
         payload = jwt.decode(
             token,
             settings.JWT_SECRET_KEY,
@@ -68,5 +110,9 @@ def verify_token(token: str) -> Optional[Dict[str, Any]]:
         # Log the error for debugging (optional, can be removed in production)
         import logging
         logging.debug(f"Token verification failed: {str(e)}")
+        return None
+    except RuntimeError as e:
+        import logging
+        logging.error(str(e))
         return None
 

@@ -11,7 +11,7 @@ echo "🔄 Restarting Frontend Services..."
 ./frontend-stop.sh
 
 # Wait a bit
-sleep 2
+sleep 3
 
 # Start again
 ./frontend-start.sh

@@ -1,27 +1,47 @@
-"""Dashboard API endpoints."""
+"""Dashboard API endpoints with Redis caching."""
 from fastapi import APIRouter, Depends
 from typing import Dict, Any
 import time
 from app.api.auth import get_current_user
+from app.core.cache import get_cache, set_cache, cache_key
 
 router = APIRouter(prefix="/api/dashboard", tags=["dashboard"])
 
-# Simple in-memory cache for dashboard stats (TTL: 10 seconds)
-_dashboard_cache = {"data": None, "timestamp": 0}
-DASHBOARD_CACHE_TTL = 10  # Cache for 10 seconds to reduce load and prevent timeout
+# Cache TTL: 10 seconds for dashboard stats
+DASHBOARD_CACHE_TTL = 10
 
 
 @router.get("/stats")
 async def get_dashboard_stats(current_user: dict = Depends(get_current_user)):
-    """Get dashboard statistics - all data from real endpoints, no hardcoded values"""
+    """Get dashboard statistics - all data from real endpoints, no hardcoded values.
+    
+    Uses Redis cache for performance optimization.
+    """
     import asyncio
     import requests
     from app.core.config import get_settings
     
-    # OPTIMIZED: Use cache to reduce load on frequent requests
-    current_time = time.time()
-    if _dashboard_cache["data"] and (current_time - _dashboard_cache["timestamp"]) < DASHBOARD_CACHE_TTL:
-        return _dashboard_cache["data"]
+    # Generate cache key based on user (for multi-tenant support)
+    cache_key_str = cache_key("dashboard:stats", user_id=current_user.get("id", "anonymous"))
+    
+    # Try to get from Redis cache first
+    cached_data = get_cache(cache_key_str)
+    if cached_data is not None:
+        return cached_data
+    
+    # Fallback to in-memory cache if Redis not available
+    from app.core.cache import get_redis_client
+    redis_available = get_redis_client() is not None
+    
+    if not redis_available:
+        # Use simple in-memory cache as fallback
+        if not hasattr(get_dashboard_stats, '_cache'):
+            get_dashboard_stats._cache = {"data": None, "timestamp": 0}
+        
+        current_time = time.time()
+        if (get_dashboard_stats._cache["data"] and 
+            (current_time - get_dashboard_stats._cache["timestamp"]) < DASHBOARD_CACHE_TTL):
+            return get_dashboard_stats._cache["data"]
     
     def get_stats_data():
         try:
@@ -185,9 +205,14 @@ async def get_dashboard_stats(current_user: dict = Depends(get_current_user)):
             loop.run_in_executor(None, get_stats_data),
             timeout=6.0  # Reduced to 6 seconds - endpoints are now faster
         )
-        # Update cache
-        _dashboard_cache["data"] = result
-        _dashboard_cache["timestamp"] = time.time()
+        
+        # Store in Redis cache (or in-memory fallback)
+        if redis_available:
+            set_cache(cache_key_str, result, ttl=DASHBOARD_CACHE_TTL)
+        else:
+            get_dashboard_stats._cache["data"] = result
+            get_dashboard_stats._cache["timestamp"] = time.time()
+        
         return result
     except asyncio.TimeoutError:
         # Return timeout error with safe defaults

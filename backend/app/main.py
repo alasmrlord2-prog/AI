@@ -1,9 +1,28 @@
-"""Main FastAPI application - Refactored version."""
-from fastapi import FastAPI
+"""Main FastAPI application - Production-ready version with security and performance enhancements."""
+import logging
+from datetime import datetime
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+from fastapi.exceptions import RequestValidationError
+from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from app.core.config import get_settings
 from app.exceptions.handlers import setup_exception_handlers
+from app.core.middleware import (
+    SecurityHeadersMiddleware,
+    RateLimitMiddleware,
+    RequestLoggingMiddleware,
+    APIVersionMiddleware
+)
+from app.core.request_id_middleware import RequestIDMiddleware
+from app.core.metrics_middleware import MetricsMiddleware
+from app.core.structured_logging import setup_structured_logging
+
+# Configure structured logging
+app_settings = get_settings()
+setup_structured_logging(app_settings.LOG_LEVEL)
+logger = logging.getLogger(__name__)
 
 # Import routers
 from app.api import (
@@ -138,14 +157,52 @@ except ImportError:
 
 app_settings = get_settings()
 
-# Create FastAPI app
+# Create FastAPI app with production-ready settings
 app = FastAPI(
-    title="AI-Agent Backend",
-    version="0.1.0",
-    description="AI Agent Backend API - Refactored",
+    title="SHIFTWAVE AI Platform - Backend API",
+    version="1.0.0",
+    description="Production-ready AI Agent Backend API with comprehensive security and monitoring",
+    docs_url="/docs" if app_settings.DEBUG else None,  # Disable docs in production
+    redoc_url="/redoc" if app_settings.DEBUG else None,  # Disable redoc in production
+    openapi_url="/openapi.json" if app_settings.DEBUG else None,  # Disable OpenAPI in production
 )
 
-# Setup CORS - Allow all origins for development
+# Add production middleware (order matters - last added is first executed)
+# Request ID must be first for tracing
+app.add_middleware(RequestIDMiddleware)
+# Metrics middleware for observability
+app.add_middleware(MetricsMiddleware)
+# 1. Security Headers (innermost - applied last)
+app.add_middleware(SecurityHeadersMiddleware)
+
+# 2. API Versioning
+app.add_middleware(APIVersionMiddleware, api_version="v1")
+
+# 3. Request Logging
+if app_settings.DEBUG or app_settings.LOG_LEVEL == "DEBUG":
+    app.add_middleware(RequestLoggingMiddleware)
+
+# 4. Rate Limiting (before CORS to catch early)
+# Configure rate limits based on environment
+if app_settings.DEBUG:
+    # More lenient limits in development
+    rate_limit_per_minute = 120
+    rate_limit_per_hour = 2000
+    burst_limit = 20
+else:
+    # Stricter limits in production
+    rate_limit_per_minute = 60
+    rate_limit_per_hour = 1000
+    burst_limit = 10
+
+app.add_middleware(
+    RateLimitMiddleware,
+    requests_per_minute=rate_limit_per_minute,
+    requests_per_hour=rate_limit_per_hour,
+    burst_limit=burst_limit
+)
+
+# 5. CORS - Allow all origins for development, specific origins for production
 cors_origins = ["*"] if (isinstance(app_settings.CORS_ORIGINS, list) and "*" in app_settings.CORS_ORIGINS) else app_settings.CORS_ORIGINS
 
 # When using "*" for origins, we cannot use allow_credentials=True
@@ -155,20 +212,119 @@ if cors_origins == ["*"]:
         CORSMiddleware,
         allow_origins=["*"],
         allow_credentials=False,  # Cannot use True with "*"
-        allow_methods=["*"],
+        allow_methods=["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
         allow_headers=["*"],
+        expose_headers=["X-RateLimit-Limit-Minute", "X-RateLimit-Remaining-Minute", 
+                       "X-RateLimit-Limit-Hour", "X-RateLimit-Remaining-Hour",
+                       "X-API-Version", "X-Process-Time"],
     )
 else:
     app.add_middleware(
         CORSMiddleware,
         allow_origins=cors_origins,
         allow_credentials=True,
-        allow_methods=["*"],
+        allow_methods=["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
         allow_headers=["*"],
+        expose_headers=["X-RateLimit-Limit-Minute", "X-RateLimit-Remaining-Minute",
+                       "X-RateLimit-Limit-Hour", "X-RateLimit-Remaining-Hour",
+                       "X-API-Version", "X-Process-Time"],
     )
 
 # Setup exception handlers
 setup_exception_handlers(app)
+
+# Enhanced global exception handler
+@app.exception_handler(StarletteHTTPException)
+async def http_exception_handler(request: Request, exc: StarletteHTTPException):
+    """Enhanced HTTP exception handler with logging."""
+    logger.warning(
+        f"HTTP {exc.status_code} error: {exc.detail} "
+        f"Path: {request.url.path} "
+        f"Method: {request.method}"
+    )
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={
+            "detail": exc.detail,
+            "status_code": exc.status_code,
+            "path": request.url.path
+        }
+    )
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    """Enhanced validation exception handler."""
+    logger.warning(
+        f"Validation error: {exc.errors()} "
+        f"Path: {request.url.path} "
+        f"Method: {request.method}"
+    )
+    return JSONResponse(
+        status_code=422,
+        content={
+            "detail": exc.errors(),
+            "status_code": 422,
+            "path": request.url.path
+        }
+    )
+
+@app.exception_handler(Exception)
+async def general_exception_handler(request: Request, exc: Exception):
+    """Global exception handler for unexpected errors."""
+    logger.error(
+        f"Unexpected error: {str(exc)} "
+        f"Path: {request.url.path} "
+        f"Method: {request.method}",
+        exc_info=True
+    )
+    return JSONResponse(
+        status_code=500,
+        content={
+            "detail": "Internal server error" if not app_settings.DEBUG else str(exc),
+            "status_code": 500,
+            "path": request.url.path
+        }
+    )
+
+# Initialize cache connection on startup
+@app.on_event("startup")
+async def startup_event():
+    """Initialize services on startup."""
+    from app.core.cache import get_redis_client
+    logger.info("Starting up SHIFTWAVE AI Platform Backend...")
+    
+    # Initialize Redis cache
+    redis_client = get_redis_client()
+    if redis_client:
+        logger.info("✅ Redis cache initialized")
+    else:
+        logger.warning("⚠️  Redis cache not available - caching disabled")
+    
+    # Test database connection
+    try:
+        from app.core.database import get_db
+        from sqlalchemy import text
+        db = next(get_db())
+        db.execute(text("SELECT 1"))
+        db.close()
+        logger.info("✅ Database connection verified")
+    except Exception as e:
+        logger.error(f"❌ Database connection failed: {e}")
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    """Cleanup on shutdown."""
+    from app.core.cache import get_redis_client
+    logger.info("Shutting down...")
+    
+    # Close Redis connection
+    redis_client = get_redis_client()
+    if redis_client:
+        try:
+            redis_client.close()
+            logger.info("✅ Redis connection closed")
+        except Exception as e:
+            logger.warning(f"Error closing Redis: {e}")
 
 # Include routers
 app.include_router(auth.router)
@@ -258,13 +414,56 @@ if capabilities_router:
 
 
 @app.get("/health")
-def health_check():
-    """Health check endpoint."""
-    return {"status": "ok", "service": "ai-backend"}
+async def health_check():
+    """Enhanced health check endpoint with detailed status."""
+    import psutil
+    import os
+    
+    try:
+        # Check database connectivity (if available)
+        db_status = "unknown"
+        try:
+            from app.core.database import get_db
+            db = next(get_db())
+            db.execute("SELECT 1")
+            db_status = "connected"
+        except Exception:
+            db_status = "disconnected"
+        
+        # System metrics
+        cpu_percent = psutil.cpu_percent(interval=0.1)
+        memory = psutil.virtual_memory()
+        disk = psutil.disk_usage('/')
+        
+        return {
+            "status": "healthy",
+            "service": "ai-backend",
+            "version": "1.0.0",
+            "timestamp": datetime.now().isoformat(),
+            "database": db_status,
+            "system": {
+                "cpu_percent": cpu_percent,
+                "memory_percent": memory.percent,
+                "memory_available_mb": memory.available / (1024 * 1024),
+                "disk_percent": disk.percent,
+                "disk_free_gb": disk.free / (1024 * 1024 * 1024)
+            }
+        }
+    except Exception as e:
+        logger.error(f"Health check failed: {str(e)}", exc_info=True)
+        return JSONResponse(
+            status_code=503,
+            content={
+                "status": "unhealthy",
+                "service": "ai-backend",
+                "error": str(e) if app_settings.DEBUG else "Service unavailable"
+            }
+        )
 
 
 @app.get("/api/")
-def api_info():
+@app.get("/api/v1/")
+async def api_info():
     """Root API endpoint - provides API information and available endpoints."""
     try:
         # Get all registered routes
@@ -311,8 +510,9 @@ def api_info():
         
         # Build comprehensive endpoint information
         return {
-            "api": "AI Agent Backend API",
-            "version": "0.1.0",
+            "api": "SHIFTWAVE AI Platform - Backend API",
+            "version": "1.0.0",
+            "api_version": "v1",
             "status": "operational",
             "base_url": "/api",
             "endpoints": {
@@ -343,8 +543,9 @@ def api_info():
     except Exception as e:
         import traceback
         return {
-            "api": "AI Agent Backend API",
-            "version": "0.1.0",
+            "api": "SHIFTWAVE AI Platform - Backend API",
+            "version": "1.0.0",
+            "api_version": "v1",
             "status": "operational",
             "error": f"Error gathering API info: {str(e)}",
             "traceback": traceback.format_exc() if app_settings.DEBUG else None
@@ -352,23 +553,35 @@ def api_info():
 
 
 @app.get("/")
-def root():
-    """Root endpoint."""
+async def root():
+    """Root endpoint with API information."""
+    docs_url = "/docs" if app_settings.DEBUG else None
     return {
-        "message": "AI Agent Backend API",
-        "version": "0.1.0",
-        "docs": "/docs",
+        "message": "SHIFTWAVE AI Platform - Backend API",
+        "version": "1.0.0",
+        "status": "operational",
+        "docs": docs_url,
         "health": "/health",
-        "api": "/api/"
+        "api": "/api/",
+        "api_version": "v1"
     }
 
 
 if __name__ == "__main__":
     import uvicorn
+    
+    # Production-ready uvicorn configuration
     uvicorn.run(
         "app.main:app",
         host=app_settings.HOST,
         port=app_settings.PORT,
-        reload=app_settings.DEBUG
+        reload=app_settings.DEBUG,
+        access_log=app_settings.DEBUG,  # Disable access log in production
+        log_level=app_settings.LOG_LEVEL.lower(),
+        timeout_keep_alive=600,
+        timeout_graceful_shutdown=30,
+        limit_concurrency=1000,  # Max concurrent connections
+        limit_max_requests=10000,  # Max requests before restart (for memory leaks)
+        backlog=2048,  # Connection backlog
     )
 

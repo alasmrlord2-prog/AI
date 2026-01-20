@@ -1,16 +1,19 @@
 """
-Capabilities API - Expose system capabilities and recommendations
+Capabilities API - Expose system capabilities and recommendations with caching
 """
 from fastapi import APIRouter
 from app.utils.capability_detector import capability_detector
 from app.utils.env_adapter import env_adapter
+from app.core.cache import cached
+from datetime import timedelta
 
 router = APIRouter(prefix="/api/capabilities", tags=["capabilities"])
 
 
 @router.get("/")
+@cached(ttl=timedelta(minutes=5), key_prefix="capabilities:all")
 async def get_capabilities():
-    """Get all available capabilities and tools"""
+    """Get all available capabilities and tools - cached for 5 minutes"""
     return {
         "capabilities": capability_detector.detect_all(),
         "scan_features": capability_detector.get_scan_features(),
@@ -32,8 +35,9 @@ async def get_available_tools(category: str = None):
 
 
 @router.get("/features")
+@cached(ttl=timedelta(minutes=5), key_prefix="capabilities:features")
 async def get_scan_features():
-    """Get available scan features"""
+    """Get available scan features - cached for 5 minutes"""
     return {
         "features": capability_detector.get_scan_features(),
     }

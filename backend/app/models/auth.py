@@ -22,5 +22,5 @@ class TokenResponse(BaseModel):
     access_token: str
     refresh_token: Optional[str] = None  # ✅ NEW: Refresh token support
     token_type: str = "bearer"
-    user: dict
+    expires_in: int
 

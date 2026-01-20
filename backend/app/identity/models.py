@@ -80,19 +80,51 @@ class TenantUser(Base):
 
 
 class Session(Base):
-    """Session model - tracks user login sessions."""
+    """Session model - tracks user login sessions.
+    
+    NOTE: This model matches the database schema from migration 002.
+    For new code, prefer using SessionModel from app.core.session_manager.
+    """
+    __table_args__ = {'extend_existing': True}
     __tablename__ = "sessions"
 
+    # Match the actual database schema from migration 002
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
-    token = Column(String(512), unique=True, nullable=False, index=True)
-    device_info = Column(String(255), nullable=True)
-    ip_address = Column(String(45), nullable=True)  # IPv6 support
-    user_agent = Column(Text, nullable=True)
-    is_active = Column(Boolean, default=True)
-    expires_at = Column(DateTime, nullable=False)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    last_activity_at = Column(DateTime, default=datetime.utcnow)
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False, index=True)
+    tenant_id = Column(UUID(as_uuid=True), nullable=True, index=True)
+    token_hash = Column(String(255), unique=True, nullable=False, index=True)
+    refresh_token_hash = Column(String(255), nullable=True, unique=True, index=True)
+    expires_at = Column(DateTime, nullable=False, index=True)
+    refresh_expires_at = Column(DateTime, nullable=True)
+    ip_address = Column(String(45), nullable=True)
+    user_agent = Column(String(500), nullable=True)
+    revoked = Column(Boolean, default=False, nullable=False, index=True)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    last_used_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    
+    # Relationships
+    user = relationship("User", back_populates="sessions")
+    
+    # Legacy properties for backward compatibility
+    @property
+    def token(self):
+        """Legacy property - returns token_hash for compatibility."""
+        return self.token_hash
+    
+    @property
+    def is_active(self):
+        """Legacy property - returns not revoked for compatibility."""
+        return not self.revoked
+    
+    @property
+    def last_activity_at(self):
+        """Legacy property - returns last_used_at for compatibility."""
+        return self.last_used_at
+    
+    @property
+    def device_info(self):
+        """Legacy property - returns user_agent for compatibility."""
+        return self.user_agent
 
     # Relationships
     user = relationship("User", back_populates="sessions")

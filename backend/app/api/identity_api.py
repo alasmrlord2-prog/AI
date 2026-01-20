@@ -118,23 +118,34 @@ async def login(
         tenant_user = tenant_users[0]
         tenant = identity_service.IdentityService.get_tenant_by_id(db, tenant_user.tenant_id)
 
-    # Create token
+    # Create token with tenant_id (REQUIRED for multi-tenancy)
     token_data = {
         "sub": str(user.id),
         "email": user.email,
-        "tenant_id": str(tenant.id) if tenant else None
+        "tenant_id": str(tenant.id) if tenant else None,
+        "type": "access"
     }
+    if not token_data["tenant_id"]:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="User has no tenant assignment. Multi-tenant isolation required."
+        )
     access_token = create_access_token(token_data)
 
-    # Create session
-    identity_service.IdentityService.create_session(
-        db,
-        user.id,
-        access_token,
-        device_info=request.headers.get("user-agent"),
-        ip_address=request.client.host if request.client else None,
-        user_agent=request.headers.get("user-agent")
-    )
+    # Create session using SessionManager (matches migration 002 schema)
+    try:
+        identity_service.IdentityService.create_session(
+            db,
+            user.id,
+            access_token,
+            device_info=request.headers.get("user-agent"),
+            ip_address=request.client.host if request.client else None,
+            user_agent=request.headers.get("user-agent"),
+            tenant_id=tenant.id if tenant else None
+        )
+    except Exception as session_error:
+        logger.warning(f"Session creation failed (non-critical): {session_error}")
+        # Continue without session - login should still succeed
 
     return {
         "access_token": access_token,

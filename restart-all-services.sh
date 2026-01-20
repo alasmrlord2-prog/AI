@@ -1,36 +1,47 @@
 #!/bin/bash
+# Restart All Services (Backend + Frontend)
 
-# Script to rebuild and restart all services with fixes
+set -e
 
-echo "🔄 إعادة بناء وإعادة تشغيل جميع الخدمات..."
+cd "$(dirname "$0")"
 
-cd /home/ai/ai-agent
+echo "🔄 إعادة تشغيل جميع الخدمات (Backend + Frontend)..."
 
-echo "📦 إعادة بناء frontend containers..."
-docker-compose build frontend-dashboard frontend-crm frontend-aaa
-
+# Stop all services
 echo "🛑 إيقاف جميع الخدمات..."
-docker-compose down
+./backend-stop.sh
+./frontend-stop.sh
 
-echo "🚀 بدء تشغيل جميع الخدمات..."
-docker-compose up -d
+# Wait a bit
+sleep 3
 
-echo "⏳ انتظار 10 ثوانٍ للخدمات للبدء..."
-sleep 10
+# Start backend first
+echo "🚀 بدء تشغيل Backend..."
+./backend-start.sh
 
-echo "📊 حالة الخدمات:"
-docker-compose ps
+# Wait for backend to be ready
+sleep 5
+
+# Start frontend
+echo "🚀 بدء تشغيل Frontend..."
+./frontend-start.sh
+
+echo ""
+echo "📊 حالة جميع الخدمات:"
+docker compose ps
 
 echo ""
 echo "✅ تم إعادة تشغيل جميع الخدمات!"
-echo ""
-echo "📝 لمراقبة الـ logs:"
-echo "   docker-compose logs -f frontend-dashboard"
-echo "   docker-compose logs -f backend"
 echo ""
 echo "🌐 الروابط:"
 echo "   Dashboard: http://localhost:3000"
 echo "   CRM: http://localhost:3001"
 echo "   AAA: http://localhost:3002"
 echo "   Backend API: http://localhost:8000"
+echo "   Prometheus: http://localhost:9090"
+echo "   Grafana: http://localhost:3003"
+echo ""
+echo "📝 لمراقبة الـ logs:"
+echo "   Backend: docker compose logs -f backend"
+echo "   Frontend: docker compose logs -f frontend-dashboard"
 

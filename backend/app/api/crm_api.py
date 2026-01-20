@@ -1,4 +1,4 @@
-"""CRM API Routes - Tenant management dashboard."""
+"""CRM API Routes - Tenant management dashboard with caching."""
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.orm import Session
 from typing import List, Optional, Dict, Any
@@ -7,6 +7,7 @@ from datetime import datetime
 
 from app.core.database import get_db
 from app.core.aaa_middleware import get_current_user_context
+from app.core.cache import get_cache, set_cache, cache_key, invalidate_cache
 from app.crm import service as crm_service
 from app.crm.schemas import TenantUserCreate
 
@@ -25,15 +26,28 @@ async def list_tenants(
     user_context: Dict[str, Any] = Depends(get_current_user_context),
     db: Session = Depends(get_db)
 ):
-    """List all tenants with summary info."""
+    """List all tenants with summary info - cached for performance."""
+    # Generate cache key
+    cache_key_str = cache_key("crm:tenants:list", limit=limit, offset=offset)
+    
+    # Try cache first
+    cached_result = get_cache(cache_key_str)
+    if cached_result is not None:
+        return cached_result
+    
     try:
         tenants, total = crm_service.CRMService.list_tenants(db, limit, offset)
-        return {
+        result = {
             "tenants": tenants,
             "total": total,
             "limit": limit,
             "offset": offset
         }
+        
+        # Cache for 30 seconds
+        set_cache(cache_key_str, result, ttl=30)
+        
+        return result
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -47,7 +61,7 @@ async def create_tenant(
     user_context: Dict[str, Any] = Depends(get_current_user_context),
     db: Session = Depends(get_db)
 ):
-    """Create a new tenant."""
+    """Create a new tenant and invalidate cache."""
     from app.identity import service as identity_service
     from app.identity.schemas import TenantCreate
     
@@ -60,6 +74,9 @@ async def create_tenant(
         )
         
         tenant = identity_service.IdentityService.create_tenant(db, tenant_create)
+        
+        # Invalidate tenants list cache
+        invalidate_cache("crm:tenants:*")
         
         return {
             "id": str(tenant.id),
@@ -85,11 +102,23 @@ async def get_tenant_dashboard(
     user_context: Dict[str, Any] = Depends(get_current_user_context),
     db: Session = Depends(get_db)
 ):
-    """Get comprehensive tenant dashboard."""
+    """Get comprehensive tenant dashboard - cached for 60 seconds."""
+    # Generate cache key
+    cache_key_str = cache_key("crm:tenant:dashboard", tenant_id=str(tenant_id))
+    
+    # Try cache first
+    cached_result = get_cache(cache_key_str)
+    if cached_result is not None:
+        return cached_result
+    
     try:
         dashboard = crm_service.CRMService.get_tenant_dashboard(db, tenant_id)
         if not dashboard:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Tenant not found")
+        
+        # Cache for 60 seconds
+        set_cache(cache_key_str, dashboard, ttl=60)
+        
         return dashboard
     except HTTPException:
         raise

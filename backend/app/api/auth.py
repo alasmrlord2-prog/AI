@@ -5,44 +5,24 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from datetime import datetime, timedelta
 import time
 import logging
-from collections import defaultdict
 
 from app.models.auth import LoginRequest, RegisterRequest, TokenResponse
-from app.core.security import create_access_token, verify_token
+from app.core.security import create_access_token, create_refresh_token, verify_token
 from app.core.database import get_db
+from app.core.brute_force_protection import BruteForceProtection
+from app.core.session_manager import SessionManager
 from app.exceptions import AuthenticationError, AuthorizationError
 from app.core.config import get_settings
 
 logger = logging.getLogger(__name__)
 settings = get_settings()
 
-# Import auth functions (keeping existing auth.py for now)
-try:
-    from auth import (
-        authenticate_user, create_user, check_permission, can_approve, ROLES, load_users
-    )
-    AUTH_ENABLED = True
-except ImportError:
-    AUTH_ENABLED = False
-    def authenticate_user(*args, **kwargs):
-        return None
-    def create_user(*args, **kwargs):
-        return {}
-    def check_permission(*args, **kwargs):
-        return True
-    def can_approve(*args, **kwargs):
-        return True
-    ROLES = {}
-    load_users = lambda: {}
-
 router = APIRouter(prefix="/api/auth", tags=["auth"])
 
 security = HTTPBearer(auto_error=False)
 
-# Rate limiting storage (in production, use Redis)
-_login_attempts: Dict[str, Dict[str, Any]] = defaultdict(lambda: {"count": 0, "lockout_until": 0})
-MAX_LOGIN_ATTEMPTS = 5
-LOCKOUT_DURATION = 300  # 5 minutes
+# Brute force protection instance
+brute_force_protection = BruteForceProtection()
 
 
 def get_current_user(credentials: Optional[HTTPAuthorizationCredentials] = Depends(security)):
@@ -50,20 +30,37 @@ def get_current_user(credentials: Optional[HTTPAuthorizationCredentials] = Depen
     Get current user from JWT token.
     
     ✅ FIXED: Guest users now have role="guest" instead of "admin"
+    ✅ ENHANCED: Requires tenant_id in token for multi-tenancy
     """
-    if not AUTH_ENABLED:
-        # In development mode, return guest with LIMITED permissions
-        return {"email": "guest", "name": "Guest", "role": "guest", "tenant_id": None}
-    
     if credentials is None:
-        # ✅ FIXED: Guest has role="guest", NOT "admin"
-        return {"email": "guest", "name": "Guest", "role": "guest", "tenant_id": None}
+        raise AuthenticationError("Missing authentication credentials")
     
     token = credentials.credentials
     payload = verify_token(token)
     
     if payload is None:
         raise AuthenticationError("Invalid authentication credentials")
+
+    # Enforce active session to support logout/revocation
+    try:
+        db = next(get_db())
+        try:
+            session = SessionManager.get_session_by_token(db, token)
+            if not session or session.revoked:
+                raise AuthenticationError("Session expired or revoked")
+            SessionManager.update_last_used(db, token)
+        finally:
+            db.close()
+    except AuthenticationError:
+        raise
+    except Exception as e:
+        logger.error(f"Session validation failed: {e}", exc_info=True)
+        raise AuthenticationError("Session validation failed")
+    
+    # ✅ ENHANCED: Require tenant_id in token
+    tenant_id = payload.get("tenant_id")
+    if not tenant_id:
+        raise AuthenticationError("Token missing tenant_id - multi-tenant isolation required")
     
     # ✅ IMPROVED: Enrich payload with user data from Identity Service if available
     try:
@@ -90,17 +87,23 @@ def get_current_user(credentials: Optional[HTTPAuthorizationCredentials] = Depen
                         "name": user.full_name or user.email,
                         "role": active_tenant_user.role if active_tenant_user else "member",
                         "id": str(user.id),
-                        "tenant_id": str(active_tenant_user.tenant_id) if active_tenant_user else None,
+                        "tenant_id": str(active_tenant_user.tenant_id) if active_tenant_user else tenant_id,
                         "sub": str(user.id)
                     }
         finally:
             db.close()
     except Exception as e:
         logger.warning(f"Could not enrich user data from Identity Service: {e}")
-        # Return token payload as fallback
-        pass
     
-    return payload
+    # Return token payload as fallback
+    return {
+        "email": payload.get("email", "unknown"),
+        "name": payload.get("name", "Unknown"),
+        "role": payload.get("role", "member"),
+        "id": payload.get("sub"),
+        "tenant_id": tenant_id,
+        "sub": payload.get("sub")
+    }
 
 
 def require_role(allowed_roles: list):
@@ -114,62 +117,34 @@ def require_role(allowed_roles: list):
     return decorator
 
 
-def check_rate_limit(ip_address: str) -> bool:
-    """
-    ✅ NEW: Rate limiting for login attempts.
-    Returns True if request should be allowed, False if rate limited.
-    """
-    now = time.time()
-    attempts = _login_attempts[ip_address]
-    
-    # Check if still locked out
-    if attempts["lockout_until"] > now:
-        remaining = int(attempts["lockout_until"] - now)
-        logger.warning(f"Rate limit: IP {ip_address} is locked out for {remaining} more seconds")
-        return False
-    
-    # Reset if lockout expired
-    if attempts["lockout_until"] > 0 and attempts["lockout_until"] <= now:
-        attempts["count"] = 0
-        attempts["lockout_until"] = 0
-    
-    return True
-
-
-def record_failed_login(ip_address: str):
-    """Record a failed login attempt."""
-    attempts = _login_attempts[ip_address]
-    attempts["count"] += 1
-    
-    if attempts["count"] >= MAX_LOGIN_ATTEMPTS:
-        attempts["lockout_until"] = time.time() + LOCKOUT_DURATION
-        logger.warning(f"IP {ip_address} locked out after {attempts['count']} failed attempts")
-    else:
-        logger.info(f"Failed login attempt {attempts['count']}/{MAX_LOGIN_ATTEMPTS} from IP {ip_address}")
-
-
-def record_successful_login(ip_address: str):
-    """Reset failed login attempts on successful login."""
-    _login_attempts[ip_address] = {"count": 0, "lockout_until": 0}
-
-
 @router.post("/login", response_model=TokenResponse)
 async def login(req: LoginRequest, request: Request):
     """
-    Login endpoint - integrated with Identity Service.
+    Login endpoint - Production-grade with brute force protection.
     
-    ✅ IMPROVED:
-    - Rate limiting
-    - Better error handling
-    - Async-safe DB session management
+    ✅ FEATURES:
+    - Rate limiting per IP
+    - Account lockout after failed attempts
     - Refresh token support
+    - Session management
+    - Multi-tenant isolation (tenant_id required)
     """
-    # ✅ NEW: Rate limiting
+    # ✅ Rate limiting and brute force protection
     client_ip = request.client.host if request.client else "unknown"
-    if not check_rate_limit(client_ip):
+    
+    # Check IP rate limit
+    if not brute_force_protection.check_rate_limit(client_ip):
         raise HTTPException(
             status_code=status.HTTP_429_TOO_MANY_REQUESTS,
-            detail=f"Too many login attempts. Please try again in {int((_login_attempts[client_ip]['lockout_until'] - time.time()))} seconds."
+            detail="Too many requests. Please try again later."
+        )
+    
+    # Check account lockout
+    lockout_check = brute_force_protection.check_lockout(req.email)
+    if lockout_check["locked"]:
+        raise HTTPException(
+            status_code=status.HTTP_423_LOCKED,
+            detail=f"Account locked. Try again in {lockout_check['remaining_seconds']} seconds."
         )
     
     try:
@@ -177,8 +152,9 @@ async def login(req: LoginRequest, request: Request):
         try:
             from app.identity import service as identity_service
             from sqlalchemy.orm import Session
+            from uuid import UUID
             
-            # ✅ FIXED: Proper async-safe DB session management
+            # ✅ Proper async-safe DB session management
             db_gen = get_db()
             db: Session = next(db_gen)
             
@@ -187,15 +163,20 @@ async def login(req: LoginRequest, request: Request):
                 user = identity_service.IdentityService.authenticate_user(db, req.email, req.password)
                 
                 if not user:
-                    record_failed_login(client_ip)
+                    attempt_result = brute_force_protection.record_failed_attempt(req.email, client_ip)
+                    if attempt_result["locked"]:
+                        raise HTTPException(
+                            status_code=status.HTTP_423_LOCKED,
+                            detail=f"Account locked after {attempt_result.get('remaining_attempts', 0)} failed attempts."
+                        )
                     raise AuthenticationError("Incorrect email or password")
                 
-                # ✅ IMPROVED: Get user's tenant(s) - handle multiple tenants
+                # ✅ Get user's tenant(s) - handle multiple tenants
                 tenant_users = identity_service.IdentityService.get_user_tenant_memberships(db, user.id)
                 
                 if not tenant_users:
                     logger.warning(f"User {user.email} has no tenant assignments")
-                    record_failed_login(client_ip)
+                    brute_force_protection.record_failed_attempt(req.email, client_ip)
                     raise AuthenticationError("User has no tenant assignments")
                 
                 # Get active tenant (first one, or could be selected by user preference)
@@ -204,205 +185,183 @@ async def login(req: LoginRequest, request: Request):
                 
                 if not tenant:
                     logger.error(f"Tenant {tenant_user.tenant_id} not found for user {user.id}")
-                    record_failed_login(client_ip)
+                    brute_force_protection.record_failed_attempt(req.email, client_ip)
                     raise AuthenticationError("Tenant not found")
                 
-                # ✅ IMPROVED: Create token with proper expiration
+                # ✅ Create token with tenant_id (REQUIRED for multi-tenancy)
                 token_data = {
                     "sub": str(user.id),
                     "email": user.email,
-                    "tenant_id": str(tenant.id),
+                    "tenant_id": str(tenant.id),  # REQUIRED
                     "role": tenant_user.role,
                     "type": "access"
                 }
                 access_token = create_access_token(token_data)
                 
-                # ✅ NEW: Create refresh token
+                # ✅ Create refresh token
                 refresh_token_data = {
                     "sub": str(user.id),
                     "email": user.email,
                     "tenant_id": str(tenant.id),
-                    "type": "refresh"
                 }
-                refresh_token = create_access_token(
+                refresh_token = create_refresh_token(
                     refresh_token_data,
-                    expires_delta=timedelta(days=30)  # Refresh token valid for 30 days
+                    expires_delta=timedelta(days=30)
                 )
                 
-                # ✅ IMPROVED: Create session with proper error handling
+                # Create session with refresh token
+                access_expires = datetime.utcnow() + timedelta(hours=settings.JWT_EXPIRATION_HOURS)
+                refresh_expires = datetime.utcnow() + timedelta(days=30)
+                
+                # Create session using SessionManager (matches migration 002 schema)
                 try:
-                    identity_service.IdentityService.create_session(
+                    SessionManager.create_session(
                         db,
                         user.id,
+                        tenant.id,
                         access_token,
-                        device_info=request.headers.get("user-agent", "Unknown"),
+                        refresh_token,
+                        access_expires,
+                        refresh_expires,
                         ip_address=client_ip,
-                        user_agent=request.headers.get("user-agent", "Unknown")
+                        user_agent=request.headers.get("user-agent")
                     )
-                    db.commit()
                 except Exception as session_error:
-                    logger.error(f"Failed to create session: {session_error}")
-                    db.rollback()
-                    # Continue anyway - session creation failure shouldn't block login
+                    logger.warning(f"Session creation failed (non-critical): {session_error}")
+                    # Continue without session - login should still succeed
                 
-                # ✅ NEW: Record successful login
-                record_successful_login(client_ip)
+                # ✅ Clear failed attempts on successful login
+                brute_force_protection.clear_attempts(req.email)
                 
                 return TokenResponse(
                     access_token=access_token,
-                    refresh_token=refresh_token,  # ✅ NEW: Include refresh token
-                    user={
-                        "email": user.email,
-                        "name": user.full_name or user.email,
-                        "role": tenant_user.role,
-                        "id": str(user.id),
-                        "tenant_id": str(tenant.id)
-                    }
+                    refresh_token=refresh_token,
+                    token_type="bearer",
+                    expires_in=int(settings.JWT_EXPIRATION_HOURS * 3600)
                 )
+                
             finally:
-                # ✅ FIXED: Properly close DB session
                 db.close()
                 
+        except HTTPException:
+            raise
         except AuthenticationError:
             raise
-        except Exception as identity_error:
-            logger.error(f"Identity Service error: {identity_error}", exc_info=True)
-            # Fallback to old auth system if Identity Service fails
-            if not AUTH_ENABLED:
-                logger.warning("Identity Service failed and AUTH_ENABLED=False, creating guest token")
-                token = create_access_token({"email": req.email, "role": "guest"})
-                return TokenResponse(
-                    access_token=token,
-                    user={"email": req.email, "name": "Guest", "role": "guest"}
-                )
+        except Exception as e:
+            logger.error(f"Login error: {e}", exc_info=True)
+            brute_force_protection.record_failed_attempt(req.email, client_ip)
+            raise AuthenticationError("Login failed")
             
-            # Try old auth system
-            user = authenticate_user(req.email, req.password)
-            if not user:
-                record_failed_login(client_ip)
-                raise AuthenticationError("Incorrect email or password")
-            
-            record_successful_login(client_ip)
-            access_token = create_access_token({"email": user["email"], "role": user["role"]})
-            return TokenResponse(
-                access_token=access_token,
-                user=user
-            )
     except AuthenticationError:
         raise
     except Exception as e:
-        logger.error(f"Login error: {e}", exc_info=True)
+        logger.error(f"Unexpected login error: {e}", exc_info=True)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Login error occurred"
+            detail="Internal server error during login"
         )
 
 
-@router.post("/refresh")
-async def refresh_token(
-    refresh_token: str,
-    current_user: dict = Depends(get_current_user)
-):
+@router.post("/refresh", response_model=TokenResponse)
+async def refresh_token(request: Request, refresh_token: str):
     """
-    ✅ NEW: Refresh access token using refresh token.
+    Refresh access token using refresh token.
+    
+    ✅ FEATURES:
+    - Validates refresh token
+    - Creates new access token
+    - Updates session
+    - Multi-tenant isolation
     """
+    from app.core.session_manager import SessionManager
+    from sqlalchemy.orm import Session
+    from uuid import UUID
+    
+    db_gen = get_db()
+    db: Session = next(db_gen)
+    
     try:
+        # Verify refresh token
         payload = verify_token(refresh_token)
-        
         if not payload or payload.get("type") != "refresh":
-            raise AuthenticationError("Invalid refresh token")
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Invalid refresh token"
+            )
+        
+        # Get session
+        session = SessionManager.get_session_by_refresh_token(db, refresh_token)
+        if not session:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Session not found or expired"
+            )
+        
+        if session.revoked:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Session revoked"
+            )
+        
+        # Require tenant_id
+        tenant_id = payload.get("tenant_id")
+        if not tenant_id:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Refresh token missing tenant_id"
+            )
         
         # Create new access token
-        new_token_data = {
+        token_data = {
             "sub": payload.get("sub"),
             "email": payload.get("email"),
-            "tenant_id": payload.get("tenant_id"),
-            "role": payload.get("role"),
+            "tenant_id": tenant_id,
             "type": "access"
         }
-        new_access_token = create_access_token(new_token_data)
+        access_token = create_access_token(token_data)
         
-        return {
-            "access_token": new_access_token,
-            "token_type": "bearer"
-        }
-    except Exception as e:
-        logger.error(f"Token refresh error: {e}")
-        raise AuthenticationError("Failed to refresh token")
-
-
-@router.post("/register")
-async def register(req: RegisterRequest, current_user: dict = Depends(require_role(["admin"]))):
-    """
-    Register new user (admin only).
-    
-    ✅ FIXED: Now properly protected - guest users cannot register
-    """
-    if not AUTH_ENABLED:
-        return {"error": "Auth not enabled"}
-    
-    # ✅ IMPROVED: Additional check (defense in depth)
-    if current_user.get("role") != "admin":
-        raise AuthorizationError("Only administrators can register new users")
-    
-    try:
-        user = create_user(req.email, req.password, req.name, req.role)
-        logger.info(f"User {req.email} registered by admin {current_user.get('email')}")
-        return {"message": "User created", "email": user["email"]}
-    except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
-
-
-@router.get("/me")
-async def get_current_user_info(current_user: dict = Depends(get_current_user)):
-    """Get current user info."""
-    return current_user
-
-
-@router.get("/roles")
-async def get_roles():
-    """
-    Get available roles - from Identity Service directly.
-    
-    ✅ FIXED: Removed HTTP request loop - now calls service directly
-    """
-    try:
-        # ✅ FIXED: Direct service call instead of HTTP request
-        from app.identity import service as identity_service
-        from sqlalchemy.orm import Session
+        # Update session
+        from app.core.security import hash_token
+        session.token_hash = hash_token(access_token)
+        session.expires_at = datetime.utcnow() + timedelta(hours=settings.JWT_EXPIRATION_HOURS)
+        db.commit()
         
+        return TokenResponse(
+            access_token=access_token,
+            refresh_token=refresh_token,  # Return same refresh token
+            token_type="bearer",
+            expires_in=int(settings.JWT_EXPIRATION_HOURS * 3600)
+        )
+        
+    finally:
+        db.close()
+
+
+@router.post("/logout")
+async def logout(request: Request, current_user: dict = Depends(get_current_user)):
+    """Logout - revoke current session."""
+    from app.core.session_manager import SessionManager
+    from fastapi.security import HTTPBearer
+    
+    security = HTTPBearer()
+    credentials = await security(request)
+    
+    if credentials:
         db_gen = get_db()
-        db: Session = next(db_gen)
-        
+        db = next(db_gen)
         try:
-            # Get all tenant users and extract unique roles
-            all_tenant_users = identity_service.IdentityService.get_all_tenant_users(db)
-            roles_found = set()
-            
-            for tu in all_tenant_users:
-                if tu.role:
-                    roles_found.add(tu.role)
-            
-            # Also check if there's a roles API endpoint we can call directly
-            try:
-                from app.api.roles_config import router as roles_router
-                # If roles_router exists, we could call it, but direct DB access is better
-                pass
-            except ImportError:
-                pass
-            
-            return {
-                "roles": sorted(list(roles_found)) if roles_found else ["member", "admin"],
-                "permissions": {}
-            }
+            SessionManager.revoke_session(db, credentials.credentials)
         finally:
             db.close()
-            
-    except Exception as e:
-        logger.error(f"Error getting roles: {e}", exc_info=True)
-        # ✅ IMPROVED: Return safe default instead of empty
-        return {
-            "roles": ["member", "admin", "guest"],
-            "permissions": {},
-            "error": f"Could not fetch roles from Identity Service: {str(e)}"
-        }
+    
+    return {"message": "Logged out successfully"}
+
+
+@router.post("/register", response_model=Dict[str, Any])
+async def register(req: RegisterRequest, request: Request):
+    """Register new user - requires tenant context."""
+    # Implementation depends on your registration flow
+    raise HTTPException(
+        status_code=status.HTTP_501_NOT_IMPLEMENTED,
+        detail="Registration endpoint - implement based on your requirements"
+    )

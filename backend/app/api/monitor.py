@@ -1,5 +1,6 @@
 """Monitoring API endpoints."""
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from app.api.auth import get_current_user
 from app.core.config import get_settings
 import time
 
@@ -31,7 +32,7 @@ except ImportError:
 
 
 @router.get("")
-async def monitor_status():
+async def monitor_status(current_user: dict = Depends(get_current_user)):
     """Get system monitoring status - all data from real endpoints, no hardcoded values."""
     import asyncio
     
