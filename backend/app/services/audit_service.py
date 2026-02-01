@@ -43,11 +43,21 @@ class AuditService:
                 user TEXT NOT NULL,
                 action TEXT NOT NULL,
                 payload TEXT,
+                resource_id TEXT,
+                feature_key TEXT,
                 ip TEXT,
                 status TEXT,
                 created_at TEXT DEFAULT CURRENT_TIMESTAMP
             )
         """)
+
+        # Ensure new columns exist for existing databases
+        cursor.execute("PRAGMA table_info(audit_logs)")
+        columns = {row[1] for row in cursor.fetchall()}
+        if "resource_id" not in columns:
+            cursor.execute("ALTER TABLE audit_logs ADD COLUMN resource_id TEXT")
+        if "feature_key" not in columns:
+            cursor.execute("ALTER TABLE audit_logs ADD COLUMN feature_key TEXT")
         
         # Create indexes
         cursor.execute("""
@@ -68,6 +78,8 @@ class AuditService:
         user: str,
         action: ActionType,
         payload: Optional[Dict] = None,
+        resource_id: Optional[str] = None,
+        feature_key: Optional[str] = None,
         ip: Optional[str] = None,
         status: str = "success"
     ) -> int:
@@ -79,9 +91,9 @@ class AuditService:
         payload_json = json.dumps(payload) if payload else None
         
         cursor.execute("""
-            INSERT INTO audit_logs (timestamp, user, action, payload, ip, status)
-            VALUES (?, ?, ?, ?, ?, ?)
-        """, (timestamp, user, action.value, payload_json, ip, status))
+            INSERT INTO audit_logs (timestamp, user, action, payload, resource_id, feature_key, ip, status)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        """, (timestamp, user, action.value, payload_json, resource_id, feature_key, ip, status))
         
         log_id = cursor.lastrowid
         conn.commit()
@@ -93,6 +105,8 @@ class AuditService:
         self,
         user: Optional[str] = None,
         action: Optional[ActionType] = None,
+        resource_id: Optional[str] = None,
+        feature_key: Optional[str] = None,
         start_date: Optional[str] = None,
         end_date: Optional[str] = None,
         limit: int = 100,
@@ -113,6 +127,14 @@ class AuditService:
         if action:
             query += " AND action = ?"
             params.append(action.value)
+
+        if resource_id:
+            query += " AND resource_id = ?"
+            params.append(resource_id)
+
+        if feature_key:
+            query += " AND feature_key = ?"
+            params.append(feature_key)
         
         if start_date:
             query += " AND timestamp >= ?"
@@ -136,6 +158,8 @@ class AuditService:
                 "user": row["user"],
                 "action": row["action"],
                 "payload": json.loads(row["payload"]) if row["payload"] else None,
+                "resource_id": row["resource_id"],
+                "feature_key": row["feature_key"],
                 "ip": row["ip"],
                 "status": row["status"],
                 "created_at": row["created_at"]
@@ -149,6 +173,8 @@ class AuditService:
         self,
         user: Optional[str] = None,
         action: Optional[ActionType] = None,
+        resource_id: Optional[str] = None,
+        feature_key: Optional[str] = None,
         start_date: Optional[str] = None,
         end_date: Optional[str] = None
     ) -> int:
@@ -166,6 +192,14 @@ class AuditService:
         if action:
             query += " AND action = ?"
             params.append(action.value)
+
+        if resource_id:
+            query += " AND resource_id = ?"
+            params.append(resource_id)
+
+        if feature_key:
+            query += " AND feature_key = ?"
+            params.append(feature_key)
         
         if start_date:
             query += " AND timestamp >= ?"
@@ -186,6 +220,8 @@ class AuditService:
         output_file: str,
         user: Optional[str] = None,
         action: Optional[ActionType] = None,
+        resource_id: Optional[str] = None,
+        feature_key: Optional[str] = None,
         start_date: Optional[str] = None,
         end_date: Optional[str] = None
     ) -> Dict:
@@ -194,6 +230,8 @@ class AuditService:
             logs = self.get_logs(
                 user=user,
                 action=action,
+                resource_id=resource_id,
+                feature_key=feature_key,
                 start_date=start_date,
                 end_date=end_date,
                 limit=10000  # Large limit for export

@@ -283,6 +283,8 @@ async def get_tenant_audit_logs(
     offset: int = Query(0, ge=0),
     action: Optional[str] = Query(None),
     user_id: Optional[UUID] = Query(None),
+    resource_id: Optional[str] = Query(None),
+    feature_key: Optional[str] = Query(None),
     start_date: Optional[datetime] = Query(None),
     end_date: Optional[datetime] = Query(None),
     user_context: Dict[str, Any] = Depends(get_current_user_context),
@@ -290,7 +292,7 @@ async def get_tenant_audit_logs(
 ):
     """Get audit logs for tenant with filters."""
     logs, total = crm_service.CRMService.get_tenant_audit_logs(
-        db, tenant_id, limit, offset, action, user_id, start_date, end_date
+        db, tenant_id, limit, offset, action, user_id, resource_id, feature_key, start_date, end_date
     )
     return {
         "logs": logs,

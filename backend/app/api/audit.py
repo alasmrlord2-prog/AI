@@ -12,6 +12,8 @@ class LogActionRequest(BaseModel):
     """Log action request."""
     action: str
     payload: Optional[dict] = None
+    resource_id: Optional[str] = None
+    feature_key: Optional[str] = None
     status: str = "success"
 
 
@@ -34,6 +36,8 @@ async def log_action(
         user=current_user.get("email", "unknown"),
         action=action_type,
         payload=req.payload,
+        resource_id=req.resource_id,
+        feature_key=req.feature_key,
         ip=client_ip,
         status=req.status
     )
@@ -48,6 +52,8 @@ async def log_action(
 async def get_logs(
     user: Optional[str] = None,
     action: Optional[str] = None,
+    resource_id: Optional[str] = None,
+    feature_key: Optional[str] = None,
     start_date: Optional[str] = None,
     end_date: Optional[str] = None,
     limit: int = 100,
@@ -65,6 +71,8 @@ async def get_logs(
     logs = audit_service.get_logs(
         user=user,
         action=action_type,
+        resource_id=resource_id,
+        feature_key=feature_key,
         start_date=start_date,
         end_date=end_date,
         limit=limit,
@@ -74,6 +82,8 @@ async def get_logs(
     total = audit_service.get_log_count(
         user=user,
         action=action_type,
+        resource_id=resource_id,
+        feature_key=feature_key,
         start_date=start_date,
         end_date=end_date
     )
@@ -91,6 +101,8 @@ async def export_logs(
     output_file: str = "audit_export.json",
     user: Optional[str] = None,
     action: Optional[str] = None,
+    resource_id: Optional[str] = None,
+    feature_key: Optional[str] = None,
     start_date: Optional[str] = None,
     end_date: Optional[str] = None,
     current_user: dict = Depends(get_current_user)
@@ -107,6 +119,8 @@ async def export_logs(
         output_file=output_file,
         user=user,
         action=action_type,
+        resource_id=resource_id,
+        feature_key=feature_key,
         start_date=start_date,
         end_date=end_date
     )

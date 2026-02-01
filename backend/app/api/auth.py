@@ -12,6 +12,9 @@ from app.core.database import get_db
 from app.core.brute_force_protection import BruteForceProtection
 from app.core.session_manager import SessionManager
 from app.exceptions import AuthenticationError, AuthorizationError
+from app.audit.service import AuditService
+from app.identity.models import Tenant
+from app.features.models import TenantFeature
 from app.core.config import get_settings
 
 logger = logging.getLogger(__name__)
@@ -232,6 +235,31 @@ async def login(req: LoginRequest, request: Request):
                 
                 # ✅ Clear failed attempts on successful login
                 brute_force_protection.clear_attempts(req.email)
+
+                # ✅ Audit: login success
+                try:
+                    AuditService.log_login(
+                        db,
+                        email=user.email,
+                        status="success",
+                        user_id=user.id,
+                        ip_address=client_ip,
+                        user_agent=request.headers.get("user-agent"),
+                        session_id=None,
+                    )
+                    AuditService.log_action(
+                        db,
+                        action="login_success",
+                        user_id=user.id,
+                        tenant_id=tenant.id,
+                        endpoint=request.url.path,
+                        ip_address=client_ip,
+                        user_agent=request.headers.get("user-agent"),
+                        metadata={"email": user.email},
+                        status="success",
+                    )
+                except Exception:
+                    logger.warning("Failed to write login audit log", exc_info=True)
                 
                 return TokenResponse(
                     access_token=access_token,
@@ -243,13 +271,58 @@ async def login(req: LoginRequest, request: Request):
             finally:
                 db.close()
                 
-        except HTTPException:
+        except HTTPException as http_exc:
+            try:
+                db = next(get_db())
+                try:
+                    AuditService.log_login(
+                        db,
+                        email=req.email,
+                        status="blocked" if http_exc.status_code == status.HTTP_423_LOCKED else "failed",
+                        failure_reason=str(http_exc.detail),
+                        ip_address=client_ip,
+                        user_agent=request.headers.get("user-agent"),
+                    )
+                finally:
+                    db.close()
+            except Exception:
+                logger.warning("Failed to write login audit log", exc_info=True)
             raise
-        except AuthenticationError:
+        except AuthenticationError as auth_exc:
+            try:
+                db = next(get_db())
+                try:
+                    AuditService.log_login(
+                        db,
+                        email=req.email,
+                        status="failed",
+                        failure_reason=auth_exc.message,
+                        ip_address=client_ip,
+                        user_agent=request.headers.get("user-agent"),
+                    )
+                finally:
+                    db.close()
+            except Exception:
+                logger.warning("Failed to write login audit log", exc_info=True)
             raise
         except Exception as e:
             logger.error(f"Login error: {e}", exc_info=True)
             brute_force_protection.record_failed_attempt(req.email, client_ip)
+            try:
+                db = next(get_db())
+                try:
+                    AuditService.log_login(
+                        db,
+                        email=req.email,
+                        status="failed",
+                        failure_reason="login_error",
+                        ip_address=client_ip,
+                        user_agent=request.headers.get("user-agent"),
+                    )
+                finally:
+                    db.close()
+            except Exception:
+                logger.warning("Failed to write login audit log", exc_info=True)
             raise AuthenticationError("Login failed")
             
     except AuthenticationError:
@@ -351,6 +424,19 @@ async def logout(request: Request, current_user: dict = Depends(get_current_user
         db = next(db_gen)
         try:
             SessionManager.revoke_session(db, credentials.credentials)
+            try:
+                AuditService.log_action(
+                    db,
+                    action="logout",
+                    user_id=current_user.get("id"),
+                    tenant_id=current_user.get("tenant_id"),
+                    endpoint=request.url.path,
+                    ip_address=request.client.host if request.client else None,
+                    user_agent=request.headers.get("user-agent"),
+                    status="success",
+                )
+            except Exception:
+                logger.warning("Failed to write logout audit log", exc_info=True)
         finally:
             db.close()
     
@@ -365,3 +451,47 @@ async def register(req: RegisterRequest, request: Request):
         status_code=status.HTTP_501_NOT_IMPLEMENTED,
         detail="Registration endpoint - implement based on your requirements"
     )
+
+
+@router.get("/me")
+async def get_me(current_user: dict = Depends(get_current_user)):
+    """Return current user context, tenant info, and feature entitlements."""
+    db = next(get_db())
+    try:
+        tenant = None
+        tenant_id = current_user.get("tenant_id")
+        if tenant_id:
+            tenant = db.query(Tenant).filter(Tenant.id == tenant_id).first()
+
+        features = (
+            db.query(TenantFeature)
+            .filter(TenantFeature.tenant_id == tenant_id)
+            .all()
+            if tenant_id
+            else []
+        )
+        features_payload = {
+            feature.feature_key: {
+                "enabled": feature.enabled,
+                "limits": feature.limits or {},
+                "starts_at": feature.starts_at.isoformat() if feature.starts_at else None,
+                "ends_at": feature.ends_at.isoformat() if feature.ends_at else None,
+            }
+            for feature in features
+        }
+
+        tenant_payload = None
+        if tenant:
+            tenant_payload = {
+                "id": str(tenant.id),
+                "name": tenant.name,
+                "status": tenant.status,
+            }
+
+        return {
+            "user": current_user,
+            "tenant": tenant_payload,
+            "features": features_payload,
+        }
+    finally:
+        db.close()

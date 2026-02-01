@@ -10,6 +10,7 @@ class AuditLogBase(BaseModel):
     action: str
     resource_type: Optional[str] = None
     resource_id: Optional[str] = None
+    feature_key: Optional[str] = None
     ip_address: Optional[str] = None
     user_agent: Optional[str] = None
     endpoint: Optional[str] = None
@@ -66,6 +67,8 @@ class AuditLogQuery(BaseModel):
     tenant_id: Optional[UUID] = None
     action: Optional[str] = None
     resource_type: Optional[str] = None
+    resource_id: Optional[str] = None
+    feature_key: Optional[str] = None
     start_date: Optional[datetime] = None
     end_date: Optional[datetime] = None
     limit: int = Field(default=100, le=1000)

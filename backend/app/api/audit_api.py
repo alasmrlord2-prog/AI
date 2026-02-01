@@ -25,6 +25,7 @@ async def create_audit_log(
         tenant_id=log_data.tenant_id,
         resource_type=log_data.resource_type,
         resource_id=log_data.resource_id,
+        feature_key=log_data.feature_key,
         ip_address=log_data.ip_address or (request.client.host if request.client else None),
         user_agent=log_data.user_agent or request.headers.get("user-agent"),
         endpoint=log_data.endpoint,

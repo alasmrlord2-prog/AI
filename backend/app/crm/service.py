@@ -377,6 +377,8 @@ class CRMService:
         offset: int = 0,
         action: Optional[str] = None,
         user_id: Optional[UUID] = None,
+        resource_id: Optional[str] = None,
+        feature_key: Optional[str] = None,
         start_date: Optional[datetime] = None,
         end_date: Optional[datetime] = None
     ) -> tuple[List[Dict[str, Any]], int]:
@@ -389,6 +391,10 @@ class CRMService:
             query = query.filter(AuditLog.action == action)
         if user_id:
             query = query.filter(AuditLog.user_id == user_id)
+        if resource_id:
+            query = query.filter(AuditLog.resource_id == resource_id)
+        if feature_key:
+            query = query.filter(AuditLog.feature_key == feature_key)
         if start_date:
             query = query.filter(AuditLog.created_at >= start_date)
         if end_date:
@@ -404,6 +410,7 @@ class CRMService:
                 "action": log.action,
                 "resource_type": log.resource_type,
                 "resource_id": log.resource_id,
+                "feature_key": log.feature_key,
                 "user_id": str(log.user_id) if log.user_id else None,
                 "ip_address": log.ip_address,
                 "user_agent": log.user_agent,

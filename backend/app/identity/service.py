@@ -72,6 +72,7 @@ class IdentityService:
                 full_name=settings.DEFAULT_ADMIN_FULL_NAME,
                 status="active",
                 email_verified=True,
+                tenant_id=tenant.id if tenant else None,
             )
             db.add(user)
             db.flush()
@@ -90,6 +91,8 @@ class IdentityService:
             # Ensure full name is populated for a consistent admin record
             if not user.full_name:
                 user.full_name = settings.DEFAULT_ADMIN_FULL_NAME
+            if tenant and not user.tenant_id:
+                user.tenant_id = tenant.id
 
         # Ensure the admin has an active tenant and membership
         if not tenant:
@@ -153,7 +156,8 @@ class IdentityService:
             email=user_data.email,
             password_hash=get_password_hash(raw_password),
             full_name=user_data.full_name,
-            status="pending"
+            status="pending",
+            tenant_id=user_data.tenant_id,
         )
         db.add(user)
         db.commit()

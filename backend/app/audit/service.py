@@ -20,6 +20,7 @@ class AuditService:
         tenant_id: Optional[UUID] = None,
         resource_type: Optional[str] = None,
         resource_id: Optional[str] = None,
+        feature_key: Optional[str] = None,
         ip_address: Optional[str] = None,
         user_agent: Optional[str] = None,
         endpoint: Optional[str] = None,
@@ -34,6 +35,7 @@ class AuditService:
             action=action,
             resource_type=resource_type,
             resource_id=resource_id,
+            feature_key=feature_key,
             ip_address=ip_address,
             user_agent=user_agent,
             endpoint=endpoint,
@@ -97,6 +99,10 @@ class AuditService:
             db_query = db_query.filter(AuditLog.action == query.action)
         if query.resource_type:
             db_query = db_query.filter(AuditLog.resource_type == query.resource_type)
+        if query.resource_id:
+            db_query = db_query.filter(AuditLog.resource_id == query.resource_id)
+        if query.feature_key:
+            db_query = db_query.filter(AuditLog.feature_key == query.feature_key)
         if query.start_date:
             db_query = db_query.filter(AuditLog.created_at >= query.start_date)
         if query.end_date:

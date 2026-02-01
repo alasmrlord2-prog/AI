@@ -22,6 +22,7 @@ class AuditLog(Base):
     action = Column(String(100), nullable=False, index=True)  # "login", "create_project", "run_workflow", etc.
     resource_type = Column(String(100), nullable=True)  # "project", "workflow", "user", etc.
     resource_id = Column(String(255), nullable=True)  # ID of the resource
+    feature_key = Column(String(100), nullable=True)  # Feature gating key if applicable
     
     # Where/How
     ip_address = Column(String(45), nullable=True)

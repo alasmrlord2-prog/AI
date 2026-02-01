@@ -1,7 +1,7 @@
 """Main FastAPI application - Production-ready version with security and performance enhancements."""
 import logging
 from datetime import datetime
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
@@ -31,6 +31,7 @@ from app.api import (
 )
 from app.api.services_config import router as services_config_router
 from app.api.roles_config import router as roles_config_router
+from app.api.deps import require_auth
 
 # Import WebSocket and other endpoints
 from app.api.websocket import router as websocket_router
@@ -327,90 +328,92 @@ async def shutdown_event():
             logger.warning(f"Error closing Redis: {e}")
 
 # Include routers
+# Public routes (no auth guard)
 app.include_router(auth.router)
-app.include_router(chat.router)
-app.include_router(settings_router.router)  # Using settings_router (no duplicate import)
-app.include_router(logs.router)
-app.include_router(tools.router)
-app.include_router(monitor.router)
-app.include_router(billing.router)
-app.include_router(approvals.router)
-app.include_router(permissions.router)
-app.include_router(services_config_router)
-app.include_router(roles_config_router)
-app.include_router(websocket_router)
-app.include_router(security_router)
-app.include_router(filesystem_router)
-app.include_router(prometheus_router)
-app.include_router(agent_router)
-app.include_router(cicd_router)
-app.include_router(debugger_router)
-app.include_router(monitoring_router)
-app.include_router(audit_router)
-app.include_router(backup_router)
-app.include_router(incidents_router)
-app.include_router(workflows_router)
-app.include_router(visualization_router)
-app.include_router(dashboard_router)
-app.include_router(abac_router)
-app.include_router(threat_detection_router)
-app.include_router(timeline_router)
-app.include_router(config_drift_router)
-app.include_router(cost_analyzer_router)
-app.include_router(user_behavior_router)
-app.include_router(global_search_router)
-app.include_router(snapshot_rollback_router)
-app.include_router(incident_command_center_router)
-# Include optional routers only if available
-if unified_secrets_router:
-    app.include_router(unified_secrets_router)
-if service_dependency_router:
-    app.include_router(service_dependency_router)
-if kernel_metrics_router:
-    app.include_router(kernel_metrics_router)
-if auto_hardening_router:
-    app.include_router(auto_hardening_router)
-if shadow_deployment_router:
-    app.include_router(shadow_deployment_router)
-if performance_tuner_router:
-    app.include_router(performance_tuner_router)
-if behavior_alerts_router:
-    app.include_router(behavior_alerts_router)
-if blueprint_generator_router:
-    app.include_router(blueprint_generator_router)
-if code_review_router:
-    app.include_router(code_review_router)
-if plugin_store_router:
-    app.include_router(plugin_store_router)
-if workflow_builder_router:
-    app.include_router(workflow_builder_router)
-if agent_mesh_router:
-    app.include_router(agent_mesh_router)
-if digital_twin_router:
-    app.include_router(digital_twin_router)
-if knowledge_router:
-    app.include_router(knowledge_router)
 
-# Include new CRM + AAA routers - only if available
+# Protected routes (auth guard applied once)
+protected_routers = [
+    chat.router,
+    settings_router.router,
+    logs.router,
+    tools.router,
+    monitor.router,
+    billing.router,
+    approvals.router,
+    permissions.router,
+    services_config_router,
+    roles_config_router,
+    security_router,
+    filesystem_router,
+    agent_router,
+    cicd_router,
+    debugger_router,
+    monitoring_router,
+    audit_router,
+    backup_router,
+    incidents_router,
+    workflows_router,
+    visualization_router,
+    dashboard_router,
+    abac_router,
+    threat_detection_router,
+    timeline_router,
+    config_drift_router,
+    cost_analyzer_router,
+    user_behavior_router,
+    global_search_router,
+    snapshot_rollback_router,
+    incident_command_center_router,
+]
+
+for router in protected_routers:
+    app.include_router(router, dependencies=[Depends(require_auth)])
+
+# Non-API routes (no auth guard)
+app.include_router(websocket_router)
+app.include_router(prometheus_router)
+# Include optional routers only if available (protected)
+optional_protected_routers = [
+    unified_secrets_router,
+    service_dependency_router,
+    kernel_metrics_router,
+    auto_hardening_router,
+    shadow_deployment_router,
+    performance_tuner_router,
+    behavior_alerts_router,
+    blueprint_generator_router,
+    code_review_router,
+    plugin_store_router,
+    workflow_builder_router,
+    agent_mesh_router,
+    digital_twin_router,
+    knowledge_router,
+]
+
+for router in optional_protected_routers:
+    if router:
+        app.include_router(router, dependencies=[Depends(require_auth)])
+
+# Include new CRM + AAA routers - only if available (protected)
 if identity_router:
-    app.include_router(identity_router)
+    app.include_router(identity_router, dependencies=[Depends(require_auth)])
 if access_router:
-    app.include_router(access_router)
+    app.include_router(access_router, dependencies=[Depends(require_auth)])
 if policy_router:
-    app.include_router(policy_router)
+    app.include_router(policy_router, dependencies=[Depends(require_auth)])
 if subscription_router:
-    app.include_router(subscription_router)
+    app.include_router(subscription_router, dependencies=[Depends(require_auth)])
 if audit_api_router:
-    app.include_router(audit_api_router)
+    app.include_router(audit_api_router, dependencies=[Depends(require_auth)])
 if crm_router:
-    app.include_router(crm_router)
+    app.include_router(crm_router, dependencies=[Depends(require_auth)])
     print(f"[MAIN] ✅ CRM router included in app with prefix: {crm_router.prefix}")
     print(f"[MAIN] ✅ Total routes in app after CRM: {len([r for r in app.routes if hasattr(r, 'path')])}")
 else:
     print(f"[MAIN] ❌ CRITICAL: CRM router is None, not including!")
     print(f"[MAIN] ❌ This means CRM endpoints will NOT be available!")
 if capabilities_router:
-    app.include_router(capabilities_router)
+    app.include_router(capabilities_router, dependencies=[Depends(require_auth)])
 
 
 @app.get("/health")

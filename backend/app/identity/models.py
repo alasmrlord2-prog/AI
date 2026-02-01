@@ -13,6 +13,7 @@ class User(Base):
     __tablename__ = "users"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    tenant_id = Column(UUID(as_uuid=True), ForeignKey("tenants.id"), nullable=True, index=True)
     email = Column(String(255), unique=True, index=True, nullable=False)
     password_hash = Column(String(255), nullable=False)
     full_name = Column(String(255), nullable=True)
@@ -26,6 +27,7 @@ class User(Base):
 
     # Relationships (lazy loading to avoid circular imports)
     tenant_users = relationship("TenantUser", back_populates="user", cascade="all, delete-orphan", lazy="select")
+    tenant = relationship("Tenant", lazy="select")
     sessions = relationship("Session", back_populates="user", cascade="all, delete-orphan", lazy="select")
     api_tokens = relationship("APIToken", back_populates="user", cascade="all, delete-orphan", lazy="select")
 
