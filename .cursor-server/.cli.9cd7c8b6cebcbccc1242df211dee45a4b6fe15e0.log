@@ -1,0 +1,6 @@
+Listening on 127.0.0.1:35927
+[2025-11-27 06:37:05] info Disposed of connection to running server.
+[2025-11-27 06:37:06] info Checking /home/ai/.cursor-server/cli/servers/Stable-9cd7c8b6cebcbccc1242df211dee45a4b6fe15e0/log.txt and /home/ai/.cursor-server/cli/servers/Stable-9cd7c8b6cebcbccc1242df211dee45a4b6fe15e0/pid.txt for a running server...
+[2025-11-27 06:37:06] info Starting server...
+[2025-11-27 06:37:07] info Server started
+[2025-11-27 06:41:51] info Disposed of connection to running server.

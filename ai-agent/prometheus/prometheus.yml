@@ -1,0 +1,74 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    cluster: 'shiftwave-ai-platform'
+    environment: 'production'
+
+rule_files:
+  - '/etc/prometheus/alerts.yml'
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+            - 'alertmanager:9093'
+      timeout: 10s
+      api_version: v2
+
+scrape_configs:
+  # Backend API Metrics
+  - job_name: 'ai-backend'
+    static_configs:
+      - targets: ['backend:8000']
+        labels:
+          service: 'ai-backend'
+          environment: 'production'
+          component: 'api'
+    scrape_interval: 10s
+    scrape_timeout: 10s
+    metrics_path: '/metrics'
+    honor_labels: true
+
+  # PostgreSQL Metrics
+  - job_name: 'postgres'
+    static_configs:
+      - targets: ['postgres:5432']
+        labels:
+          service: 'postgresql'
+          environment: 'production'
+          component: 'database'
+    scrape_interval: 30s
+    scrape_timeout: 10s
+
+  # Redis Metrics
+  - job_name: 'redis'
+    static_configs:
+      - targets: ['redis:6379']
+        labels:
+          service: 'redis'
+          environment: 'production'
+          component: 'cache'
+    scrape_interval: 15s
+    scrape_timeout: 5s
+
+  # Ollama Metrics (if exporter available)
+  - job_name: 'ollama'
+    static_configs:
+      - targets: ['ollama:11434']
+        labels:
+          service: 'ollama'
+          environment: 'production'
+          component: 'ai'
+    scrape_interval: 30s
+    scrape_timeout: 10s
+
+  # Prometheus itself
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+        labels:
+          service: 'prometheus'
+          component: 'monitoring'
+    scrape_interval: 15s
+

@@ -1,0 +1,96 @@
+2026-01-21 05:46:37.475 [info] [main] Log level: Info
+2026-01-21 05:46:37.475 [info] [main] Validating found git in: "/usr/bin/git"
+2026-01-21 05:46:37.502 [info] [main] Using git "2.34.1" from "/usr/bin/git"
+2026-01-21 05:46:37.505 [info] [Model][doInitialScan] Initial repository scan started
+2026-01-21 05:46:38.237 [info] > git rev-parse --show-toplevel [31ms] (getRepositoryRoot)
+2026-01-21 05:46:38.237 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 05:46:38.279 [info] [Model][doInitialScan] Initial repository scan completed - repositories (0), closed repositories (0), parent repositories (0), unsafe repositories (0)
+2026-01-21 05:46:39.543 [info] > git config --get remote.origin.url [1165ms] 
+2026-01-21 05:46:39.895 [info] > git rev-parse --show-toplevel [44ms] (findGitRoot)
+2026-01-21 05:46:39.895 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 05:46:39.899 [info] > git rev-parse --show-toplevel [62ms] (findGitRoot)
+2026-01-21 05:46:39.899 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 05:46:39.900 [info] > git rev-parse --show-toplevel [166ms] 
+2026-01-21 05:46:39.900 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 05:46:39.902 [info] > git symbolic-ref --short refs/remotes/origin/HEAD [177ms] 
+2026-01-21 05:46:39.902 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 05:46:39.904 [info] > git config --get remote.origin.url [196ms] 
+2026-01-21 05:46:39.905 [info] > git log --skip=0 --max-count=1 --pretty=format:%H [215ms] 
+2026-01-21 05:46:39.905 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 05:46:39.905 [info] > git rev-parse --show-toplevel [236ms] 
+2026-01-21 05:46:39.905 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 05:46:39.905 [info] > git rev-parse --show-toplevel [254ms] 
+2026-01-21 05:46:39.905 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 05:46:39.943 [info] > git rev-parse --verify origin/main [17ms] 
+2026-01-21 05:46:39.943 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 05:46:40.339 [info] > git rev-parse --verify origin/master [380ms] 
+2026-01-21 05:46:40.339 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 05:46:40.513 [info] > git rev-parse --verify origin/develop [163ms] 
+2026-01-21 05:46:40.513 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 05:46:40.541 [info] > git branch -r [14ms] 
+2026-01-21 05:46:40.541 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 05:46:40.563 [info] > git rev-parse --show-toplevel [92ms] 
+2026-01-21 05:46:40.563 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 05:46:40.564 [info] > git rev-parse --show-toplevel [113ms] 
+2026-01-21 05:46:40.564 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 05:46:40.564 [info] > git rev-parse --show-toplevel [122ms] 
+2026-01-21 05:46:40.571 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 05:46:40.571 [info] > git rev-parse --show-toplevel [138ms] 
+2026-01-21 05:46:40.571 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 05:46:40.572 [info] > git rev-parse --show-toplevel [159ms] 
+2026-01-21 05:46:40.572 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 05:46:40.572 [info] > git rev-parse --show-toplevel [180ms] 
+2026-01-21 05:46:40.572 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 05:46:41.979 [info] > git config --get init.defaultBranch [1421ms] 
+2026-01-21 05:46:47.514 [info] > git config --global user.name [4ms] 
+2026-01-21 05:46:47.536 [info] > git config --global user.email [7ms] 
+2026-01-21 05:46:47.536 [info] [main] Stored git author name in global state:  <>
+2026-01-21 05:47:07.312 [info] > git rev-parse --show-toplevel [3ms] 
+2026-01-21 05:47:07.313 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 05:47:07.313 [info] > git rev-parse --show-toplevel [10ms] 
+2026-01-21 05:47:07.313 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 05:47:07.314 [info] > git rev-parse --show-toplevel [25ms] 
+2026-01-21 05:47:07.314 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 05:47:07.314 [info] > git rev-parse --show-toplevel [41ms] 
+2026-01-21 05:47:07.314 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 05:47:07.315 [info] > git rev-parse --show-toplevel [58ms] 
+2026-01-21 05:47:07.315 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 05:47:07.315 [info] > git rev-parse --show-toplevel [71ms] 
+2026-01-21 05:47:07.315 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 05:47:07.315 [info] > git rev-parse --show-toplevel [78ms] 
+2026-01-21 05:47:07.315 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 05:48:04.841 [info] > git rev-parse --show-toplevel [12ms] 
+2026-01-21 05:48:04.841 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 05:48:04.842 [info] > git rev-parse --show-toplevel [21ms] 
+2026-01-21 05:48:04.842 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 05:48:04.842 [info] > git rev-parse --show-toplevel [31ms] 
+2026-01-21 05:48:04.842 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 05:48:04.842 [info] > git rev-parse --show-toplevel [41ms] 
+2026-01-21 05:48:04.842 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 05:48:04.842 [info] > git rev-parse --show-toplevel [52ms] 
+2026-01-21 05:48:04.842 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 05:48:04.843 [info] > git rev-parse --show-toplevel [63ms] 
+2026-01-21 05:48:04.843 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 05:48:04.843 [info] > git rev-parse --show-toplevel [73ms] 
+2026-01-21 05:48:04.843 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 05:48:56.234 [info] > git rev-parse --show-toplevel [18ms] 
+2026-01-21 05:48:56.235 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 05:48:56.235 [info] > git rev-parse --show-toplevel [33ms] 
+2026-01-21 05:48:56.235 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 05:48:56.235 [info] > git rev-parse --show-toplevel [49ms] 
+2026-01-21 05:48:56.235 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 05:48:56.235 [info] > git rev-parse --show-toplevel [61ms] 
+2026-01-21 05:48:56.235 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 05:48:56.237 [info] > git rev-parse --show-toplevel [79ms] 
+2026-01-21 05:48:56.237 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 05:48:56.237 [info] > git rev-parse --show-toplevel [91ms] 
+2026-01-21 05:48:56.237 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 05:48:56.242 [info] > git rev-parse --show-toplevel [13ms] 
+2026-01-21 05:48:56.242 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 05:49:24.075 [info] > git rev-parse --show-toplevel [4ms] (getGitRepoPathForWorkspacePath)
+2026-01-21 05:49:24.075 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 05:49:30.468 [info] > git config --get remote.origin.url [4ms] (getGitRemoteUrl)
+2026-01-21 05:49:30.469 [info] > git config --get remote.origin.url [11ms] (getGitRemoteUrl)
+2026-01-21 05:49:30.470 [info] > git config --get remote.origin.url [20ms] (getGitRemoteUrl)
+2026-01-21 05:49:30.470 [info] > git config --get remote.origin.url [26ms] (getGitRemoteUrl)
+2026-01-21 05:49:30.470 [info] > git config --get remote.origin.url [39ms] (getGitRemoteUrl)

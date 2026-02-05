@@ -1,0 +1,74 @@
+groups:
+  - name: ai_backend_alerts
+    interval: 30s
+    rules:
+      # High CPU Load
+      - alert: HighCPUUsage
+        expr: system_cpu_load > 3
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High CPU load detected"
+          description: "CPU load is {{ $value }} (threshold: 3)"
+
+      # High Memory Usage
+      - alert: HighMemoryUsage
+        expr: (system_memory_used_bytes / 1024 / 1024 / 1024) > 8
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High memory usage"
+          description: "Memory usage is {{ $value | humanize }}GB"
+
+      # High Disk Usage
+      - alert: HighDiskUsage
+        expr: (system_disk_used_bytes / 1024 / 1024 / 1024) > 40
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High disk usage"
+          description: "Disk usage is {{ $value | humanize }}GB"
+
+      # Chat Errors
+      - alert: HighChatErrors
+        expr: rate(chat_errors_total[5m]) > 0.1
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "High chat error rate"
+          description: "Chat error rate is {{ $value | humanize }} errors/sec"
+
+      # Network High Traffic
+      - alert: HighNetworkTraffic
+        expr: network_rx_mbps > 1000 OR network_tx_mbps > 1000
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High network traffic"
+          description: "Network traffic: RX={{ $value }} Mbps or TX={{ $value }} Mbps"
+
+      # Too Many Connections
+      - alert: TooManyConnections
+        expr: network_connections_total > 500
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Too many network connections"
+          description: "Active connections: {{ $value }}"
+
+      # Backend Down
+      - alert: BackendDown
+        expr: up{job="ai-backend"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Backend is down"
+          description: "AI Backend is not responding"
+

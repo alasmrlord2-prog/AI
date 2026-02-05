@@ -1,0 +1,42 @@
+2026-01-20 12:10:39.461 [info] Extension host with pid 109676 started
+2026-01-20 12:10:39.461 [info] [ExtHostShellExec] Initializing terminal executor with userTerminalHint: undefined
+2026-01-20 12:10:39.461 [info] [ExtHostShellExec] Detecting sandbox support...
+2026-01-20 12:10:39.462 [info] [ExtHostShellExec] Platform: linux, Shell type: unknown
+2026-01-20 12:10:39.462 [info] [ExtHostShellExec] dirname: /home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/workbench/api/node
+2026-01-20 12:10:39.462 [info] [ExtHostShellExec] Sandbox helper path: /home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/resources/helpers/cursor-sandbox
+2026-01-20 12:10:39.462 [info] [ExtHostShellExec] process.resourcesPath: undefined
+2026-01-20 12:10:39.462 [info] [ExtHostShellExec] process.execPath: /home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/node
+2026-01-20 12:10:39.462 [info] [ExtHostShellExec] ripgrep path for sandboxing: /home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/resources/helpers/rg
+2026-01-20 12:10:39.462 [error] [shell-exec:sandbox] [isSandboxHelperSupported] Starting sandbox support check... undefined
+2026-01-20 12:10:39.462 [error] [shell-exec:sandbox] [checkBinaryAvailable] Resolved binary path: /home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/resources/helpers/cursor-sandbox undefined
+2026-01-20 12:10:39.462 [error] [shell-exec:sandbox] [checkBinaryAvailable] Binary path exists: true undefined
+2026-01-20 12:10:39.462 [error] [shell-exec:sandbox] [isSandboxHelperSupported] Running preflight with binary: /home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/resources/helpers/cursor-sandbox undefined
+2026-01-20 12:10:39.462 [error] [shell-exec:sandbox] [isSandboxHelperSupported] CWD: /home/ai undefined
+2026-01-20 12:10:39.462 [error] [shell-exec:sandbox] [isSandboxHelperSupported] Preflight succeeded, sandbox supported! undefined
+2026-01-20 12:10:39.462 [info] [ExtHostShellExec] Sandbox support detected: true
+2026-01-20 12:10:39.477 [info] Lock '/home/ai/.cursor-server/data/User/workspaceStorage/6ee029fe5f1672881c11d42bbe065b82/vscode.lock': Lock acquired.
+2026-01-20 12:10:39.716 [info] ExtensionService#_doActivateExtension vscode.emmet, startup: false, activationEvent: 'onLanguage'
+2026-01-20 12:10:39.720 [info] ExtensionService#_doActivateExtension vscode.git-base, startup: false, activationEvent: '*', root cause: anysphere.cursor-agent-exec
+2026-01-20 12:10:39.721 [info] ExtensionService#_doActivateExtension vscode.tunnel-forwarding, startup: false, activationEvent: 'onTunnel'
+2026-01-20 12:10:39.832 [info] ExtHostSearch [cursorIgnore] internal fileSearch start reason=cursorIgnoreCheck roots=1 include=**/.cursorignore maxResults=0 numThreads=(default) folderQueries=[{"cwd":"/home/ai","disregardIgnoreFiles":false,"disregardParentIgnoreFiles":true,"disregardGlobalIgnoreFiles":true,"ignoreSymlinks":false,"rgNoIgnore":false,"rgNoIgnoreParent":true,"rgNoIgnoreGlobal":true,"rgFollow":true}]
+2026-01-20 12:10:40.251 [info] ExtensionService#_doActivateExtension vscode.git, startup: false, activationEvent: '*', root cause: anysphere.cursor-agent-exec
+2026-01-20 12:10:40.254 [info] ExtensionService#_doActivateExtension vscode.github, startup: false, activationEvent: '*'
+2026-01-20 12:10:40.479 [info] ExtHostSearch /home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/node_modules/@vscode/ripgrep/bin/rg --files --hidden --case-sensitive --no-require-git -g '**/.cursorignore' -g '!**/.git' -g '!**/.svn' -g '!**/.hg' -g '!**/.DS_Store' -g '!**/Thumbs.db' -g '!**/node_modules' -g '!**/bower_components' -g '!**/*.code-search' --no-ignore-parent --follow --threads '10' --no-config --no-ignore-global
+ - cwd: /home/ai
+ - Sibling clauses: {}
+2026-01-20 12:10:40.645 [info] ExtHostSearch Search finished. Stats: {"cmdTime":178,"fileWalkTime":178,"directoriesWalked":0,"filesWalked":0,"cmdResultCount":0}
+2026-01-20 12:10:40.662 [info] ExtHostSearch [cursorIgnore] internal fileSearch done in 830ms limitHit=false failed=false resultCount=0 cmdTime=178 fileWalkTime=178 providerTime=(unknown)
+2026-01-20 12:10:41.743 [info] ExtensionService#_doActivateExtension anysphere.cursor-retrieval, startup: false, activationEvent: '*', root cause: anysphere.cursor-agent-exec
+2026-01-20 12:10:42.443 [info] ExtensionService#_doActivateExtension anysphere.cursor-agent-exec, startup: false, activationEvent: '*'
+2026-01-20 12:10:44.075 [info] ExtensionService#_doActivateExtension anysphere.cursor-mcp, startup: false, activationEvent: 'api', root cause: anysphere.cursor-agent-exec
+2026-01-20 12:10:45.192 [info] Eager extensions activated
+2026-01-20 12:10:45.193 [info] ExtensionService#_doActivateExtension anysphere.cursor-shadow-workspace, startup: false, activationEvent: 'onStartupFinished'
+2026-01-20 12:10:45.194 [info] ExtensionService#_doActivateExtension vscode.debug-auto-launch, startup: false, activationEvent: 'onStartupFinished'
+2026-01-20 12:10:45.195 [info] ExtensionService#_doActivateExtension vscode.merge-conflict, startup: false, activationEvent: 'onStartupFinished'
+2026-01-20 12:16:56.089 [info] ExtensionService#_doActivateExtension anysphere.cursorpyright, startup: false, activationEvent: 'onLanguage:python'
+2026-01-20 12:16:56.090 [info] ExtensionService#_doActivateExtension ms-python.python, startup: false, activationEvent: 'onLanguage:python'
+2026-01-20 12:16:56.090 [info] ExtensionService#_doActivateExtension ms-toolsai.jupyter, startup: false, activationEvent: 'onLanguage:python'
+2026-01-20 12:16:57.587 [info] ExtensionService#_doActivateExtension ms-toolsai.jupyter-renderers, startup: false, activationEvent: 'api', root cause: ms-toolsai.jupyter
+2026-01-20 12:16:59.293 [warning] DiagnosticCollection with name 'basedpyright' does already exist.
+2026-01-20 12:16:59.522 [warning] DiagnosticCollection with name 'basedpyright' does already exist.
+2026-01-20 12:21:14.008 [info] ExtensionService#_doActivateExtension vscode.typescript-language-features, startup: false, activationEvent: 'onLanguage:typescriptreact'

@@ -1,0 +1,223 @@
+2025-12-14 08:31:19.633 [info] Extension host with pid 7415 started
+2025-12-14 08:31:19.633 [info] [ExtHostShellExec] Initializing terminal executor with userTerminalHint: undefined
+2025-12-14 08:31:19.633 [info] [ExtHostShellExec] Detecting sandbox support...
+2025-12-14 08:31:19.633 [info] [ExtHostShellExec] Platform: linux, Shell type: unknown
+2025-12-14 08:31:19.633 [info] [ExtHostShellExec] dirname: /home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node
+2025-12-14 08:31:19.633 [info] [ExtHostShellExec] Linux sandbox helper path: /home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/resources/helpers/cursor-sandbox
+2025-12-14 08:31:19.633 [info] [ExtHostShellExec] process.resourcesPath: undefined
+2025-12-14 08:31:19.633 [info] [ExtHostShellExec] process.execPath: /home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/node
+2025-12-14 08:31:19.633 [info] [ExtHostShellExec] ripgrep path for sandboxing: /home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/node_modules/@vscode/ripgrep/bin/rg
+2025-12-14 08:31:19.633 [error] [shell-exec:sandbox] [isLinuxSandboxSupported] Starting sandbox support check... undefined
+2025-12-14 08:31:19.633 [error] [shell-exec:sandbox] [checkBinaryAvailable] Resolved binary path: /home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/resources/helpers/cursor-sandbox undefined
+2025-12-14 08:31:19.633 [error] [shell-exec:sandbox] [checkBinaryAvailable] Binary found at: /home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/resources/helpers/cursor-sandbox undefined
+2025-12-14 08:31:19.633 [error] [shell-exec:sandbox] [isLinuxSandboxSupported] Running preflight with binary: /home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/resources/helpers/cursor-sandbox undefined
+2025-12-14 08:31:19.633 [error] [shell-exec:sandbox] [isLinuxSandboxSupported] CWD: /home/ai undefined
+2025-12-14 08:31:19.633 [error] [shell-exec:sandbox] [isLinuxSandboxSupported] Preflight failed: Command failed: /home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/resources/helpers/cursor-sandbox --sandbox-policy-cwd /home/ai --sandbox-policy {"type":"workspace_readwrite","cwd":"/home/ai","additional_readwrite_paths":[],"additional_readonly_paths":[],"network_access":false,"disable_tmp_write":false,"block_git_writes":false} --preflight-only -- /bin/true undefined
+2025-12-14 08:31:19.633 [error] [shell-exec:sandbox] [isLinuxSandboxSupported] Exit status: 1 undefined
+2025-12-14 08:31:19.633 [info] [ExtHostShellExec] Sandbox support detected: false
+2025-12-14 08:31:20.058 [info] ExtensionService#_doActivateExtension vscode.emmet, startup: false, activationEvent: 'onLanguage'
+2025-12-14 08:31:20.400 [info] ExtensionService#_doActivateExtension anysphere.cursor-agent-exec, startup: true, activationEvent: '*'
+2025-12-14 08:31:20.401 [info] ExtensionService#_doActivateExtension vscode.git-base, startup: true, activationEvent: '*', root cause: vscode.git
+2025-12-14 08:31:21.214 [info] ExtensionService#_doActivateExtension anysphere.cursor-mcp, startup: false, activationEvent: 'api', root cause: anysphere.cursor-agent-exec
+2025-12-14 08:31:21.648 [info] ExtensionService#_doActivateExtension vscode.git, startup: true, activationEvent: '*'
+2025-12-14 08:31:21.648 [info] ExtensionService#_doActivateExtension vscode.github, startup: true, activationEvent: '*'
+2025-12-14 08:31:22.193 [info] Eager extensions activated
+2025-12-14 08:31:22.193 [info] ExtensionService#_doActivateExtension anysphere.cursor-browser-connect, startup: false, activationEvent: 'onStartupFinished'
+2025-12-14 08:31:22.194 [info] ExtensionService#_doActivateExtension anysphere.cursor-retrieval, startup: false, activationEvent: 'onStartupFinished'
+2025-12-14 08:31:22.194 [info] ExtensionService#_doActivateExtension anysphere.cursor-shadow-workspace, startup: false, activationEvent: 'onStartupFinished'
+2025-12-14 08:31:22.195 [info] ExtensionService#_doActivateExtension vscode.debug-auto-launch, startup: false, activationEvent: 'onStartupFinished'
+2025-12-14 08:31:22.195 [info] ExtensionService#_doActivateExtension vscode.merge-conflict, startup: false, activationEvent: 'onStartupFinished'
+2025-12-14 08:31:22.762 [info] Extension host terminating: received terminate message from renderer
+2025-12-14 08:31:22.782 [error] Canceled: Canceled
+	at Dd (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:22:1529)
+	at file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:166234
+	at Array.forEach (<anonymous>)
+	at q0e.dispose (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:166140)
+	at Kss.terminate (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:138:12911)
+	at LVe.terminate (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:140:1617)
+	at _r (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:749:17945)
+	at Gpe.value (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:749:16070)
+	at x._deliver (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:42:2961)
+	at x.fire (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:42:3282)
+	at jo.fire (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:10988)
+	at Dke._receiveMessage (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:15941)
+	at Gpe.value (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:13302)
+	at x._deliver (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:42:2961)
+	at x.fire (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:42:3282)
+	at ZLe.acceptChunk (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:8782)
+	at file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:7910
+	at Socket.e (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:19505)
+	at Socket.emit (node:events:518:28)
+	at addChunk (node:internal/streams/readable:561:12)
+	at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+	at Readable.push (node:internal/streams/readable:392:5)
+	at Pipe.onStreamRead (node:internal/stream_base_commons:191:23) setContext undefined
+2025-12-14 08:31:22.783 [error] Canceled: Canceled
+	at Dd (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:22:1529)
+	at file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:166234
+	at Array.forEach (<anonymous>)
+	at q0e.dispose (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:166140)
+	at Kss.terminate (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:138:12911)
+	at LVe.terminate (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:140:1617)
+	at _r (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:749:17945)
+	at Gpe.value (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:749:16070)
+	at x._deliver (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:42:2961)
+	at x.fire (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:42:3282)
+	at jo.fire (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:10988)
+	at Dke._receiveMessage (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:15941)
+	at Gpe.value (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:13302)
+	at x._deliver (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:42:2961)
+	at x.fire (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:42:3282)
+	at ZLe.acceptChunk (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:8782)
+	at file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:7910
+	at Socket.e (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:19505)
+	at Socket.emit (node:events:518:28)
+	at addChunk (node:internal/streams/readable:561:12)
+	at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+	at Readable.push (node:internal/streams/readable:392:5)
+	at Pipe.onStreamRead (node:internal/stream_base_commons:191:23) setContext undefined
+2025-12-14 08:31:22.783 [error] Canceled: Canceled
+	at Dd (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:22:1529)
+	at file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:166234
+	at Array.forEach (<anonymous>)
+	at q0e.dispose (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:166140)
+	at Kss.terminate (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:138:12911)
+	at LVe.terminate (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:140:1617)
+	at _r (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:749:17945)
+	at Gpe.value (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:749:16070)
+	at x._deliver (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:42:2961)
+	at x.fire (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:42:3282)
+	at jo.fire (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:10988)
+	at Dke._receiveMessage (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:15941)
+	at Gpe.value (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:13302)
+	at x._deliver (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:42:2961)
+	at x.fire (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:42:3282)
+	at ZLe.acceptChunk (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:8782)
+	at file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:7910
+	at Socket.e (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:19505)
+	at Socket.emit (node:events:518:28)
+	at addChunk (node:internal/streams/readable:561:12)
+	at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+	at Readable.push (node:internal/streams/readable:392:5)
+	at Pipe.onStreamRead (node:internal/stream_base_commons:191:23) setContext undefined
+2025-12-14 08:31:22.783 [error] Canceled: Canceled
+	at Dd (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:22:1529)
+	at file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:166234
+	at Array.forEach (<anonymous>)
+	at q0e.dispose (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:166140)
+	at Kss.terminate (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:138:12911)
+	at LVe.terminate (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:140:1617)
+	at _r (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:749:17945)
+	at Gpe.value (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:749:16070)
+	at x._deliver (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:42:2961)
+	at x.fire (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:42:3282)
+	at jo.fire (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:10988)
+	at Dke._receiveMessage (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:15941)
+	at Gpe.value (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:13302)
+	at x._deliver (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:42:2961)
+	at x.fire (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:42:3282)
+	at ZLe.acceptChunk (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:8782)
+	at file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:7910
+	at Socket.e (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:19505)
+	at Socket.emit (node:events:518:28)
+	at addChunk (node:internal/streams/readable:561:12)
+	at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+	at Readable.push (node:internal/streams/readable:392:5)
+	at Pipe.onStreamRead (node:internal/stream_base_commons:191:23) setContext undefined
+2025-12-14 08:31:22.784 [error] Canceled: Canceled
+	at Dd (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:22:1529)
+	at file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:166234
+	at Array.forEach (<anonymous>)
+	at q0e.dispose (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:166140)
+	at Kss.terminate (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:138:12911)
+	at LVe.terminate (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:140:1617)
+	at _r (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:749:17945)
+	at Gpe.value (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:749:16070)
+	at x._deliver (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:42:2961)
+	at x.fire (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:42:3282)
+	at jo.fire (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:10988)
+	at Dke._receiveMessage (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:15941)
+	at Gpe.value (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:13302)
+	at x._deliver (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:42:2961)
+	at x.fire (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:42:3282)
+	at ZLe.acceptChunk (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:8782)
+	at file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:7910
+	at Socket.e (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:19505)
+	at Socket.emit (node:events:518:28)
+	at addChunk (node:internal/streams/readable:561:12)
+	at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+	at Readable.push (node:internal/streams/readable:392:5)
+	at Pipe.onStreamRead (node:internal/stream_base_commons:191:23) setContext undefined
+2025-12-14 08:31:22.784 [error] Canceled: Canceled
+	at Dd (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:22:1529)
+	at file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:166234
+	at Array.forEach (<anonymous>)
+	at q0e.dispose (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:166140)
+	at Kss.terminate (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:138:12911)
+	at LVe.terminate (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:140:1617)
+	at _r (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:749:17945)
+	at Gpe.value (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:749:16070)
+	at x._deliver (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:42:2961)
+	at x.fire (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:42:3282)
+	at jo.fire (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:10988)
+	at Dke._receiveMessage (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:15941)
+	at Gpe.value (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:13302)
+	at x._deliver (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:42:2961)
+	at x.fire (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:42:3282)
+	at ZLe.acceptChunk (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:8782)
+	at file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:7910
+	at Socket.e (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:19505)
+	at Socket.emit (node:events:518:28)
+	at addChunk (node:internal/streams/readable:561:12)
+	at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+	at Readable.push (node:internal/streams/readable:392:5)
+	at Pipe.onStreamRead (node:internal/stream_base_commons:191:23) setContext undefined
+2025-12-14 08:31:22.784 [error] Canceled: Canceled
+	at Dd (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:22:1529)
+	at file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:166234
+	at Array.forEach (<anonymous>)
+	at q0e.dispose (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:166140)
+	at Kss.terminate (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:138:12911)
+	at LVe.terminate (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:140:1617)
+	at _r (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:749:17945)
+	at Gpe.value (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:749:16070)
+	at x._deliver (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:42:2961)
+	at x.fire (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:42:3282)
+	at jo.fire (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:10988)
+	at Dke._receiveMessage (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:15941)
+	at Gpe.value (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:13302)
+	at x._deliver (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:42:2961)
+	at x.fire (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:42:3282)
+	at ZLe.acceptChunk (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:8782)
+	at file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:7910
+	at Socket.e (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:19505)
+	at Socket.emit (node:events:518:28)
+	at addChunk (node:internal/streams/readable:561:12)
+	at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+	at Readable.push (node:internal/streams/readable:392:5)
+	at Pipe.onStreamRead (node:internal/stream_base_commons:191:23) setContext undefined
+2025-12-14 08:31:22.784 [error] Canceled: Canceled
+	at Dd (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:22:1529)
+	at file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:166234
+	at Array.forEach (<anonymous>)
+	at q0e.dispose (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:166140)
+	at Kss.terminate (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:138:12911)
+	at LVe.terminate (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:140:1617)
+	at _r (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:749:17945)
+	at Gpe.value (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:749:16070)
+	at x._deliver (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:42:2961)
+	at x.fire (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:42:3282)
+	at jo.fire (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:10988)
+	at Dke._receiveMessage (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:15941)
+	at Gpe.value (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:13302)
+	at x._deliver (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:42:2961)
+	at x.fire (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:42:3282)
+	at ZLe.acceptChunk (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:8782)
+	at file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:7910
+	at Socket.e (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:44:19505)
+	at Socket.emit (node:events:518:28)
+	at addChunk (node:internal/streams/readable:561:12)
+	at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+	at Readable.push (node:internal/streams/readable:392:5)
+	at Pipe.onStreamRead (node:internal/stream_base_commons:191:23) setContext undefined
+2025-12-14 08:31:22.823 [info] Extension host with pid 7415 exiting with code 0

@@ -1,0 +1,97 @@
+0 verbose cli /usr/local/bin/node /usr/local/bin/npm
+1 info using npm@11.6.2
+2 info using node@v24.11.1
+3 silly config load:file:/usr/local/lib/node_modules/npm/npmrc
+4 silly config load:file:/home/ai/.cache/typescript/5.9/.npmrc
+5 silly config load:file:/home/ai/.npmrc
+6 silly config load:file:/usr/local/etc/npmrc
+7 verbose title npm install types-registry@latest
+8 verbose argv "install" "--ignore-scripts" "types-registry@latest"
+9 verbose logfile logs-max:10 dir:/home/ai/.npm/_logs/2026-02-01T07_55_20_469Z-
+10 verbose logfile /home/ai/.npm/_logs/2026-02-01T07_55_20_469Z-debug-0.log
+11 silly logfile start cleaning logs, removing 1 files
+12 silly packumentCache heap:2348810240 maxSize:587202560 maxEntrySize:293601280
+13 silly logfile done cleaning log files
+14 silly packumentCache corgi:https://registry.npmjs.org/types-registry cache-miss
+15 http fetch GET 200 https://registry.npmjs.org/npm 152ms
+16 http fetch GET 200 https://registry.npmjs.org/types-registry 119ms (cache updated)
+17 silly packumentCache corgi:https://registry.npmjs.org/types-registry set size:undefined disposed:false
+18 silly idealTree buildDeps
+19 silly fetch manifest types-registry@0.1.755
+20 silly packumentCache full:https://registry.npmjs.org/types-registry cache-miss
+21 http fetch GET 200 https://registry.npmjs.org/types-registry 74ms (cache updated)
+22 silly packumentCache full:https://registry.npmjs.org/types-registry set size:undefined disposed:false
+23 silly placeDep ROOT types-registry@0.1.755 REPLACE for:  want: 0.1.755
+24 silly reify mark retired [ '/home/ai/.cache/typescript/5.9/node_modules/types-registry' ]
+25 silly reify moves {
+25 silly reify   '/home/ai/.cache/typescript/5.9/node_modules/types-registry': '/home/ai/.cache/typescript/5.9/node_modules/.types-registry-6kndegkn'
+25 silly reify }
+26 silly audit bulk request {
+26 silly audit   '@babel/code-frame': [ '7.27.1' ],
+26 silly audit   '@babel/helper-validator-identifier': [ '7.28.5' ],
+26 silly audit   '@jest/diff-sequences': [ '30.0.1' ],
+26 silly audit   '@jest/expect-utils': [ '30.2.0' ],
+26 silly audit   '@jest/get-type': [ '30.1.0' ],
+26 silly audit   '@jest/pattern': [ '30.0.1' ],
+26 silly audit   '@jest/schemas': [ '30.0.5' ],
+26 silly audit   '@jest/types': [ '30.2.0' ],
+26 silly audit   '@sinclair/typebox': [ '0.34.41' ],
+26 silly audit   '@types/istanbul-lib-coverage': [ '2.0.6' ],
+26 silly audit   '@types/istanbul-lib-report': [ '3.0.3' ],
+26 silly audit   '@types/istanbul-reports': [ '3.0.4' ],
+26 silly audit   '@types/jest': [ '30.0.0' ],
+26 silly audit   '@types/node': [ '24.10.1' ],
+26 silly audit   '@types/react': [ '19.2.8' ],
+26 silly audit   '@types/react-dom': [ '19.2.3' ],
+26 silly audit   '@types/stack-utils': [ '2.0.3' ],
+26 silly audit   '@types/yargs': [ '17.0.35' ],
+26 silly audit   '@types/yargs-parser': [ '21.0.3' ],
+26 silly audit   'ansi-styles': [ '4.3.0', '5.2.0' ],
+26 silly audit   braces: [ '3.0.3' ],
+26 silly audit   chalk: [ '4.1.2' ],
+26 silly audit   'ci-info': [ '4.3.1' ],
+26 silly audit   'color-convert': [ '2.0.1' ],
+26 silly audit   'color-name': [ '1.1.4' ],
+26 silly audit   csstype: [ '3.2.2' ],
+26 silly audit   'escape-string-regexp': [ '2.0.0' ],
+26 silly audit   expect: [ '30.2.0' ],
+26 silly audit   'fill-range': [ '7.1.1' ],
+26 silly audit   'graceful-fs': [ '4.2.11' ],
+26 silly audit   'has-flag': [ '4.0.0' ],
+26 silly audit   'is-number': [ '7.0.0' ],
+26 silly audit   'jest-diff': [ '30.2.0' ],
+26 silly audit   'jest-matcher-utils': [ '30.2.0' ],
+26 silly audit   'jest-message-util': [ '30.2.0' ],
+26 silly audit   'jest-mock': [ '30.2.0' ],
+26 silly audit   'jest-regex-util': [ '30.0.1' ],
+26 silly audit   'jest-util': [ '30.2.0' ],
+26 silly audit   'js-tokens': [ '4.0.0' ],
+26 silly audit   micromatch: [ '4.0.8' ],
+26 silly audit   picomatch: [ '2.3.1', '4.0.3' ],
+26 silly audit   picocolors: [ '1.1.1' ],
+26 silly audit   'pretty-format': [ '30.2.0' ],
+26 silly audit   'react-is': [ '18.3.1' ],
+26 silly audit   slash: [ '3.0.0' ],
+26 silly audit   'stack-utils': [ '2.0.6' ],
+26 silly audit   'supports-color': [ '7.2.0' ],
+26 silly audit   'to-regex-range': [ '5.0.1' ],
+26 silly audit   'undici-types': [ '7.16.0' ],
+26 silly audit   'types-registry': [ '0.1.755' ]
+26 silly audit }
+27 http cache types-registry@https://registry.npmjs.org/types-registry/-/types-registry-0.1.755.tgz 0ms (cache hit)
+28 silly tarball no local data for types-registry@https://registry.npmjs.org/types-registry/-/types-registry-0.1.755.tgz. Extracting by manifest.
+29 http fetch GET 200 https://registry.npmjs.org/types-registry/-/types-registry-0.1.755.tgz 116ms (cache miss)
+30 http fetch POST 200 https://registry.npmjs.org/-/npm/v1/security/advisories/bulk 186ms
+31 silly audit report {}
+32 silly CHANGE node_modules/types-registry
+33 verbose cwd /home/ai/.cache/typescript/5.9
+34 verbose os Linux 6.8.0-1044-aws
+35 verbose node v24.11.1
+36 verbose npm  v11.6.2
+37 notice
+37 notice New minor version of npm available! 11.6.2 -> 11.8.0
+37 notice Changelog: https://github.com/npm/cli/releases/tag/v11.8.0
+37 notice To update run: npm install -g npm@11.8.0
+37 notice  { force: true, Symbol(proc-log.meta): true }
+38 verbose exit 0
+39 info ok

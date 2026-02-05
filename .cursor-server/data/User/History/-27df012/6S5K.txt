@@ -1,0 +1,10 @@
+fastapi
+uvicorn[standard]
+requests
+python-multipart
+pydantic
+python-jose[cryptography]
+passlib[bcrypt]
+python-multipart
+prometheus-client
+

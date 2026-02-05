@@ -1,0 +1,530 @@
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: ai-agent-postgres
+    environment:
+      POSTGRES_USER: aiagent
+      POSTGRES_PASSWORD: aiagent123
+      POSTGRES_DB: ai_agent_db
+      # Production-ready PostgreSQL settings
+      POSTGRES_INITDB_ARGS: "-E UTF8 --locale=C"
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - ai-agent-network
+    restart: unless-stopped
+    # Resource limits for production
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aiagent"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    # Security: run as non-root user
+    user: "999:999"
+    # Security: read-only root filesystem where possible
+    read_only: false
+    # Security: no new privileges
+    security_opt:
+      - no-new-privileges:true
+    # Logging configuration
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # Ollama Service
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ai-agent-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    networks:
+      - ai-agent-network
+    restart: unless-stopped
+    # Resource limits for AI service
+    deploy:
+      resources:
+        limits:
+          cpus: '4.0'
+          memory: 8G
+        reservations:
+          cpus: '1.0'
+          memory: 2G
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:11434/api/tags || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    # Logging configuration
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      # Build args for production optimization
+      args:
+        - BUILD_ENV=production
+    container_name: ai-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://aiagent:aiagent123@postgres:5432/ai_agent_db
+      - OLLAMA_URL=http://ollama:11434
+      # Redis configuration
+      - REDIS_URL=redis://redis:6379/0
+      - REDIS_ENABLED=true
+      # Environment-specific settings (override in production)
+      - DEBUG=${DEBUG:-false}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - CORS_ORIGINS=${CORS_ORIGINS:-["*"]}
+      - SECRET_KEY=${SECRET_KEY:-your-secret-key-change-in-production}
+      # Production settings
+      - PYTHONUNBUFFERED=1
+      - PYTHONDONTWRITEBYTECODE=1
+      - WORKERS=${WORKERS:-4}
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      start_period: 30s
+      retries: 3
+    volumes:
+      - ./backend:/app
+      - backend_logs:/app/logs
+    depends_on:
+      postgres:
+        condition: service_healthy
+      ollama:
+        condition: service_started
+      redis:
+        condition: service_healthy
+    networks:
+      - ai-agent-network
+    restart: unless-stopped
+    # Resource limits for backend
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    # Security: no new privileges
+    security_opt:
+      - no-new-privileges:true
+    # Logging configuration
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+    # Production command (use workers in production, reload in development)
+    command: >
+      sh -c "
+      if [ \"$$DEBUG\" = \"true\" ]; then
+        uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload --timeout-keep-alive 600 --timeout-graceful-shutdown 30
+      else
+        uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers $$WORKERS --timeout-keep-alive 600 --timeout-graceful-shutdown 30 --access-log
+      fi
+      "
+
+  # Frontend Dashboard (port 3000)
+  frontend-dashboard:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - BUILD_ENV=${BUILD_ENV:-development}
+    container_name: ai-agent-frontend-dashboard
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_AGENT_API_URL=http://ai-agent.bankid-sy.com
+      - NEXT_PUBLIC_BACKEND_URL=http://ai-agent.bankid-sy.com
+      - NEXT_PUBLIC_AGENT_WS_URL=ws://ai-agent.bankid-sy.com/ws/chat
+      - BACKEND_URL=http://backend:8000
+      - PORT=3000
+      - NODE_ENV=${NODE_ENV:-development}
+      - NEXT_TELEMETRY_DISABLED=1
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - ai-agent-network
+    restart: unless-stopped
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider --timeout=5 http://localhost:3000 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      start_period: 60s
+      retries: 3
+    # Logging configuration
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    command: >
+      sh -c "
+      if [ \"$$NODE_ENV\" = \"production\" ]; then
+        npm run build && npm run start -- -p 3000
+      else
+        npm run dev -- -p 3000
+      fi
+      "
+
+  # Frontend CRM (port 3001)
+  frontend-crm:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - BUILD_ENV=${BUILD_ENV:-development}
+    container_name: ai-agent-frontend-crm
+    ports:
+      - "3001:3001"
+    environment:
+      - NEXT_PUBLIC_AGENT_API_URL=http://ai-agent.bankid-sy.com
+      - NEXT_PUBLIC_BACKEND_URL=http://ai-agent.bankid-sy.com
+      - NEXT_PUBLIC_AGENT_WS_URL=ws://ai-agent.bankid-sy.com/ws/chat
+      - BACKEND_URL=http://backend:8000
+      - PORT=3001
+      - NODE_ENV=${NODE_ENV:-development}
+      - NEXT_TELEMETRY_DISABLED=1
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - ai-agent-network
+    restart: unless-stopped
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider --timeout=5 http://localhost:3001 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      start_period: 60s
+      retries: 3
+    # Logging configuration
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    command: >
+      sh -c "
+      if [ \"$$NODE_ENV\" = \"production\" ]; then
+        npm run build && npm run start -- -p 3001
+      else
+        npm run dev -- -p 3001
+      fi
+      "
+
+  # Frontend AAA (port 3002)
+  frontend-aaa:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - BUILD_ENV=${BUILD_ENV:-development}
+    container_name: ai-agent-frontend-aaa
+    ports:
+      - "3002:3002"
+    environment:
+      - NEXT_PUBLIC_AGENT_API_URL=http://ai-agent.bankid-sy.com
+      - NEXT_PUBLIC_BACKEND_URL=http://ai-agent.bankid-sy.com
+      - NEXT_PUBLIC_AGENT_WS_URL=ws://ai-agent.bankid-sy.com/ws/chat
+      - BACKEND_URL=http://backend:8000
+      - PORT=3002
+      - NODE_ENV=${NODE_ENV:-development}
+      - NEXT_TELEMETRY_DISABLED=1
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider --timeout=5 http://localhost:3002 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      start_period: 60s
+      retries: 3
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - ai-agent-network
+    restart: unless-stopped
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+    # Logging configuration
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    command: >
+      sh -c "
+      if [ \"$$NODE_ENV\" = \"production\" ]; then
+        npm run build && npm run start -- -p 3002
+      else
+        npm run dev -- -p 3002
+      fi
+      "
+
+  # Redis Cache Service
+  redis:
+    image: redis:7-alpine
+    container_name: ai-agent-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - ai-agent-network
+    restart: unless-stopped
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+    # Security: no new privileges
+    security_opt:
+      - no-new-privileges:true
+    # Redis configuration for production
+    command: >
+      redis-server
+      --maxmemory 400mb
+      --maxmemory-policy allkeys-lru
+      --appendonly yes
+      --appendfsync everysec
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    # Logging configuration
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # Prometheus Monitoring
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: ai-agent-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus/alerts.yml:/etc/prometheus/alerts.yml
+      - prometheus_data:/prometheus
+    networks:
+      - ai-agent-network
+    restart: unless-stopped
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=30d'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:9090/-/healthy"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Loki Log Aggregation
+  loki:
+    image: grafana/loki:latest
+    container_name: ai-agent-loki
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./loki/loki-config.yml:/etc/loki/local-config.yaml
+      - loki_data:/loki
+    networks:
+      - ai-agent-network
+    restart: unless-stopped
+    command: -config.file=/etc/loki/local-config.yaml
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:3100/ready || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Promtail Log Shipper
+  promtail:
+    image: grafana/promtail:latest
+    container_name: ai-agent-promtail
+    volumes:
+      - ./promtail/promtail-config.yml:/etc/promtail/config.yml
+      - ./backend/logs:/var/log/backend:ro
+      - ./frontend/logs:/var/log/frontend:ro
+      - /var/log:/var/log/host:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - ai-agent-network
+    restart: unless-stopped
+    command: -config.file=/etc/promtail/config.yml
+    depends_on:
+      - loki
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 256M
+        reservations:
+          cpus: '0.1'
+          memory: 128M
+    security_opt:
+      - no-new-privileges:true
+
+  # Grafana Visualization
+  grafana:
+    image: grafana/grafana:latest
+    container_name: ai-agent-grafana
+    ports:
+      - "3003:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    networks:
+      - ai-agent-network
+    restart: unless-stopped
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin123
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_SERVER_ROOT_URL=http://localhost:3003
+      - GF_INSTALL_PLUGINS=
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+    depends_on:
+      - prometheus
+      - loki
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:3000/api/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  postgres_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./data/postgres
+  backend_logs:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./logs/backend
+  ollama_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./data/ollama
+  redis_data:
+    driver: local
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local
+  loki_data:
+    driver: local
+
+networks:
+  ai-agent-network:
+    driver: bridge
+    # Network configuration for production
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
+    # Enable internal DNS
+    enable_ipv6: false

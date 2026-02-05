@@ -1,0 +1,9 @@
+[Info  - 09:01:33.8] [pylance import] Already imported settings globally
+[Info  - 09:01:33.8] [pylance import] Already imported settings for remote ssh-remote://ip-172-31-20-228
+[Info  - 09:01:33.8] [pylance import] Already imported settings for workspace ai [SSH: ai]
+[Info  - 09:01:33.9] [pylance import] Already imported settings for workspace folder /home/ai
+[Info  - 09:01:33.143] failed to find pyright executable, falling back to bundled:
+/home/ai/.venv/bin/basedpyright-langserver
+[Info  - 09:01:33.143] using bundled pyright
+[Info  - 09:01:33.143] running node with argzs: --max-old-space-size=3910
+[Info  - 09:01:33.143] using default node executable

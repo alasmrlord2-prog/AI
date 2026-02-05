@@ -1,0 +1,27 @@
+#!/bin/bash
+# Start All Services (Backend + Frontend)
+
+set -e
+
+cd "$(dirname "$0")"
+
+echo "🚀 Starting All Services..."
+
+# Start backend first
+./backend-start.sh
+
+echo ""
+echo "---"
+
+# Then start frontend
+./frontend-start.sh
+
+echo ""
+echo "✅ All services started!"
+echo ""
+echo "🔗 Access URLs:"
+echo "   - AI-Agent: http://ai-agent.bankid-sy.com"
+echo "   - CRM: http://crm.bankid-sy.com/crm/login"
+echo "   - AAA: http://aaa.bankid-sy.com/aaa/login"
+echo "   - Backend API: http://localhost:8000/docs"
+

@@ -1,0 +1,23 @@
+{
+    "workbench.settings.applyToAllProfiles": [
+        "terminal.integrated.commandsToSkipShell"
+    ],
+    "redhat.telemetry.enabled": true,
+    "yaml.schemas": {
+        "kubernetes": "*.yaml"
+    },
+    "php.validate.executablePath": "",
+    "remote.SSH.remotePlatform": {
+        "3.133.60.120": "linux",
+        "ai-server": "linux",
+        "Nestjs-backend": "linux",
+        "dajajati-server": "linux",
+        "netbox": "linux",
+        "dajajati": "linux",
+        "odoo": "linux",
+        "shiftwave-platform": "linux",
+        "ai": "linux"
+    },
+    "git.confirmSync": false,
+    "window.commandCenter": true
+}

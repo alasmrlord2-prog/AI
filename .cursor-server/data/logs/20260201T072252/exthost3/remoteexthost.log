@@ -1,0 +1,57 @@
+2026-02-01 08:39:05.818 [info] Extension host with pid 44916 started
+2026-02-01 08:39:05.818 [info] [ExtHostShellExec] Initializing terminal executor with userTerminalHint: undefined
+2026-02-01 08:39:05.818 [info] [ExtHostShellExec] Detecting sandbox support...
+2026-02-01 08:39:05.818 [info] [ExtHostShellExec] Platform: linux, Shell type: unknown
+2026-02-01 08:39:05.818 [info] [ExtHostShellExec] dirname: /home/ai/.cursor-server/cli/servers/Stable-dc8361355d709f306d5159635a677a571b277bc0/server/out/vs/workbench/api/node
+2026-02-01 08:39:05.818 [info] [ExtHostShellExec] Sandbox helper path: /home/ai/.cursor-server/cli/servers/Stable-dc8361355d709f306d5159635a677a571b277bc0/server/resources/helpers/cursorsandbox
+2026-02-01 08:39:05.818 [info] [ExtHostShellExec] process.resourcesPath: undefined
+2026-02-01 08:39:05.818 [info] [ExtHostShellExec] process.execPath: /home/ai/.cursor-server/cli/servers/Stable-dc8361355d709f306d5159635a677a571b277bc0/server/node
+2026-02-01 08:39:05.818 [info] [ExtHostShellExec] ripgrep path for sandboxing: /home/ai/.cursor-server/cli/servers/Stable-dc8361355d709f306d5159635a677a571b277bc0/server/resources/helpers/rg
+2026-02-01 08:39:05.818 [info] [shell-exec:sandbox] [isSandboxHelperSupported] Starting sandbox support check...
+2026-02-01 08:39:05.818 [info] [shell-exec:sandbox] [checkBinaryAvailable] Resolved binary path: /home/ai/.cursor-server/cli/servers/Stable-dc8361355d709f306d5159635a677a571b277bc0/server/resources/helpers/cursorsandbox
+2026-02-01 08:39:05.818 [info] [shell-exec:sandbox] [checkBinaryAvailable] Binary path exists: true
+2026-02-01 08:39:05.818 [info] [shell-exec:sandbox] [isSandboxHelperSupported] Running preflight with binary: /home/ai/.cursor-server/cli/servers/Stable-dc8361355d709f306d5159635a677a571b277bc0/server/resources/helpers/cursorsandbox
+2026-02-01 08:39:05.818 [info] [shell-exec:sandbox] [isSandboxHelperSupported] CWD: /home/ai
+2026-02-01 08:39:05.818 [info] [shell-exec:sandbox] [isSandboxHelperSupported] Preflight succeeded, sandbox supported!
+2026-02-01 08:39:05.818 [info] [ExtHostShellExec] Sandbox support detected: true
+2026-02-01 08:39:05.818 [error] Error: EEXIST: file already exists, open '/home/ai/.cursor-server/data/User/workspaceStorage/6ee029fe5f1672881c11d42bbe065b82/vscode.lock'
+2026-02-01 08:39:05.828 [info] Lock '/home/ai/.cursor-server/data/User/workspaceStorage/6ee029fe5f1672881c11d42bbe065b82/vscode.lock': Could not acquire lock, checking if the file is stale.
+2026-02-01 08:39:05.857 [info] Lock '/home/ai/.cursor-server/data/User/workspaceStorage/6ee029fe5f1672881c11d42bbe065b82/vscode.lock': The lock does not look stale, elapsed: 380 ms, giving up.
+2026-02-01 08:39:05.860 [error] Error: EEXIST: file already exists, open '/home/ai/.cursor-server/data/User/workspaceStorage/6ee029fe5f1672881c11d42bbe065b82-1/vscode.lock'
+2026-02-01 08:39:05.863 [info] Lock '/home/ai/.cursor-server/data/User/workspaceStorage/6ee029fe5f1672881c11d42bbe065b82-1/vscode.lock': Could not acquire lock, checking if the file is stale.
+2026-02-01 08:39:05.864 [info] Lock '/home/ai/.cursor-server/data/User/workspaceStorage/6ee029fe5f1672881c11d42bbe065b82-1/vscode.lock': The pid 178322 appears to be gone.
+2026-02-01 08:39:05.864 [info] Lock '/home/ai/.cursor-server/data/User/workspaceStorage/6ee029fe5f1672881c11d42bbe065b82-1/vscode.lock': Deleting a stale lock.
+2026-02-01 08:39:05.878 [info] Lock '/home/ai/.cursor-server/data/User/workspaceStorage/6ee029fe5f1672881c11d42bbe065b82-1/vscode.lock': Lock acquired.
+2026-02-01 08:39:06.144 [info] ExtensionService#_doActivateExtension vscode.emmet, startup: false, activationEvent: 'onLanguage'
+2026-02-01 08:39:06.147 [info] ExtensionService#_doActivateExtension vscode.tunnel-forwarding, startup: false, activationEvent: 'onTunnel'
+2026-02-01 08:39:06.148 [info] ExtensionService#_doActivateExtension vscode.typescript-language-features, startup: false, activationEvent: 'onLanguage:typescriptreact'
+2026-02-01 08:39:06.325 [info] ExtHostSearch [cursorIgnore] internal fileSearch start reason=cursorIgnoreCheck roots=1 include=**/.cursorignore maxResults=0 numThreads=(default) folderQueries=[{"cwd":"/home/ai","disregardIgnoreFiles":false,"disregardParentIgnoreFiles":true,"disregardGlobalIgnoreFiles":true,"ignoreSymlinks":false,"rgNoIgnore":false,"rgNoIgnoreParent":true,"rgNoIgnoreGlobal":true,"rgFollow":true}]
+2026-02-01 08:39:07.047 [info] ExtensionService#_doActivateExtension anysphere.cursor-agent, startup: true, activationEvent: '*'
+2026-02-01 08:39:07.050 [info] ExtensionService#_doActivateExtension vscode.git-base, startup: true, activationEvent: '*', root cause: anysphere.cursor-agent-exec
+2026-02-01 08:39:07.051 [info] ExtensionService#_doActivateExtension anysphere.cursor-polyfills-remote, startup: true, activationEvent: '*'
+2026-02-01 08:39:08.432 [info] ExtHostSearch /home/ai/.cursor-server/cli/servers/Stable-dc8361355d709f306d5159635a677a571b277bc0/server/node_modules/@vscode/ripgrep/bin/rg --files --hidden --case-sensitive --no-require-git -g '**/.cursorignore' -g '!**/.git' -g '!**/.svn' -g '!**/.hg' -g '!**/.DS_Store' -g '!**/Thumbs.db' -g '!**/node_modules' -g '!**/bower_components' -g '!**/*.code-search' --no-ignore-parent --follow --threads '10' --no-config --no-ignore-global
+ - cwd: /home/ai
+ - Sibling clauses: {}
+2026-02-01 08:39:08.539 [info] ExtensionService#_doActivateExtension vscode.git, startup: true, activationEvent: '*', root cause: anysphere.cursor-agent-exec
+2026-02-01 08:39:08.539 [info] ExtensionService#_doActivateExtension vscode.github, startup: true, activationEvent: '*'
+2026-02-01 08:39:09.595 [info] ExtHostSearch Search finished. Stats: {"cmdTime":1202,"fileWalkTime":1202,"directoriesWalked":0,"filesWalked":0,"cmdResultCount":0}
+2026-02-01 08:39:09.620 [info] ExtHostSearch [cursorIgnore] internal fileSearch done in 3295ms limitHit=false failed=false resultCount=0 cmdTime=1202 fileWalkTime=1202 providerTime=(unknown)
+2026-02-01 08:39:14.151 [info] ExtensionService#_doActivateExtension anysphere.cursor-retrieval, startup: true, activationEvent: '*', root cause: anysphere.cursor-agent-exec
+2026-02-01 08:39:16.772 [info] ExtensionService#_doActivateExtension anysphere.cursor-agent-exec, startup: true, activationEvent: '*'
+2026-02-01 08:39:18.103 [info] ExtensionService#_doActivateExtension anysphere.cursor-mcp, startup: false, activationEvent: 'onStartupFinished'
+2026-02-01 08:39:18.107 [info] ExtensionService#_doActivateExtension anysphere.cursor-shadow-workspace, startup: false, activationEvent: 'onStartupFinished'
+2026-02-01 08:39:18.111 [info] ExtensionService#_doActivateExtension vscode.debug-auto-launch, startup: false, activationEvent: 'onStartupFinished'
+2026-02-01 08:39:18.111 [info] ExtensionService#_doActivateExtension vscode.merge-conflict, startup: false, activationEvent: 'onStartupFinished'
+2026-02-01 08:39:22.618 [info] Eager extensions activated
+2026-02-01 08:52:00.781 [info] ExtensionService#_doActivateExtension vscode.npm, startup: false, activationEvent: 'onTerminalQuickFixRequest:ms-vscode.npm-command'
+2026-02-01 08:52:06.890 [info] ExtensionService#_doActivateExtension vscode.configuration-editing, startup: false, activationEvent: 'onLanguage:json'
+2026-02-01 08:52:06.891 [info] ExtensionService#_doActivateExtension vscode.extension-editing, startup: false, activationEvent: 'onLanguage:json'
+2026-02-01 08:52:06.891 [info] ExtensionService#_doActivateExtension vscode.json-language-features, startup: false, activationEvent: 'onLanguage:json'
+2026-02-01 09:01:30.670 [info] ExtensionService#_doActivateExtension anysphere.cursorpyright, startup: false, activationEvent: 'onLanguage:python'
+2026-02-01 09:01:30.671 [info] ExtensionService#_doActivateExtension ms-python.python, startup: false, activationEvent: 'onLanguage:python'
+2026-02-01 09:01:30.672 [info] ExtensionService#_doActivateExtension ms-toolsai.jupyter, startup: false, activationEvent: 'onLanguage:python'
+2026-02-01 09:01:32.495 [info] ExtensionService#_doActivateExtension ms-toolsai.jupyter-renderers, startup: false, activationEvent: 'api', root cause: ms-toolsai.jupyter
+2026-02-01 09:01:33.931 [warning] DiagnosticCollection with name 'basedpyright' does already exist.
+2026-02-01 09:01:34.698 [warning] DiagnosticCollection with name 'basedpyright' does already exist.
+2026-02-01 09:57:51.997 [info] ExtensionService#_doActivateExtension ms-azuretools.vscode-containers, startup: false, activationEvent: 'onLanguage:dockercompose'
+2026-02-01 09:57:52.798 [warning] registerMcpServerDefinitionProvider is not supported in Cursor

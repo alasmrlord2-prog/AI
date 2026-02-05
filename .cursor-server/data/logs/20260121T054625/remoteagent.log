@@ -1,0 +1,150 @@
+2026-01-21 05:46:25.922 [info] 
+
+
+
+
+2026-01-21 05:46:25.941 [info] [CursorProclistService] Native module loaded successfully
+2026-01-21 05:46:25.943 [info] Extension host agent started.
+2026-01-21 05:46:26.191 [info] [<unknown>][3f669772][ManagementConnection] New connection established.
+2026-01-21 05:46:26.193 [info] [<unknown>][52d9a740][ExtensionHostConnection] New connection established.
+2026-01-21 05:46:26.302 [info] [<unknown>][52d9a740][ExtensionHostConnection] <3700> Launched Extension Host Process.
+2026-01-21 05:46:26.414 [info] Getting extensions control
+2026-01-21 05:46:26.423 [info] [CursorProclistService] Config enabled feature (subsample every 10s)
+2026-01-21 05:46:31.528 [error] CodeExpectedError: Could not find pty 1 on pty host
+    at M._throwIfNoPty (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:47:7334)
+    at M.resize (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:47:3319)
+    at O.r.<computed> (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:46:3386)
+    at Object.call (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:28:4951)
+    at mc.onPromise (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:26:91894)
+    at mc.onRawMessage (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:26:91309)
+    at pr.value (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:26:90592)
+    at w._deliver (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:26:2937)
+    at w.fire (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:26:3257)
+    at process.b (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:24:24774)
+    at process.emit (node:events:518:28)
+    at emit (node:internal/child_process:950:14)
+    at process.processTicksAndRejections (node:internal/process/task_queues:83:21)
+2026-01-21 05:46:31.533 [error] CodeExpectedError: Could not find pty 2 on pty host
+    at M._throwIfNoPty (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:47:7334)
+    at M.resize (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:47:3319)
+    at O.r.<computed> (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:46:3386)
+    at Object.call (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:28:4951)
+    at mc.onPromise (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:26:91894)
+    at mc.onRawMessage (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:26:91309)
+    at pr.value (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:26:90592)
+    at w._deliver (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:26:2937)
+    at w.fire (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:26:3257)
+    at process.b (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:24:24774)
+    at process.emit (node:events:518:28)
+    at emit (node:internal/child_process:950:14)
+    at process.processTicksAndRejections (node:internal/process/task_queues:83:21)
+2026-01-21 05:46:31.534 [error] CodeExpectedError: Could not find pty 3 on pty host
+    at M._throwIfNoPty (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:47:7334)
+    at M.resize (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:47:3319)
+    at O.r.<computed> (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:46:3386)
+    at Object.call (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:28:4951)
+    at mc.onPromise (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:26:91894)
+    at mc.onRawMessage (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:26:91309)
+    at pr.value (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:26:90592)
+    at w._deliver (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:26:2937)
+    at w.fire (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:26:3257)
+    at process.b (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:24:24774)
+    at process.emit (node:events:518:28)
+    at emit (node:internal/child_process:950:14)
+    at process.processTicksAndRejections (node:internal/process/task_queues:83:21)
+2026-01-21 05:46:31.535 [error] CodeExpectedError: Could not find pty 4 on pty host
+    at M._throwIfNoPty (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:47:7334)
+    at M.resize (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:47:3319)
+    at O.r.<computed> (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:46:3386)
+    at Object.call (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:28:4951)
+    at mc.onPromise (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:26:91894)
+    at mc.onRawMessage (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:26:91309)
+    at pr.value (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:26:90592)
+    at w._deliver (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:26:2937)
+    at w.fire (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:26:3257)
+    at process.b (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:24:24774)
+    at process.emit (node:events:518:28)
+    at emit (node:internal/child_process:950:14)
+    at process.processTicksAndRejections (node:internal/process/task_queues:83:21)
+2026-01-21 05:49:49.583 [info] [<unknown>][b3b1a1fa][ExtensionHostConnection] New connection established.
+2026-01-21 05:49:49.584 [info] [<unknown>][c529a873][ManagementConnection] New connection established.
+2026-01-21 05:49:49.589 [info] [<unknown>][b3b1a1fa][ExtensionHostConnection] <6211> Launched Extension Host Process.
+2026-01-21 05:49:49.796 [info] [CursorProclistService] Config enabled feature (subsample every 10s)
+2026-01-21 05:49:56.957 [error] CodeExpectedError: Could not find pty 5 on pty host
+    at M._throwIfNoPty (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:47:7334)
+    at M.resize (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:47:3319)
+    at O.r.<computed> (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:46:3386)
+    at Object.call (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:28:4951)
+    at mc.onPromise (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:26:91894)
+    at mc.onRawMessage (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:26:91309)
+    at pr.value (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:26:90592)
+    at w._deliver (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:26:2937)
+    at w.fire (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:26:3257)
+    at process.b (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:24:24774)
+    at process.emit (node:events:518:28)
+    at emit (node:internal/child_process:950:14)
+    at process.processTicksAndRejections (node:internal/process/task_queues:83:21)
+2026-01-21 05:49:56.964 [error] CodeExpectedError: Could not find pty 6 on pty host
+    at M._throwIfNoPty (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:47:7334)
+    at M.resize (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:47:3319)
+    at O.r.<computed> (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:46:3386)
+    at Object.call (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:28:4951)
+    at mc.onPromise (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:26:91894)
+    at mc.onRawMessage (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:26:91309)
+    at pr.value (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:26:90592)
+    at w._deliver (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:26:2937)
+    at w.fire (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:26:3257)
+    at process.b (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:24:24774)
+    at process.emit (node:events:518:28)
+    at emit (node:internal/child_process:950:14)
+    at process.processTicksAndRejections (node:internal/process/task_queues:83:21)
+2026-01-21 05:49:56.964 [error] CodeExpectedError: Could not find pty 7 on pty host
+    at M._throwIfNoPty (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:47:7334)
+    at M.resize (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:47:3319)
+    at O.r.<computed> (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:46:3386)
+    at Object.call (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:28:4951)
+    at mc.onPromise (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:26:91894)
+    at mc.onRawMessage (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:26:91309)
+    at pr.value (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:26:90592)
+    at w._deliver (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:26:2937)
+    at w.fire (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:26:3257)
+    at process.b (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:24:24774)
+    at process.emit (node:events:518:28)
+    at emit (node:internal/child_process:950:14)
+    at process.processTicksAndRejections (node:internal/process/task_queues:83:21)
+2026-01-21 05:49:56.964 [error] CodeExpectedError: Could not find pty 8 on pty host
+    at M._throwIfNoPty (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:47:7334)
+    at M.resize (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:47:3319)
+    at O.r.<computed> (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:46:3386)
+    at Object.call (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:28:4951)
+    at mc.onPromise (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:26:91894)
+    at mc.onRawMessage (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:26:91309)
+    at pr.value (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:26:90592)
+    at w._deliver (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:26:2937)
+    at w.fire (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:26:3257)
+    at process.b (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/platform/terminal/node/ptyHostMain.js:24:24774)
+    at process.emit (node:events:518:28)
+    at emit (node:internal/child_process:950:14)
+    at process.processTicksAndRejections (node:internal/process/task_queues:83:21)
+2026-01-21 05:50:00.648 [info] [<unknown>][3f669772][ManagementConnection] The client has disconnected, will wait for reconnection 3h before disposing...
+2026-01-21 05:51:25.944 [info] New EH opened, aborting shutdown
+2026-01-21 05:54:49.757 [info] [<unknown>][52d9a740][ExtensionHostConnection] <3700> Extension Host Process exited with code: 0, signal: null.
+2026-01-21 05:54:49.759 [error] Error: Unexpected SIGPIPE
+    at process.<anonymous> (file:///home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/server-main.js:179:1092)
+    at process.emit (node:events:530:35)
+2026-01-21 05:55:24.470 [info] [CursorProclistService] Sample 0 created: 11 processes, 35 subsamples
+2026-01-21 05:59:49.958 [info] [CursorProclistService] Sample 1 created: 8 processes, 28 subsamples
+2026-01-21 06:04:49.922 [info] [CursorProclistService] Sample 2 created: 13 processes, 31 subsamples
+2026-01-21 06:09:49.939 [info] [CursorProclistService] Sample 3 created: 17 processes, 31 subsamples
+2026-01-21 06:14:56.408 [info] [CursorProclistService] Sample 4 created: 11 processes, 31 subsamples
+2026-01-21 06:21:38.251 [info] [CursorProclistService] Sample 5 created: 45 processes, 41 subsamples
+2026-01-21 06:24:56.879 [info] [CursorProclistService] Sample 6 created: 29 processes, 21 subsamples
+2026-01-21 06:29:50.743 [info] [<unknown>][3f669772][ManagementConnection] Another client has connected, will shorten the wait for reconnection 5m before disposing...
+2026-01-21 06:29:50.744 [info] [<unknown>][b3b1a1fa][ExtensionHostConnection] The client has reconnected.
+2026-01-21 06:29:50.793 [info] [<unknown>][c529a873][ManagementConnection] The client has reconnected.
+2026-01-21 06:34:50.817 [info] [<unknown>][3f669772][ManagementConnection] The reconnection short grace time of 5m has expired, so the connection will be disposed.
+2026-01-21 06:47:26.191 [info] [<unknown>][c529a873][ManagementConnection] The client has disconnected, will wait for reconnection 3h before disposing...
+2026-01-21 09:46:59.265 [info] [<unknown>][b3b1a1fa][ExtensionHostConnection] <6211> Extension Host Process exited with code: 0, signal: null.
+2026-01-21 09:46:59.268 [info] Last EH closed, waiting before shutting down
+2026-01-21 09:47:30.727 [info] [<unknown>][c529a873][ManagementConnection] The reconnection grace time of 3h has expired, so the connection will be disposed.
+2026-01-21 09:51:59.271 [info] Last EH closed, shutting down

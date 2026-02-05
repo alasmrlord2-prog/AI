@@ -1,0 +1,20 @@
+2026-01-20 09:38:51.100 [info] Extension host with pid 4162 started
+2026-01-20 09:38:51.100 [info] [ExtHostShellExec] Initializing terminal executor with userTerminalHint: undefined
+2026-01-20 09:38:51.100 [info] [ExtHostShellExec] Detecting sandbox support...
+2026-01-20 09:38:51.100 [info] [ExtHostShellExec] Platform: linux, Shell type: unknown
+2026-01-20 09:38:51.100 [info] [ExtHostShellExec] dirname: /home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/workbench/api/node
+2026-01-20 09:38:51.100 [info] [ExtHostShellExec] Sandbox helper path: /home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/resources/helpers/cursor-sandbox
+2026-01-20 09:38:51.100 [info] [ExtHostShellExec] process.resourcesPath: undefined
+2026-01-20 09:38:51.100 [info] [ExtHostShellExec] process.execPath: /home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/node
+2026-01-20 09:38:51.100 [info] [ExtHostShellExec] ripgrep path for sandboxing: /home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/resources/helpers/rg
+2026-01-20 09:38:51.100 [error] [shell-exec:sandbox] [isSandboxHelperSupported] Starting sandbox support check... undefined
+2026-01-20 09:38:51.100 [error] [shell-exec:sandbox] [checkBinaryAvailable] Resolved binary path: /home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/resources/helpers/cursor-sandbox undefined
+2026-01-20 09:38:51.100 [error] [shell-exec:sandbox] [checkBinaryAvailable] Binary path exists: true undefined
+2026-01-20 09:38:51.100 [error] [shell-exec:sandbox] [isSandboxHelperSupported] Running preflight with binary: /home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/resources/helpers/cursor-sandbox undefined
+2026-01-20 09:38:51.100 [error] [shell-exec:sandbox] [isSandboxHelperSupported] CWD: /home/ai undefined
+2026-01-20 09:38:51.100 [error] [shell-exec:sandbox] [isSandboxHelperSupported] Preflight succeeded, sandbox supported! undefined
+2026-01-20 09:38:51.100 [info] [ExtHostShellExec] Sandbox support detected: true
+2026-01-20 09:43:59.148 [info] Extension host terminating: renderer disconnected for too long (2)
+2026-01-20 09:43:59.158 [warning] [ExtHostCursor] Failed to get trace sample rate Canceled
+2026-01-20 09:43:59.159 [warning] [ExtHostShellExec] Failed to get privacy mode, defaulting to privacy mode ON Canceled
+2026-01-20 09:43:59.159 [info] Extension host with pid 4162 exiting with code 0

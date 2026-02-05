@@ -1,0 +1,129 @@
+{
+  "dashboard": {
+    "title": "AI Backend - Simple Dashboard",
+    "tags": ["ai", "backend"],
+    "timezone": "browser",
+    "refresh": "10s",
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "panels": [
+      {
+        "id": 1,
+        "title": "CPU Load",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "system_cpu_load",
+            "refId": "A",
+            "legendFormat": "CPU Load"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0},
+        "fieldConfig": {
+          "defaults": {
+            "unit": "short",
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {"value": 0, "color": "green"},
+                {"value": 2, "color": "yellow"},
+                {"value": 3, "color": "red"}
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 2,
+        "title": "Memory Usage (GB)",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "system_memory_used_bytes / 1024 / 1024 / 1024",
+            "refId": "A",
+            "legendFormat": "Memory Used"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0},
+        "fieldConfig": {
+          "defaults": {
+            "unit": "decgbytes"
+          }
+        }
+      },
+      {
+        "id": 3,
+        "title": "Chat Requests Rate",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "rate(chat_requests_total[5m])",
+            "refId": "A",
+            "legendFormat": "Requests/sec"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8},
+        "fieldConfig": {
+          "defaults": {
+            "unit": "reqps"
+          }
+        }
+      },
+      {
+        "id": 4,
+        "title": "Network Traffic (Mbps)",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "network_rx_mbps",
+            "refId": "A",
+            "legendFormat": "RX"
+          },
+          {
+            "expr": "network_tx_mbps",
+            "refId": "B",
+            "legendFormat": "TX"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8},
+        "fieldConfig": {
+          "defaults": {
+            "unit": "Mbps"
+          }
+        }
+      },
+      {
+        "id": 5,
+        "title": "Application Logs",
+        "type": "logs",
+        "datasource": {
+          "type": "loki",
+          "uid": "loki"
+        },
+        "targets": [
+          {
+            "expr": "{job=\"app-logs\"}",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {"h": 10, "w": 24, "x": 0, "y": 16},
+        "options": {
+          "dedupStrategy": "none",
+          "enableLogDetails": true,
+          "prettifyLogMessage": false,
+          "showCommonLabels": false,
+          "showLabels": false,
+          "showTime": true,
+          "sortOrder": "Descending",
+          "wrapLogMessage": false
+        }
+      }
+    ],
+    "schemaVersion": 38,
+    "version": 1,
+    "uid": "ai-backend-simple"
+  }
+}
+

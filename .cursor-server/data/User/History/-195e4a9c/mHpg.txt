@@ -1,0 +1,22 @@
+========================================
+الحل السريع - Quick Fix
+========================================
+
+المشكلة: الجداول غير موجودة في قاعدة البيانات
+
+الحل: شغّل هذا الأمر:
+
+./run-create-tables.sh
+
+أو يدوياً:
+
+docker compose exec -T backend python3 -c "from app.core.database import Base, engine; from app.identity.models import *; from app.subscription.models import *; from app.audit.models import *; from app.access.models import *; from app.policy.models import *; Base.metadata.create_all(engine); print('✅ All tables created successfully')"
+
+بعد ذلك:
+
+curl http://localhost:8000/api/crm/tenants
+
+يجب أن يعيد: {"tenants": [], "total": 0, ...}
+
+========================================
+

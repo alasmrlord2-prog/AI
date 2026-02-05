@@ -1,0 +1,5 @@
+Listening on 127.0.0.1:44217
+[2025-11-15 15:06:00] info Disposed of connection to running server.
+[2025-11-15 15:06:00] info Checking /home/ai/.cursor-server/cli/servers/Stable-9e7a27b76730ca7fe4aecaeafc58bac1e2c82120/log.txt and /home/ai/.cursor-server/cli/servers/Stable-9e7a27b76730ca7fe4aecaeafc58bac1e2c82120/pid.txt for a running server...
+[2025-11-15 15:06:00] info Found running server (pid=88493)
+[2025-11-15 15:22:35] info Disposed of connection to running server.

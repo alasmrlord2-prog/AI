@@ -1,0 +1,25 @@
+2025-12-29 12:54:50.747 [info] Extension host with pid 2663 started
+2025-12-29 12:54:50.747 [info] [ExtHostShellExec] Initializing terminal executor with userTerminalHint: undefined
+2025-12-29 12:54:50.747 [info] [ExtHostShellExec] Detecting sandbox support...
+2025-12-29 12:54:50.747 [info] [ExtHostShellExec] Platform: linux, Shell type: unknown
+2025-12-29 12:54:50.747 [info] [ExtHostShellExec] dirname: /home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/out/vs/workbench/api/node
+2025-12-29 12:54:50.748 [info] [ExtHostShellExec] Linux sandbox helper path: /home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/resources/helpers/cursor-sandbox
+2025-12-29 12:54:50.748 [info] [ExtHostShellExec] process.resourcesPath: undefined
+2025-12-29 12:54:50.748 [info] [ExtHostShellExec] process.execPath: /home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/node
+2025-12-29 12:54:50.748 [info] [ExtHostShellExec] ripgrep path for sandboxing: /home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/node_modules/@vscode/ripgrep/bin/rg
+2025-12-29 12:54:50.748 [error] [shell-exec:sandbox] [isLinuxSandboxSupported] Starting sandbox support check... undefined
+2025-12-29 12:54:50.748 [error] [shell-exec:sandbox] [checkBinaryAvailable] Resolved binary path: /home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/resources/helpers/cursor-sandbox undefined
+2025-12-29 12:54:50.748 [error] [shell-exec:sandbox] [checkBinaryAvailable] Binary found at: /home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/resources/helpers/cursor-sandbox undefined
+2025-12-29 12:54:50.748 [error] [shell-exec:sandbox] [isLinuxSandboxSupported] Running preflight with binary: /home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/resources/helpers/cursor-sandbox undefined
+2025-12-29 12:54:50.748 [error] [shell-exec:sandbox] [isLinuxSandboxSupported] CWD: /home/ai undefined
+2025-12-29 12:54:50.748 [error] [shell-exec:sandbox] [isLinuxSandboxSupported] Preflight failed: Command failed: /home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/resources/helpers/cursor-sandbox --sandbox-policy-cwd /home/ai --sandbox-policy {"type":"workspace_readwrite","cwd":"/home/ai","additional_readwrite_paths":[],"additional_readonly_paths":[],"network_access":false,"disable_tmp_write":false,"block_git_writes":false} --preflight-only -- /bin/true undefined
+2025-12-29 12:54:50.748 [error] [shell-exec:sandbox] [isLinuxSandboxSupported] Exit status: 1 undefined
+2025-12-29 12:54:50.748 [info] [ExtHostShellExec] Sandbox support detected: false
+2025-12-29 12:54:51.163 [info] ExtensionService#_doActivateExtension anysphere.cursor-agent-exec, startup: false, activationEvent: '*'
+2025-12-29 12:54:51.165 [info] ExtensionService#_doActivateExtension vscode.git-base, startup: false, activationEvent: '*', root cause: vscode.git
+2025-12-29 12:54:51.166 [info] ExtensionService#_doActivateExtension vscode.emmet, startup: false, activationEvent: 'onLanguage'
+2025-12-29 12:54:52.158 [info] ExtensionService#_doActivateExtension anysphere.cursor-mcp, startup: false, activationEvent: 'api', root cause: anysphere.cursor-agent-exec
+2025-12-29 12:54:52.572 [info] ExtensionService#_doActivateExtension vscode.git, startup: false, activationEvent: '*'
+2025-12-29 12:54:52.572 [info] ExtensionService#_doActivateExtension vscode.github, startup: false, activationEvent: '*'
+2025-12-29 12:54:53.077 [info] Extension host terminating: received terminate message from renderer
+2025-12-29 12:54:53.096 [info] Extension host with pid 2663 exiting with code 0

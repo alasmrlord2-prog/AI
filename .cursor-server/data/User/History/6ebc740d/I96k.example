@@ -1,0 +1,53 @@
+# Backend Environment Variables
+# Copy this file to .env and fill in your values
+
+# Server Configuration
+HOST=0.0.0.0
+PORT=8000
+DEBUG=false
+
+# Database (if using database)
+DATABASE_URL=sqlite:///./ai_agent.db
+# Or for PostgreSQL:
+# DATABASE_URL=postgresql://user:password@localhost:5432/ai_agent
+
+# Security
+SECRET_KEY=your-secret-key-here-change-in-production
+JWT_SECRET_KEY=your-jwt-secret-key-here
+JWT_ALGORITHM=HS256
+JWT_EXPIRATION_HOURS=24
+
+# OLLAMA
+OLLAMA_URL=http://ollama:11434
+# Or for local:
+# OLLAMA_URL=http://localhost:11434
+
+# CORS
+CORS_ORIGINS=["http://localhost:3000","http://localhost:8000"]
+# Or for production:
+# CORS_ORIGINS=["https://yourdomain.com"]
+
+# Monitoring
+PROMETHEUS_ENABLED=true
+GRAFANA_ENABLED=true
+
+# Logging
+LOG_LEVEL=INFO
+LOG_FILE=backend.log
+
+# AWS (if using AWS services)
+AWS_REGION=us-east-1
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+
+# Email (if using email notifications)
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=
+SMTP_PASSWORD=
+
+# Payment Gateway (if using)
+PAYMENT_GATEWAY_API_KEY=
+PAYMENT_GATEWAY_SECRET=
+
+

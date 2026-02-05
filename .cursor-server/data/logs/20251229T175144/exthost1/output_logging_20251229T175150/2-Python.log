@@ -1,0 +1,3 @@
+> conda info --json
+Python interpreter path: ./.venv/bin/python
+Editor support is inactive since language server is set to None.

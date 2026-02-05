@@ -1,0 +1,84 @@
+global:
+  resolve_timeout: 5m
+  # Email configuration
+  smtp_smarthost: 'smtp.gmail.com:587'
+  smtp_from: 'your-email@gmail.com'
+  smtp_auth_username: 'your-email@gmail.com'
+  smtp_auth_password: 'your-app-password'
+  smtp_require_tls: true
+
+route:
+  group_by: ['alertname', 'cluster', 'service']
+  group_wait: 10s
+  group_interval: 10s
+  repeat_interval: 12h
+  receiver: 'email-notifications'
+  routes:
+    - match:
+        severity: critical
+      receiver: 'email-critical'
+    - match:
+        severity: warning
+      receiver: 'email-warning'
+
+receivers:
+  - name: 'email-notifications'
+    email_configs:
+      - to: 'your-email@gmail.com'
+        headers:
+          Subject: 'AI Backend Alert: {{ .GroupLabels.alertname }}'
+        html: |
+          <h2>Alert: {{ .GroupLabels.alertname }}</h2>
+          <p><strong>Status:</strong> {{ .Status }}</p>
+          <p><strong>Severity:</strong> {{ .CommonLabels.severity }}</p>
+          <h3>Alerts:</h3>
+          <ul>
+          {{ range .Alerts }}
+            <li>
+              <strong>{{ .Annotations.summary }}</strong><br>
+              {{ .Annotations.description }}<br>
+              <small>Started: {{ .StartsAt }}</small>
+            </li>
+          {{ end }}
+          </ul>
+
+  - name: 'email-critical'
+    email_configs:
+      - to: 'your-email@gmail.com'
+        headers:
+          Subject: '🚨 CRITICAL: AI Backend Alert - {{ .GroupLabels.alertname }}'
+        html: |
+          <h2 style="color: red;">🚨 CRITICAL ALERT</h2>
+          <h3>{{ .GroupLabels.alertname }}</h3>
+          <p><strong>Status:</strong> {{ .Status }}</p>
+          <h3>Alerts:</h3>
+          <ul>
+          {{ range .Alerts }}
+            <li>
+              <strong>{{ .Annotations.summary }}</strong><br>
+              {{ .Annotations.description }}<br>
+              <small>Started: {{ .StartsAt }}</small>
+            </li>
+          {{ end }}
+          </ul>
+
+  - name: 'email-warning'
+    email_configs:
+      - to: 'your-email@gmail.com'
+        headers:
+          Subject: '⚠️ WARNING: AI Backend Alert - {{ .GroupLabels.alertname }}'
+        html: |
+          <h2 style="color: orange;">⚠️ WARNING</h2>
+          <h3>{{ .GroupLabels.alertname }}</h3>
+          <p><strong>Status:</strong> {{ .Status }}</p>
+          <h3>Alerts:</h3>
+          <ul>
+          {{ range .Alerts }}
+            <li>
+              <strong>{{ .Annotations.summary }}</strong><br>
+              {{ .Annotations.description }}<br>
+              <small>Started: {{ .StartsAt }}</small>
+            </li>
+          {{ end }}
+          </ul>
+

@@ -1,0 +1,1747 @@
+user:
+<user_query>
+تمام، خلّينا نشتغل عليها **كـ Product Owner + Security Architect** ونبني **خطة AAA (Authentication, Authorization, Accounting)** بشكل احترافي وقابلة للتوسّع، ومناسبة **لـ Users عاديين** و **Companies** مع أكثر من اشتراك.
+
+سأقسمها إلى:
+
+1. تصور عام للـ AAA
+2. أنواع الاشتراكات
+3. خطط الاشتراك (Plans)
+4. مصفوفة الصلاحيات
+5. الـ Accounting & Billing
+6. ملاحظات تقنية للتنفيذ (Backend / DevOps / SIEM)
+
+---
+
+## 1️⃣ التصور العام للـ AAA
+
+### 🔐 Authentication (التحقق من الهوية)
+
+* Login / Register
+* MFA (اختياري حسب الخطة)
+* OAuth / SSO (للشركات)
+* API Keys (للـ integrations)
+
+### 🛂 Authorization (الصلاحيات)
+
+* Role-Based Access Control (RBAC)
+* Policy-Based Access Control (PBAC) للشركات
+* Feature-based permissions (حسب الخطة)
+
+### 📊 Accounting (التتبع والمحاسبة)
+
+* Logs لكل:
+
+  * Login / Logout
+  * API usage
+  * Actions
+* Usage-based limits
+* Billing + Invoices
+* Export logs (حسب الخطة)
+
+---
+
+## 2️⃣ أنواع الاشتراكات (Subscription Types)
+
+### 🔹 User عادي
+
+* فردي
+* لا يملك Users تحته
+* استخدام محدود
+
+### 🔹 Company
+
+* Organization
+* Multi-users
+* Roles
+* Advanced logs
+* Integrations
+
+---
+
+## 3️⃣ خطط الاشتراك (Plans)
+
+### 🧑‍💻 User Plans
+
+#### 🟢 Free
+
+* Authentication: ✔ Email/Password
+* Authorization: Basic role (user)
+* Accounting:
+
+  * Login logs (7 أيام)
+* Limits:
+
+  * 1 device
+  * 100 requests/day
+* Support: ❌
+
+---
+
+#### 🔵 Pro User
+
+* Authentication:
+
+  * MFA ✔
+  * Social login ✔
+* Authorization:
+
+  * Feature-based access
+* Accounting:
+
+  * Activity logs (30 يوم)
+  * Export CSV
+* Limits:
+
+  * 5 devices
+  * 10K requests/month
+* Support: Email
+
+---
+
+#### 🟣 Power User
+
+* Authentication:
+
+  * MFA mandatory
+  * API Key
+* Authorization:
+
+  * Custom permissions
+* Accounting:
+
+  * Full audit log (90 يوم)
+* Limits:
+
+  * Unlimited devices
+  * 100K requests/month
+* Support: Priority
+
+---
+
+### 🏢 Company Plans
+
+#### 🟢 Starter Company
+
+* Users: حتى 5
+* Authentication:
+
+  * MFA optional
+* Authorization:
+
+  * Predefined roles (Admin / Analyst / Viewer)
+* Accounting:
+
+  * Audit logs (30 يوم)
+* Limits:
+
+  * 50K requests/month
+* Integrations: ❌
+* Support: Email
+
+---
+
+#### 🔵 Business Company
+
+* Users: حتى 25
+* Authentication:
+
+  * MFA mandatory
+  * SSO (Google / Azure AD)
+* Authorization:
+
+  * Custom roles
+  * Policy-based access
+* Accounting:
+
+  * Audit logs (90 يوم)
+  * Usage analytics
+* Limits:
+
+  * 500K requests/month
+* Integrations:
+
+  * SIEM Export
+  * Webhooks
+* Support: SLA
+
+---
+
+#### 🔴 Enterprise
+
+* Users: Unlimited
+* Authentication:
+
+  * SSO (SAML / OIDC)
+  * Hardware MFA
+* Authorization:
+
+  * Attribute-Based Access (ABAC)
+* Accounting:
+
+  * Full immutable audit logs
+  * Compliance ready (ISO / SOC)
+* Limits:
+
+  * Unlimited
+* Integrations:
+
+  * SIEM (Splunk / Elastic)
+  * Custom APIs
+* Support: 24/7 + Account Manager
+
+---
+
+## 4️⃣ مصفوفة الصلاحيات (RBAC Example)
+
+| Role    | Login | View Logs | Export Logs | Manage Users | Billing |
+| ------- | ----- | --------- | ----------- | ------------ | ------- |
+| User    | ✔     | ❌         | ❌           | ❌            | ❌       |
+| Admin   | ✔     | ✔         | ✔           | ✔            | ✔       |
+| Analyst | ✔     | ✔         | ✔           | ❌            | ❌       |
+| Viewer  | ✔     | ✔         | ❌           | ❌            | ❌       |
+
+---
+
+## 5️⃣ Accounting & Billing
+
+### 📊 What to Track
+
+* Sessions
+* API calls
+* Feature usage
+* Errors / security events
+
+### 💰 Billing Model
+
+* Base subscription
+* * Usage over limits
+* * Add-ons:
+
+  - Extra logs retention
+  - Extra users
+  - Extra integrations
+
+---
+
+## 6️⃣ ملاحظات تقنية للتنفيذ (مهم جدًا)
+
+### Backend
+
+* AAA Service منفصل (Microservice)
+* JWT + Refresh Tokens
+* RBAC tables:
+
+  * users
+  * roles
+  * permissions
+  * plans
+  * plan_features
+* Feature flags حسب الخطة
+
+### DevOps
+
+* Rate limiting per plan
+* Centralized logging
+* Audit logs غير قابلة للتعديل
+
+### SIEM / SOC
+
+* Classification للأحداث
+* Severity levels
+* Correlation rules حسب الخطة
+
+---
+
+## 7️⃣ اقتراح الخطوة التالية
+
+إذا حاب:
+
+* ⏭️ أبني لك **DB Schema كامل**
+* ⏭️ API Design (Auth / Roles / Plans)
+* ⏭️ Flow Diagram (User vs Company)
+* ⏭️ Pricing page structure
+* ⏭️ Mapping مباشر مع مشروع ShiftWave الحالي
+
+قلي شو الخطوة الجاية وبمشي فيها بالتفصيل 💪
+===========
+تمام، خلّينا نشتغل عليها **كـ Product Owner + Security Architect** ونبني **خطة AAA (Authentication, Authorization, Accounting)** بشكل احترافي وقابلة للتوسّع، ومناسبة **لـ Users عاديين** و **Companies** مع أكثر من اشتراك.
+
+سأقسمها إلى:
+
+1. تصور عام للـ AAA
+2. أنواع الاشتراكات
+3. خطط الاشتراك (Plans)
+4. مصفوفة الصلاحيات
+5. الـ Accounting & Billing
+6. ملاحظات تقنية للتنفيذ (Backend / DevOps / SIEM)
+
+---
+
+## 1️⃣ التصور العام للـ AAA
+
+### 🔐 Authentication (التحقق من الهوية)
+
+* Login / Register
+* MFA (اختياري حسب الخطة)
+* OAuth / SSO (للشركات)
+* API Keys (للـ integrations)
+
+### 🛂 Authorization (الصلاحيات)
+
+* Role-Based Access Control (RBAC)
+* Policy-Based Access Control (PBAC) للشركات
+* Feature-based permissions (حسب الخطة)
+
+### 📊 Accounting (التتبع والمحاسبة)
+
+* Logs لكل:
+
+  * Login / Logout
+  * API usage
+  * Actions
+* Usage-based limits
+* Billing + Invoices
+* Export logs (حسب الخطة)
+
+---
+
+## 2️⃣ أنواع الاشتراكات (Subscription Types)
+
+### 🔹 User عادي
+
+* فردي
+* لا يملك Users تحته
+* استخدام محدود
+
+### 🔹 Company
+
+* Organization
+* Multi-users
+* Roles
+* Advanced logs
+* Integrations
+
+---
+
+## 3️⃣ خطط الاشتراك (Plans)
+
+### 🧑‍💻 User Plans
+
+#### 🟢 Free
+
+* Authentication: ✔ Email/Password
+* Authorization: Basic role (user)
+* Accounting:
+
+  * Login logs (7 أيام)
+* Limits:
+
+  * 1 device
+  * 100 requests/day
+* Support: ❌
+
+---
+
+#### 🔵 Pro User
+
+* Authentication:
+
+  * MFA ✔
+  * Social login ✔
+* Authorization:
+
+  * Feature-based access
+* Accounting:
+
+  * Activity logs (30 يوم)
+  * Export CSV
+* Limits:
+
+  * 5 devices
+  * 10K requests/month
+* Support: Email
+
+---
+
+#### 🟣 Power User
+
+* Authentication:
+
+  * MFA mandatory
+  * API Key
+* Authorization:
+
+  * Custom permissions
+* Accounting:
+
+  * Full audit log (90 يوم)
+* Limits:
+
+  * Unlimited devices
+  * 100K requests/month
+* Support: Priority
+
+---
+
+### 🏢 Company Plans
+
+#### 🟢 Starter Company
+
+* Users: حتى 5
+* Authentication:
+
+  * MFA optional
+* Authorization:
+
+  * Predefined roles (Admin / Analyst / Viewer)
+* Accounting:
+
+  * Audit logs (30 يوم)
+* Limits:
+
+  * 50K requests/month
+* Integrations: ❌
+* Support: Email
+
+---
+
+#### 🔵 Business Company
+
+* Users: حتى 25
+* Authentication:
+
+  * MFA mandatory
+  * SSO (Google / Azure AD)
+* Authorization:
+
+  * Custom roles
+  * Policy-based access
+* Accounting:
+
+  * Audit logs (90 يوم)
+  * Usage analytics
+* Limits:
+
+  * 500K requests/month
+* Integrations:
+
+  * SIEM Export
+  * Webhooks
+* Support: SLA
+
+---
+
+#### 🔴 Enterprise
+
+* Users: Unlimited
+* Authentication:
+
+  * SSO (SAML / OIDC)
+  * Hardware MFA
+* Authorization:
+
+  * Attribute-Based Access (ABAC)
+* Accounting:
+
+  * Full immutable audit logs
+  * Compliance ready (ISO / SOC)
+* Limits:
+
+  * Unlimited
+* Integrations:
+
+  * SIEM (Splunk / Elastic)
+  * Custom APIs
+* Support: 24/7 + Account Manager
+
+---
+
+## 4️⃣ مصفوفة الصلاحيات (RBAC Example)
+
+| Role    | Login | View Logs | Export Logs | Manage Users | Billing |
+| ------- | ----- | --------- | ----------- | ------------ | ------- |
+| User    | ✔     | ❌         | ❌           | ❌            | ❌       |
+| Admin   | ✔     | ✔         | ✔           | ✔            | ✔       |
+| Analyst | ✔     | ✔         | ✔           | ❌            | ❌       |
+| Viewer  | ✔     | ✔         | ❌           | ❌            | ❌       |
+
+---
+
+## 5️⃣ Accounting & Billing
+
+### 📊 What to Track
+
+* Sessions
+* API calls
+* Feature usage
+* Errors / security events
+
+### 💰 Billing Model
+
+* Base subscription
+* * Usage over limits
+* * Add-ons:
+
+  - Extra logs retention
+  - Extra users
+  - Extra integrations
+
+---
+
+## 6️⃣ ملاحظات تقنية للتنفيذ (مهم جدًا)
+
+### Backend
+
+* AAA Service منفصل (Microservice)
+* JWT + Refresh Tokens
+* RBAC tables:
+
+  * users
+  * roles
+  * permissions
+  * plans
+  * plan_features
+* Feature flags حسب الخطة
+
+### DevOps
+
+* Rate limiting per plan
+* Centralized logging
+* Audit logs غير قابلة للتعديل
+
+### SIEM / SOC
+
+* Classification للأحداث
+* Severity levels
+* Correlation rules حسب الخطة
+
+---
+
+## 7️⃣ اقتراح الخطوة التالية
+
+إذا حاب:
+
+* ⏭️ أبني لك **DB Schema كامل**
+* ⏭️ API Design (Auth / Roles / Plans)
+* ⏭️ Flow Diagram (User vs Company)
+* ⏭️ Pricing page structure
+* ⏭️ Mapping مباشر مع مشروع ShiftWave الحالي
+
+قلي شو الخطوة الجاية وبمشي فيها بالتفصيل 💪
+
+</user_query>
+
+assistant:
+[Thinking] 
+ممتاز. أي خطوة تحب أبدأ فيها الآن؟
+
+- DB Schema كامل
+- API Design (Auth / Roles / Plans)
+- Flow Diagram (User vs Company)
+- Pricing page structure
+- Mapping مباشر مع مشروع ShiftWave الحالي
+
+user:
+<user_query>
+عملي ياهن بالتدريج من فضلك 
+</user_query>
+
+assistant:
+[Thinking] **Providing initial DB schema in Arabic**
+
+أقدم أولاً مخطط قاعدة البيانات للخطوة الأولى بشكل موجز وبالعربية كما هو مطلوب.
+تمام، ببلّش بالتدريج. الخطوة 1 الآن: **DB Schema كامل** (قابل للتوسّع للـ Users والـ Companies والـ Plans المتعددة).
+
+## 1) DB Schema (Entities + Relations)
+
+### 🔷 Core Identity
+**users**
+- id (PK)
+- email (unique)
+- password_hash
+- mfa_enabled (bool)
+- mfa_type (totp/sms/webauthn)
+- status (active/suspended/deleted)
+- created_at, updated_at, last_login_at
+
+**user_profiles**
+- user_id (PK/FK -> users.id)
+- full_name
+- phone
+- avatar_url
+- locale, timezone
+
+**organizations**
+- id (PK)
+- name
+- domain (unique, nullable)
+- industry
+- status
+- created_at, updated_at
+
+**organization_members**
+- id (PK)
+- organization_id (FK)
+- user_id (FK)
+- role_id (FK -> roles.id)
+- status (active/invited/removed)
+- invited_by (FK -> users.id)
+- joined_at
+
+---
+
+### 🔷 Authentication & Sessions
+**auth_providers**
+- id (PK)
+- user_id (FK)
+- provider (google/apple/azure/saml/oidc)
+- provider_user_id
+- created_at
+
+**sessions**
+- id (PK)
+- user_id (FK)
+- device_id
+- ip_address
+- user_agent
+- started_at, ended_at
+- status (active/revoked/expired)
+
+**api_keys**
+- id (PK)
+- owner_type (user/org)
+- owner_id
+- name
+- key_hash
+- last_used_at
+- created_at, revoked_at
+
+---
+
+### 🔷 Authorization (RBAC / ABAC)
+**roles**
+- id (PK)
+- scope (global/org)
+- name (Admin/Analyst/Viewer/User/Custom)
+- description
+
+**permissions**
+- id (PK)
+- resource (logs/users/billing/...)
+- action (read/create/update/delete/export/...)
+- description
+
+**role_permissions**
+- role_id (FK)
+- permission_id (FK)
+
+**policies** (PBAC/ABAC)
+- id (PK)
+- organization_id (FK)
+- name
+- definition_json (policy rules)
+- status
+
+---
+
+### 🔷 Plans & Subscriptions
+**plans**
+- id (PK)
+- type (user/company)
+- name (Free/Pro/Business/Enterprise)
+- price_monthly
+- billing_cycle (monthly/yearly)
+- status
+
+**plan_features**
+- id (PK)
+- plan_id (FK)
+- feature_key (mfa/sso/api_keys/log_export/siem/...)
+- enabled (bool)
+- limit_value (nullable int/decimal)
+- unit (requests/users/devices/days)
+
+**subscriptions**
+- id (PK)
+- owner_type (user/org)
+- owner_id
+- plan_id (FK)
+- status (active/trial/paused/canceled)
+- start_at, end_at, renewal_at
+- billing_provider (stripe/...)
+- external_subscription_id
+
+---
+
+### 🔷 Accounting & Logs
+**audit_logs**
+- id (PK)
+- owner_type (user/org)
+- owner_id
+- actor_user_id (FK)
+- event_type (login/logout/permission_change/...)
+- resource
+- metadata_json
+- created_at
+- severity (info/warn/critical)
+
+**usage_metrics**
+- id (PK)
+- owner_type (user/org)
+- owner_id
+- metric_key (api_calls/log_exports/...)
+- value
+- period_start, period_end
+
+---
+
+### 🔷 Billing
+**invoices**
+- id (PK)
+- subscription_id (FK)
+- amount
+- currency
+- status (paid/unpaid/failed)
+- issued_at, due_at
+- provider_invoice_id
+
+**payments**
+- id (PK)
+- invoice_id (FK)
+- amount
+- status
+- provider_payment_id
+- paid_at
+
+---
+
+## 2) Key Relationships (مختصر)
+- user ↔ organization_members ↔ organizations (Many-to-Many)
+- plans ↔ subscriptions (One-to-Many)
+- subscriptions ↔ invoices ↔ payments
+- roles ↔ role_permissions ↔ permissions
+- organization_members ↔ roles
+- policies مرتبطة بالـ organizations (PBAC/ABAC)
+
+---
+
+## 3) Notes مهمة للتوسّع
+- **owner_type/owner_id** تسمح باستخدام نفس الجداول لكل User وCompany
+- **plan_features** تسمح بحدود مرنة لكل خطة بدون تعديل الكود
+- **audit_logs** تعتمد على retention حسب الخطة (تطبّق بالـ data lifecycle)
+
+---
+
+إذا تمام، أبدأ مباشرة بالخطوة 2: **API Design (Auth / Roles / Plans)**.
+
+user:
+<user_query>
+اي عملي ياهن مباشرة على الكود من فضلك
+</user_query>
+
+assistant:
+[Thinking] **Confirming absence of code repository**
+
+The /home/ai directory shows no code repository, so no code changes can be made here.
+[Tool call] LS
+  target_directory: /home/ai
+
+[Tool result] LS
+
+assistant:
+[Thinking] **Exploring local project directory**
+
+I'm inspecting the /home/ai/ai-agent directory to identify the code project and understand its structure for the upcoming changes.
+[Tool call] LS
+  target_directory: /home/ai/ai-agent
+
+[Tool result] LS
+
+assistant:
+[Thinking] **Mapping backend AAA-related modules**
+
+I'm identifying key backend modules tied to authentication, authorization, and accounting, focusing on middleware, permissions, and models across identity, subscription, access, audit, features, and policy to prepare for targeted modifications. Next, I'll start by inspecting identity models to understand current structures.
+[Tool call] ReadFile
+  path: /home/ai/ai-agent/backend/app/identity/models.py
+[Tool call] ReadFile
+  path: /home/ai/ai-agent/backend/app/subscription/models.py
+[Tool call] ReadFile
+  path: /home/ai/ai-agent/backend/app/access/models.py
+[Tool call] ReadFile
+  path: /home/ai/ai-agent/backend/app/core/aaa_middleware.py
+
+[Tool result] ReadFile
+
+[Tool result] ReadFile
+
+[Tool result] ReadFile
+
+[Tool result] ReadFile
+
+assistant:
+[Thinking] **Planning schema extension for AAA plan**
+
+I'm outlining changes to support diverse plan types and ownership by user or company, considering new models for plan features and adjusting subscriptions while preserving tenant-based compatibility. Next, I'll review subscription service code to scope necessary updates.
+[Tool call] ReadFile
+  path: /home/ai/ai-agent/backend/app/subscription/service.py
+
+[Tool result] ReadFile
+
+assistant:
+[Thinking] **Planning multi-owner support**
+
+I'm preparing to add owner_type and owner_id fields to support user vs company ownership alongside tenant-based logic and will create a new Alembic migration after inspecting existing subscription schemas.
+[Tool call] ReadFile
+  path: /home/ai/ai-agent/backend/app/subscription/schemas.py
+
+[Tool result] ReadFile
+
+assistant:
+[Thinking] **Refining subscription ownership and feature modeling**
+
+I'm aligning subscriptions with owner_type/owner_id to distinguish users from companies, considering tenants for companies and individual tenants for users. For scalable feature management, I'm planning to extend plans with explicit feature columns or a dedicated PlanFeature model beyond the current flexible features_json.
+**Starting PlanFeature table and refining ownership**
+
+I'm implementing a PlanFeature table and models while leveraging tenants for companies and individuals to minimize disruption. I'm weighing owner_type/owner_id for subscriptions but favor tenant-based links for compatibility, and I'll review existing permission management for potential RBAC adjustments.
+[Tool call] ReadFile
+  path: /home/ai/ai-agent/backend/app/access/service.py
+[Tool call] ReadFile
+  path: /home/ai/ai-agent/backend/app/core/permissions.py
+[Tool call] ReadFile
+  path: /home/ai/ai-agent/backend/app/audit/models.py
+
+[Tool result] ReadFile
+
+[Tool result] ReadFile
+
+[Tool result] ReadFile
+
+assistant:
+[Thinking] **Scoping multi-subscription implementation**
+
+Planning to extend subscription models with plan types, features, and ownership while maintaining tenant compatibility; this involves adding plan_features, owner_type/owner_id, and handling tenant_id carefully to avoid breaking existing code.
+**Identifying next steps on tenant and feature modeling**
+
+Considering adding personal_tenant_id to users but postponing due to complexity; focusing now on implementing plan types and features and exploring feature entitlement mapping in core/features.py.
+[Tool call] ReadFile
+  path: /home/ai/ai-agent/backend/app/core/features.py
+
+[Tool result] ReadFile
+
+assistant:
+[Thinking] **Inspecting features models**
+[Tool call] ReadFile
+  path: /home/ai/ai-agent/backend/app/features/models.py
+
+[Tool result] ReadFile
+
+assistant:
+[Thinking] **Checking existing feature entitlements**
+
+I'll verify if the current migration already links plans to feature entitlements before creating a new plan-feature table.
+[Tool call] ReadFile
+  path: /home/ai/ai-agent/backend/migrations/versions/003_add_feature_entitlements.py
+
+[Tool result] ReadFile
+
+assistant:
+[Thinking] **Planning plan-features mapping**
+
+I’ll implement a plan catalog mapping plans to features and quotas, then auto-provision tenant_features on subscription creation or update based on the plan. Next, I’ll inspect subscription APIs to handle this logic.
+[Tool call] ReadFile
+  path: /home/ai/ai-agent/backend/app/api/subscription_api.py
+
+[Tool result] ReadFile
+
+assistant:
+[Thinking] **Planning detailed plan features update**
+
+The API will be updated to include multiple new plan fields and features, introducing a flexible PlanFeature table for toggles and limits like MFA, social login, log retention, and device limits; existing fields like max_requests will split into daily and monthly limits. Next, I'll implement these schema and service modifications and integrate them into plan responses and quota creation accordingly.
+**Expanding plan model and integration**
+
+I'm planning to add a PlanFeature model with corresponding schemas and link it to plans while maintaining backward compatibility. I'll update subscription creation to sync plan features with tenant entitlements and quotas, enhance filtering by plan_type, and consider necessary database seed scripts for defaults.
+[Tool call] rg
+  pattern: seed|init_plans|default plan|plan fixtures
+  path: /home/ai/ai-agent/backend
+  output_mode: files_with_matches
+  head_limit: 20
+
+[Tool result] rg
+
+assistant:
+[Tool call] ReadFile
+  path: /home/ai/ai-agent/backend/app/identity/service.py
+
+[Tool result] ReadFile
+
+assistant:
+[Thinking] **Planning plan features and migrations**
+
+I'm preparing to implement plan features in the database schema and API, adding a new migration to extend plans with feature columns and creating endpoints to filter and manage plans by type and features. I'll base the new migration on existing ones and aim to support feature-to-permission mappings without seeding defaults for now.
+**Designing plan features table and syncing logic**
+
+I'm outlining a separate plan_features table with feature keys, enabled flags, and optional numeric limits plus units to keep plans minimal. Features will sync to tenant_features on subscription creation via a new sync function using JSON limits for numeric features, supporting both toggles and quotas. I'll also support individual tenant types for user plans, possibly auto-creating personal tenants during user creation.
+[Tool call] ReadFile
+  path: /home/ai/ai-agent/backend/app/identity/schemas.py
+
+[Tool result] ReadFile
+
+assistant:
+[Thinking] **Evaluating approach for plan and tenant setup**
+
+Considering personal tenant creation via IdentityService but noting possible flow impact; leaning toward adding a DB seed script for plan catalog with user and company plans to keep core implementation focused and safe.
+[Tool call] LS
+  target_directory: /home/ai/ai-agent/backend/scripts
+
+[Tool result] LS
+
+assistant:
+[Tool call] ReadFile
+  path: /home/ai/ai-agent/backend/scripts/setup_initial_data.py
+
+[Tool result] ReadFile
+
+assistant:
+[Thinking] **Designing plan and feature models**
+
+I'm outlining a PlanFeature model to track individual feature enablement and limits per plan with constraints, plus updating Plan to add standard fields like max devices and max daily requests while leaning on PlanFeature for most limits. Next, I'll update schemas, services, migrations, and seed data accordingly.
+**Expanding plan model and usage logic**
+
+I'm adding new Plan fields for type, devices, daily requests, and log retention while enhancing usage counters to support daily periods via resource_type naming. I'll implement PlanFeature relationships, update schemas and services to handle plan features and quota creation, and prepare a migration plus updated seed data.
+[Tool call] ApplyPatch*** Begin Patch
+*** Update File: /home/ai/ai-agent/backend/app/subscription/models.py
+@@
+-from sqlalchemy import Column, String, DateTime, ForeignKey, Boolean, Text, Integer, Numeric, BigInteger, JSON, Index
++from sqlalchemy import Column, String, DateTime, ForeignKey, Boolean, Text, Integer, Numeric, BigInteger, JSON, Index
+@@
+ class Plan(Base):
+     """Plan model - subscription plans/packages."""
+     __tablename__ = "plans"
+ 
+     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+     name = Column(String(255), nullable=False)
+     description = Column(Text, nullable=True)
++    plan_type = Column(String(50), default="company")  # company, user
+     price_monthly = Column(Numeric(10, 2), nullable=True)
+     price_yearly = Column(Numeric(10, 2), nullable=True)
+@@
+     max_requests = Column(BigInteger, nullable=True)  # NULL = unlimited
++    max_requests_daily = Column(BigInteger, nullable=True)  # NULL = unlimited
+     max_tokens = Column(BigInteger, nullable=True)  # NULL = unlimited
+     max_storage_gb = Column(Numeric(10, 2), nullable=True)  # NULL = unlimited
+     max_workflow_runs = Column(Integer, nullable=True)  # NULL = unlimited
+     max_agents = Column(Integer, nullable=True)  # NULL = unlimited
+     max_log_volume_gb = Column(Numeric(10, 2), nullable=True)  # NULL = unlimited
++    max_devices = Column(Integer, nullable=True)  # NULL = unlimited
++    log_retention_days = Column(Integer, nullable=True)  # NULL = unlimited
+@@
+     # Relationships
+-    subscriptions = relationship("Subscription", back_populates="plan")
++    subscriptions = relationship("Subscription", back_populates="plan")
++    plan_features = relationship("PlanFeature", back_populates="plan", cascade="all, delete-orphan")
+@@
+     def __repr__(self):
+         return f"<Plan(id={self.id}, name={self.name}, status={self.status})>"
++
++
++class PlanFeature(Base):
++    """PlanFeature model - feature entitlements per plan."""
++    __tablename__ = "plan_features"
++
++    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
++    plan_id = Column(UUID(as_uuid=True), ForeignKey("plans.id"), nullable=False, index=True)
++    feature_key = Column(String(100), nullable=False, index=True)
++    enabled = Column(Boolean, default=True, nullable=False)
++    limit_value = Column(BigInteger, nullable=True)
++    unit = Column(String(50), nullable=True)
++    created_at = Column(DateTime, default=datetime.utcnow)
++    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
++
++    plan = relationship("Plan", back_populates="plan_features")
++
++    __table_args__ = (
++        Index("idx_plan_feature_unique", "plan_id", "feature_key", unique=True),
++    )
++
++    def __repr__(self):
++        return f"<PlanFeature(plan_id={self.plan_id}, feature_key={self.feature_key}, enabled={self.enabled})>"
+*** End Patch
+
+[Tool result] ApplyPatch
+
+assistant:
+[Thinking] **Updating schemas with PlanFeature**
+[Tool call] ApplyPatch*** Begin Patch
+*** Update File: /home/ai/ai-agent/backend/app/subscription/schemas.py
+@@
+-from pydantic import BaseModel, Field
+-from typing import Optional, Dict, Any, List
++from pydantic import BaseModel, Field
++from typing import Optional, Dict, Any, List
+@@
+-# Plan Schemas
++# Plan Feature Schemas
++class PlanFeatureBase(BaseModel):
++    feature_key: str
++    enabled: bool = True
++    limit_value: Optional[int] = None
++    unit: Optional[str] = None
++
++
++class PlanFeatureCreate(PlanFeatureBase):
++    pass
++
++
++class PlanFeatureResponse(PlanFeatureBase):
++    id: UUID
++    created_at: datetime
++    updated_at: datetime
++
++    class Config:
++        from_attributes = True
++
++
++# Plan Schemas
+ class PlanBase(BaseModel):
+     name: str
+     description: Optional[str] = None
++    plan_type: str = "company"
+     price_monthly: Optional[Decimal] = None
+     price_yearly: Optional[Decimal] = None
+     max_users: Optional[int] = None
+     max_requests: Optional[int] = None
++    max_requests_daily: Optional[int] = None
+     max_tokens: Optional[int] = None
+     max_storage_gb: Optional[Decimal] = None
+     max_workflow_runs: Optional[int] = None
+     max_agents: Optional[int] = None
+     max_log_volume_gb: Optional[Decimal] = None
++    max_devices: Optional[int] = None
++    log_retention_days: Optional[int] = None
+     features_json: Optional[Dict[str, Any]] = None
++    plan_features: Optional[List[PlanFeatureCreate]] = None
+ 
+ 
+ class PlanCreate(PlanBase):
+     pass
+@@
+ class PlanUpdate(BaseModel):
+     name: Optional[str] = None
+     description: Optional[str] = None
++    plan_type: Optional[str] = None
+     price_monthly: Optional[Decimal] = None
+     price_yearly: Optional[Decimal] = None
+     max_users: Optional[int] = None
+     max_requests: Optional[int] = None
++    max_requests_daily: Optional[int] = None
+     max_tokens: Optional[int] = None
+     max_storage_gb: Optional[Decimal] = None
+     max_workflow_runs: Optional[int] = None
+     max_agents: Optional[int] = None
+     max_log_volume_gb: Optional[Decimal] = None
++    max_devices: Optional[int] = None
++    log_retention_days: Optional[int] = None
+     features_json: Optional[Dict[str, Any]] = None
++    plan_features: Optional[List[PlanFeatureCreate]] = None
+     status: Optional[str] = None
+     is_public: Optional[bool] = None
+@@
+ class PlanResponse(PlanBase):
+     id: UUID
+     status: str
+     is_public: bool
+     created_at: datetime
+     updated_at: datetime
++    plan_features: Optional[List[PlanFeatureResponse]] = None
+ 
+     class Config:
+         from_attributes = True
+*** End Patch
+
+[Tool result] ApplyPatch
+
+assistant:
+[Thinking] **Adjusting plan features typing and updating service**
+
+I'm overriding plan_features in the response model to use the response type instead of the create type, ensuring correct typing. Next, I'll update subscription/service.py to handle these new fields and the plan features accordingly.
+[Tool call] ApplyPatch*** Begin Patch
+*** Update File: /home/ai/ai-agent/backend/app/subscription/service.py
+@@
+-from app.subscription.models import Plan, Subscription, UsageCounter, UsageQuota, UsageEvent
++from app.subscription.models import Plan, PlanFeature, Subscription, UsageCounter, UsageQuota, UsageEvent
+ from app.subscription.schemas import PlanCreate, SubscriptionCreate, UsageCounterCreate
+ from app.identity.models import Tenant
++from app.features.models import Feature, TenantFeature
+@@
+     def create_plan(db: Session, plan_data: PlanCreate) -> Plan:
+         """Create a new plan."""
+         plan = Plan(
+             name=plan_data.name,
+             description=plan_data.description,
++            plan_type=plan_data.plan_type,
+             price_monthly=plan_data.price_monthly,
+             price_yearly=plan_data.price_yearly,
+             max_users=plan_data.max_users,
+             max_requests=plan_data.max_requests,
++            max_requests_daily=plan_data.max_requests_daily,
+             max_tokens=plan_data.max_tokens,
+             max_storage_gb=plan_data.max_storage_gb,
+             max_workflow_runs=plan_data.max_workflow_runs,
+             max_agents=plan_data.max_agents,
+             max_log_volume_gb=plan_data.max_log_volume_gb,
++            max_devices=plan_data.max_devices,
++            log_retention_days=plan_data.log_retention_days,
+             features_json=plan_data.features_json,
+             status="active",
+             is_public=True
+         )
+         db.add(plan)
+         db.commit()
+         db.refresh(plan)
++
++        if plan_data.plan_features:
++            for feature in plan_data.plan_features:
++                plan_feature = PlanFeature(
++                    plan_id=plan.id,
++                    feature_key=feature.feature_key,
++                    enabled=feature.enabled,
++                    limit_value=feature.limit_value,
++                    unit=feature.unit,
++                )
++                db.add(plan_feature)
++            db.commit()
++            db.refresh(plan)
++
+         return plan
+@@
+-    def get_active_plans(db: Session) -> List[Plan]:
+-        """Get all active public plans."""
+-        return db.query(Plan).filter(
+-            Plan.status == "active",
+-            Plan.is_public == True
+-        ).all()
++    def get_active_plans(db: Session, plan_type: Optional[str] = None) -> List[Plan]:
++        """Get all active public plans."""
++        query = db.query(Plan).filter(
++            Plan.status == "active",
++            Plan.is_public == True
++        )
++        if plan_type:
++            query = query.filter(Plan.plan_type == plan_type)
++        return query.all()
+@@
+     def create_subscription(
+         db: Session,
+         subscription_data: SubscriptionCreate
+     ) -> Subscription:
+@@
+         subscription = Subscription(
+             tenant_id=subscription_data.tenant_id,
+             plan_id=subscription_data.plan_id,
+             start_at=subscription_data.start_at,
+             end_at=subscription_data.end_at,
+             grace_end_at=subscription_data.grace_end_at,
+             renewal_type=subscription_data.renewal_type,
+             status="trial" if subscription_data.end_at > datetime.utcnow() else "active"
+         )
+         db.add(subscription)
+         db.commit()
+         db.refresh(subscription)
+ 
+         # Create usage quotas from plan limits
+         plan = subscription.plan
+         if plan:
+             SubscriptionService._create_quotas_from_plan(db, subscription.id, plan)
++            SubscriptionService._apply_plan_features_to_tenant(db, subscription.tenant_id, plan)
+ 
+         return subscription
+@@
+     def _create_quotas_from_plan(db: Session, subscription_id: UUID, plan: Plan):
+         """Create usage quotas from plan limits."""
+         resource_mappings = {
+             "requests": plan.max_requests,
++            "requests_daily": plan.max_requests_daily,
+             "tokens": plan.max_tokens,
+             "storage_gb": plan.max_storage_gb,
+             "workflow_runs": plan.max_workflow_runs,
+             "agents": plan.max_agents,
+             "log_volume_gb": plan.max_log_volume_gb,
+         }
+@@
+         db.commit()
++
++    @staticmethod
++    def _apply_plan_features_to_tenant(db: Session, tenant_id: UUID, plan: Plan) -> None:
++        """Apply plan feature entitlements to tenant feature flags."""
++        if not plan.plan_features:
++            return
++
++        for plan_feature in plan.plan_features:
++            feature = db.query(Feature).filter(Feature.key == plan_feature.feature_key).first()
++            if not feature:
++                feature = Feature(
++                    key=plan_feature.feature_key,
++                    name=plan_feature.feature_key,
++                    description=f"Auto-created from plan {plan.name}",
++                )
++                db.add(feature)
++                db.flush()
++
++            tenant_feature = db.query(TenantFeature).filter(
++                TenantFeature.tenant_id == tenant_id,
++                TenantFeature.feature_key == plan_feature.feature_key,
++            ).first()
++
++            limits_payload = None
++            if plan_feature.limit_value is not None or plan_feature.unit:
++                limits_payload = {
++                    "limit": plan_feature.limit_value,
++                    "unit": plan_feature.unit,
++                }
++
++            if tenant_feature:
++                tenant_feature.enabled = plan_feature.enabled
++                tenant_feature.limits = limits_payload
++                tenant_feature.updated_at = datetime.utcnow()
++            else:
++                tenant_feature = TenantFeature(
++                    tenant_id=tenant_id,
++                    feature_key=plan_feature.feature_key,
++                    enabled=plan_feature.enabled,
++                    limits=limits_payload,
++                )
++                db.add(tenant_feature)
++
++        db.commit()
+@@
+     def increment_usage(
+         db: Session,
+         subscription_id: UUID,
+         resource_type: str,
+         amount: int = 1
+     ) -> UsageCounter:
+         """Increment usage counter for a resource."""
+-        # Get current period (monthly)
+-        now = datetime.utcnow()
+-        period_start = datetime(now.year, now.month, 1)
+-        period_end = (period_start + timedelta(days=32)).replace(day=1)
++        now = datetime.utcnow()
++        period_start, period_end = SubscriptionService._get_period_window(resource_type, now)
+@@
+     def get_usage(
+         db: Session,
+         subscription_id: UUID,
+         resource_type: Optional[str] = None
+     ) -> Dict[str, Any]:
+         """Get usage for subscription."""
+-        now = datetime.utcnow()
+-        period_start = datetime(now.year, now.month, 1)
+-        period_end = (period_start + timedelta(days=32)).replace(day=1)
++        now = datetime.utcnow()
++        period_start, period_end = SubscriptionService._get_period_window(resource_type, now)
+@@
+     def check_usage_limit(
+         db: Session,
+         subscription_id: UUID,
+         resource_type: str,
+         requested_amount: int = 1
+     ) -> Dict[str, Any]:
+         """Check if usage is within limits."""
+@@
+         usage = SubscriptionService.get_usage(db, subscription_id, resource_type)
+         current_usage = usage.get(resource_type, 0)
+@@
+         return {
+             "allowed": allowed,
+             "current_usage": current_usage,
+             "limit": quota.limit,
+             "remaining": max(0, quota.limit - current_usage),
+             "warning_threshold": quota.warning_threshold,
+             "is_warning": current_usage >= (quota.limit * quota.warning_threshold / 100)
+         }
++
++    @staticmethod
++    def _get_period_window(resource_type: Optional[str], now: datetime) -> tuple[datetime, datetime]:
++        """Get period window for usage counters (daily vs monthly)."""
++        if resource_type and resource_type.endswith("_daily"):
++            period_start = datetime(now.year, now.month, now.day)
++            period_end = period_start + timedelta(days=1)
++            return period_start, period_end
++
++        period_start = datetime(now.year, now.month, 1)
++        period_end = (period_start + timedelta(days=32)).replace(day=1)
++        return period_start, period_end
+*** End Patch
+
+[Tool result] ApplyPatch
+
+assistant:
+[Thinking] **Updating subscription API for plan_type and limits**
+
+I'm enabling subscription_api to accept a plan_type parameter and updating its returned limits to include the new fields, aligning with changes to resource_type handling in usage functions.
+[Tool call] ApplyPatch*** Begin Patch
+*** Update File: /home/ai/ai-agent/backend/app/api/subscription_api.py
+@@
+-@router.get("/plans", response_model=List[schemas.PlanResponse])
+-async def get_plans(
+-    db: Session = Depends(get_db)
+-):
+-    """Get all active plans."""
+-    plans = subscription_service.SubscriptionService.get_active_plans(db)
+-    return [schemas.PlanResponse.from_orm(p) for p in plans]
++@router.get("/plans", response_model=List[schemas.PlanResponse])
++async def get_plans(
++    plan_type: Optional[str] = None,
++    db: Session = Depends(get_db)
++):
++    """Get all active plans."""
++    plans = subscription_service.SubscriptionService.get_active_plans(db, plan_type=plan_type)
++    return [schemas.PlanResponse.from_orm(p) for p in plans]
+@@
+-    limits = {}
++    limits = {}
+     if status_info["subscription"].plan:
+         plan = status_info["subscription"].plan
+         limits = {
+             "requests": plan.max_requests,
++            "requests_daily": plan.max_requests_daily,
+             "tokens": plan.max_tokens,
+             "storage_gb": plan.max_storage_gb,
+             "workflow_runs": plan.max_workflow_runs,
+             "agents": plan.max_agents,
+             "log_volume_gb": plan.max_log_volume_gb,
++            "devices": plan.max_devices,
++            "log_retention_days": plan.log_retention_days,
+         }
+*** End Patch
+
+[Tool result] ApplyPatch
+
+assistant:
+[Thinking] **Planning detailed plan and feature setup**
+
+I'm updating initial data creation to manually define plans with concrete features and quotas, separating user and company plans, and representing feature flags like MFA, SSO, API keys, exports, plus limits such as log retention, max devices, and request quotas both daily and monthly.
+**Refining plan features and retention details**
+
+I'm finalizing features and quotas like log retention days per plan and distinguishing required versus optional MFA with separate flags. Features like social login, SSO, API keys, and integrations are assigned per plan tier. I'll implement these updates in setup_initial_data using plan feature helpers and adjust plan selections accordingly.
+[Tool call] ApplyPatch*** Begin Patch
+*** Update File: /home/ai/ai-agent/backend/scripts/setup_initial_data.py
+@@
+-from app.subscription.schemas import PlanCreate, SubscriptionCreate
++from app.subscription.schemas import PlanCreate, SubscriptionCreate, PlanFeatureCreate
+@@
+-        plans_data = [
+-            PlanCreate(
+-                name="Basic",
+-                description="Basic Plan - Limited features",
+-                price_monthly=29.99,
+-                max_users=5,
+-                max_requests=10000,
+-                max_tokens=1000000,
+-                max_storage_gb=10,
+-                max_workflow_runs=100,
+-                max_agents=2,
+-                max_log_volume_gb=5,
+-                features_json={
+-                    "ai_debugger": False,
+-                    "cicd": False,
+-                    "security": True,
+-                    "threat_detection": False
+-                }
+-            ),
+-            PlanCreate(
+-                name="Pro",
+-                description="Professional Plan - Full features",
+-                price_monthly=99.99,
+-                max_users=20,
+-                max_requests=100000,
+-                max_tokens=10000000,
+-                max_storage_gb=100,
+-                max_workflow_runs=1000,
+-                max_agents=10,
+-                max_log_volume_gb=50,
+-                features_json={
+-                    "ai_debugger": True,
+-                    "cicd": True,
+-                    "security": True,
+-                    "threat_detection": True
+-                }
+-            ),
+-            PlanCreate(
+-                name="Enterprise",
+-                description="Enterprise Plan - Unlimited",
+-                price_monthly=999.99,
+-                max_users=None,  # Unlimited
+-                max_requests=None,
+-                max_tokens=None,
+-                max_storage_gb=None,
+-                max_workflow_runs=None,
+-                max_agents=None,
+-                max_log_volume_gb=None,
+-                features_json={
+-                    "ai_debugger": True,
+-                    "cicd": True,
+-                    "security": True,
+-                    "threat_detection": True
+-                }
+-            )
+-        ]
++        plans_data = [
++            # User Plans
++            PlanCreate(
++                name="Free",
++                plan_type="user",
++                description="Free User Plan - Basic access",
++                price_monthly=0,
++                max_users=1,
++                max_requests_daily=100,
++                max_devices=1,
++                log_retention_days=7,
++                plan_features=[
++                    PlanFeatureCreate(feature_key="auth.email_password", enabled=True),
++                    PlanFeatureCreate(feature_key="logs.login", enabled=True),
++                ],
++            ),
++            PlanCreate(
++                name="Pro User",
++                plan_type="user",
++                description="Pro User Plan - Extended usage",
++                price_monthly=19.99,
++                max_users=1,
++                max_requests=10000,
++                max_devices=5,
++                log_retention_days=30,
++                plan_features=[
++                    PlanFeatureCreate(feature_key="auth.email_password", enabled=True),
++                    PlanFeatureCreate(feature_key="auth.mfa", enabled=True),
++                    PlanFeatureCreate(feature_key="auth.social_login", enabled=True),
++                    PlanFeatureCreate(feature_key="logs.export", enabled=True),
++                ],
++            ),
++            PlanCreate(
++                name="Power User",
++                plan_type="user",
++                description="Power User Plan - Advanced access",
++                price_monthly=49.99,
++                max_users=1,
++                max_requests=100000,
++                max_devices=None,
++                log_retention_days=90,
++                plan_features=[
++                    PlanFeatureCreate(feature_key="auth.email_password", enabled=True),
++                    PlanFeatureCreate(feature_key="auth.mfa", enabled=True),
++                    PlanFeatureCreate(feature_key="auth.mfa_required", enabled=True),
++                    PlanFeatureCreate(feature_key="auth.social_login", enabled=True),
++                    PlanFeatureCreate(feature_key="auth.api_keys", enabled=True),
++                    PlanFeatureCreate(feature_key="logs.export", enabled=True),
++                    PlanFeatureCreate(feature_key="logs.audit_full", enabled=True),
++                ],
++            ),
++            # Company Plans
++            PlanCreate(
++                name="Starter Company",
++                plan_type="company",
++                description="Starter Company Plan - Small teams",
++                price_monthly=99.99,
++                max_users=5,
++                max_requests=50000,
++                log_retention_days=30,
++                plan_features=[
++                    PlanFeatureCreate(feature_key="auth.email_password", enabled=True),
++                    PlanFeatureCreate(feature_key="auth.mfa", enabled=True),
++                    PlanFeatureCreate(feature_key="roles.predefined", enabled=True),
++                    PlanFeatureCreate(feature_key="logs.audit", enabled=True),
++                ],
++            ),
++            PlanCreate(
++                name="Business Company",
++                plan_type="company",
++                description="Business Company Plan - Growing teams",
++                price_monthly=299.99,
++                max_users=25,
++                max_requests=500000,
++                log_retention_days=90,
++                plan_features=[
++                    PlanFeatureCreate(feature_key="auth.email_password", enabled=True),
++                    PlanFeatureCreate(feature_key="auth.mfa", enabled=True),
++                    PlanFeatureCreate(feature_key="auth.mfa_required", enabled=True),
++                    PlanFeatureCreate(feature_key="auth.sso", enabled=True),
++                    PlanFeatureCreate(feature_key="roles.custom", enabled=True),
++                    PlanFeatureCreate(feature_key="policies.pbac", enabled=True),
++                    PlanFeatureCreate(feature_key="logs.audit", enabled=True),
++                    PlanFeatureCreate(feature_key="logs.export", enabled=True),
++                    PlanFeatureCreate(feature_key="integrations.siem_export", enabled=True),
++                    PlanFeatureCreate(feature_key="integrations.webhooks", enabled=True),
++                ],
++            ),
++            PlanCreate(
++                name="Enterprise",
++                plan_type="company",
++                description="Enterprise Plan - Unlimited",
++                price_monthly=999.99,
++                max_users=None,  # Unlimited
++                max_requests=None,
++                log_retention_days=None,
++                plan_features=[
++                    PlanFeatureCreate(feature_key="auth.email_password", enabled=True),
++                    PlanFeatureCreate(feature_key="auth.mfa", enabled=True),
++                    PlanFeatureCreate(feature_key="auth.mfa_required", enabled=True),
++                    PlanFeatureCreate(feature_key="auth.sso", enabled=True),
++                    PlanFeatureCreate(feature_key="auth.hardware_mfa", enabled=True),
++                    PlanFeatureCreate(feature_key="roles.custom", enabled=True),
++                    PlanFeatureCreate(feature_key="policies.abac", enabled=True),
++                    PlanFeatureCreate(feature_key="logs.audit_immutable", enabled=True),
++                    PlanFeatureCreate(feature_key="logs.export", enabled=True),
++                    PlanFeatureCreate(feature_key="integrations.siem_export", enabled=True),
++                    PlanFeatureCreate(feature_key="integrations.webhooks", enabled=True),
++                    PlanFeatureCreate(feature_key="integrations.custom_api", enabled=True),
++                ],
++            ),
++        ]
+*** End Patch
+
+[Tool result] ApplyPatch
+
+assistant:
+[Thinking] **Preparing migration for plan features and fields**
+
+Planning a new migration adding plan_type and usage limit columns to plans, plus a new plan_features table, with existence checks to avoid conflicts. Next step is implementing this migration file.
+[Tool call] ApplyPatch*** Begin Patch
+*** Add File: /home/ai/ai-agent/backend/migrations/versions/007_add_plan_features_and_plan_fields.py
++"""Add plan feature table and plan fields.
++
++Revision ID: 007_add_plan_features_and_plan_fields
++Revises: 006_harden_invitations_and_permissions_version
++Create Date: 2026-02-01
++"""
++from alembic import op
++import sqlalchemy as sa
++from sqlalchemy.dialects import postgresql
++
++# revision identifiers, used by Alembic.
++revision = "007_add_plan_features_and_plan_fields"
++down_revision = "006_harden_invitations_and_permissions_version"
++branch_labels = None
++depends_on = None
++
++
++def upgrade():
++    """Add plan fields and plan_features table."""
++    from sqlalchemy import inspect
++
++    conn = op.get_bind()
++    inspector = inspect(conn)
++    is_sqlite = conn.dialect.name == "sqlite"
++    existing_tables = inspector.get_table_names()
++
++    if "plans" in existing_tables:
++        plan_columns = [col["name"] for col in inspector.get_columns("plans")]
++        if "plan_type" not in plan_columns:
++            op.add_column("plans", sa.Column("plan_type", sa.String(length=50), server_default="company"))
++        if "max_requests_daily" not in plan_columns:
++            op.add_column("plans", sa.Column("max_requests_daily", sa.BigInteger(), nullable=True))
++        if "max_devices" not in plan_columns:
++            op.add_column("plans", sa.Column("max_devices", sa.Integer(), nullable=True))
++        if "log_retention_days" not in plan_columns:
++            op.add_column("plans", sa.Column("log_retention_days", sa.Integer(), nullable=True))
++
++    if "plan_features" not in existing_tables:
++        op.create_table(
++            "plan_features",
++            sa.Column("id", postgresql.UUID(as_uuid=True), primary_key=True),
++            sa.Column("plan_id", postgresql.UUID(as_uuid=True), nullable=False),
++            sa.Column("feature_key", sa.String(length=100), nullable=False),
++            sa.Column("enabled", sa.Boolean(), server_default="true", nullable=False),
++            sa.Column("limit_value", sa.BigInteger(), nullable=True),
++            sa.Column("unit", sa.String(length=50), nullable=True),
++            sa.Column("created_at", sa.DateTime(), server_default=sa.func.now(), nullable=False),
++            sa.Column("updated_at", sa.DateTime(), server_default=sa.func.now(), nullable=False),
++        )
++        op.create_index("ix_plan_features_plan_id", "plan_features", ["plan_id"])
++        op.create_index("ix_plan_features_feature_key", "plan_features", ["feature_key"])
++        op.create_index(
++            "idx_plan_feature_unique",
++            "plan_features",
++            ["plan_id", "feature_key"],
++            unique=True,
++        )
++        if not is_sqlite:
++            op.create_foreign_key(
++                "fk_plan_features_plan",
++                "plan_features",
++                "plans",
++                ["plan_id"],
++                ["id"],
++            )
++
++
++def downgrade():
++    """Drop plan fields and plan_features table."""
++    conn = op.get_bind()
++    inspector = sa.inspect(conn)
++    is_sqlite = conn.dialect.name == "sqlite"
++    existing_tables = inspector.get_table_names()
++
++    if "plan_features" in existing_tables:
++        if not is_sqlite:
++            op.drop_constraint("fk_plan_features_plan", "plan_features", type_="foreignkey")
++        op.drop_index("idx_plan_feature_unique", table_name="plan_features")
++        op.drop_index("ix_plan_features_feature_key", table_name="plan_features")
++        op.drop_index("ix_plan_features_plan_id", table_name="plan_features")
++        op.drop_table("plan_features")
++
++    if "plans" in existing_tables:
++        plan_columns = [col["name"] for col in inspector.get_columns("plans")]
++        if "log_retention_days" in plan_columns:
++            op.drop_column("plans", "log_retention_days")
++        if "max_devices" in plan_columns:
++            op.drop_column("plans", "max_devices")
++        if "max_requests_daily" in plan_columns:
++            op.drop_column("plans", "max_requests_daily")
++        if "plan_type" in plan_columns:
++            op.drop_column("plans", "plan_type")
+*** End Patch
+
+[Tool result] ApplyPatch
+
+assistant:
+[Thinking] **Reviewing subscription schema and usage updates**
+
+The plan_features field was added to the plan schema, requiring updates in subscription models and services, especially around usage calculation with resource types and period windows. Some schema updates are deferred as optional or unnecessary, but tests may need adjustments for PlanCreate references.
+**Verifying minor import and lint updates**
+
+I'll update imports of PlanFeature in subscription models and check if __init__.py requires changes to maintain consistency and pass lint checks.
+[Tool call] ReadFile
+  path: /home/ai/ai-agent/backend/app/subscription/__init__.py
+
+[Tool result] ReadFile
+
+assistant:
+[Thinking] **Adding PlanFeature to patch**
+[Tool call] ApplyPatch*** Begin Patch
+*** Update File: /home/ai/ai-agent/backend/app/subscription/__init__.py
+@@
+-"""Subscription module - Plans, Subscriptions, Usage Counters."""
+-from app.subscription.models import Plan, Subscription, UsageCounter, UsageQuota
+-
+-__all__ = ["Plan", "Subscription", "UsageCounter", "UsageQuota"]
++"""Subscription module - Plans, Subscriptions, Usage Counters."""
++from app.subscription.models import Plan, PlanFeature, Subscription, UsageCounter, UsageQuota
++
++__all__ = ["Plan", "PlanFeature", "Subscription", "UsageCounter", "UsageQuota"]
+*** End Patch
+
+[Tool result] ApplyPatch
+
+assistant:
+[Thinking] **Updating subscription schema and service**
+
+I'm adding PlanFeatureResponse to subscription schemas and ensuring subscription_api includes plan_features using PlanResponse from ORM. PlanFeature relationships may load lazily, so Pydantic will use from_attributes for this. I'm also updating service methods to handle plan_features correctly, including lazy loading in the session. Additionally, get_active_plans now accepts an optional plan_type. I'll adjust get_usage to handle multiple resource types when resource_type is None, to cover both monthly and daily counters for accurate usage.
+**Enhancing tenant features with log retention and device limits**
+
+I'm updating the subscription schemas to handle plan_features types more precisely and enhancing the service to include plan's log_retention_days as a tenant feature ("logs.retention_days"). I'm also adding a "devices.max" feature for max_devices, even if unused now, to future-proof tenant feature application with a patch to _apply_plan_features_to_tenant.
+[Tool call] ApplyPatch*** Begin Patch
+*** Update File: /home/ai/ai-agent/backend/app/subscription/service.py
+@@
+     def _apply_plan_features_to_tenant(db: Session, tenant_id: UUID, plan: Plan) -> None:
+         """Apply plan feature entitlements to tenant feature flags."""
+-        if not plan.plan_features:
+-            return
++        plan_features = list(plan.plan_features or [])
++
++        if plan.log_retention_days is not None:
++            plan_features.append(
++                PlanFeature(
++                    plan_id=plan.id,
++                    feature_key="logs.retention_days",
++                    enabled=True,
++                    limit_value=int(plan.log_retention_days),
++                    unit="days",
++                )
++            )
++
++        if plan.max_devices is not None:
++            plan_features.append(
++                PlanFeature(
++                    plan_id=plan.id,
++                    feature_key="devices.max",
++                    enabled=True,
++                    limit_value=int(plan.max_devices),
++                    unit="count",
++                )
++            )
+ 
+-        for plan_feature in plan.plan_features:
++        if not plan_features:
++            return
++
++        for plan_feature in plan_features:
+             feature = db.query(Feature).filter(Feature.key == plan_feature.feature_key).first()
+             if not feature:
+                 feature = Feature(
+                     key=plan_feature.feature_key,
+                     name=plan_feature.feature_key,
+*** End Patch
+
+[Tool result] ApplyPatch
+
+assistant:
+[Thinking] **Confirming PlanFeature usage and schema updates**
+
+PlanFeature instances are used as ephemeral objects without DB persistence, which is acceptable but noted as potentially confusing. I'm updating subscription schemas to include plan_features in the PlanResponse while ensuring Pydantic models handle this field appropriately.
+**Verifying type handling and imports**
+
+Resource type in usage retrieval is now optional and defaults to monthly if None, which is acceptable for daily counters. UUID import for PlanFeatureResponse is confirmed present and correct. No DB migration needed after adding plan_type default. Next, I'll run lints on all edited subscription-related files.
+[Tool call] ReadLints
+  paths: ["/home/ai/ai-agent/backend/app/subscription/models.py","/home/ai/ai-agent/backend/app/subscription/schemas.py","/home/ai/ai-agent/backend/app/subscription/service.py","/home/ai/ai-agent/backend/app/api/subscription_api.py","/home/ai/ai-agent/backend/scripts/setup_initial_data.py","/home/ai/ai-agent/backend/app/subscription/__init__.py","/home/ai/ai-agent/backend/migrations/versions/007_add_plan_features_and_plan_fields.py"]
+
+[Tool result] ReadLints
+
+assistant:
+[Thinking] **Reviewing schema and permissions updates**
+
+The PlanFeature imports and schema references are consistent and no DB schema changes are required beyond migration. The usage service handles resource_type optionality correctly for monthly queries. Role and permission updates for RBAC matrix aren’t explicitly required now but may involve roles_config adjustments later.
+[Tool call] ReadFile
+  path: /home/ai/ai-agent/backend/app/api/roles_config.py
+
+[Tool result] ReadFile
+
+assistant:
+[Thinking] **Confirming code updates and migration steps**
+
+I've identified that UsageCounterCreate is unused but lint doesn't flag it; pydantic accepts price_monthly as int without issues. Migrations need updating with correct down_revision pointing to 006. API endpoint and schema changes will be implemented directly in code without expanding to policies or diagrams. I'll highlight adding daily usage counters with resource type suffixes and remind to run migration and seed scripts.
+قمت بتطبيق خطة AAA مباشرة على الكود في الباك‑إند عبر توسعة نماذج الاشتراك والميزات، وتحديث الخدمات والـ API، وإضافة ترحيل (migration) وسكربت seed بخطط المستخدمين والشركات.
+
+التغييرات الأساسية (مختصر وعملي):
+- أضفت `PlanFeature` ككيان رسمي لميزات الخطة وربطها بالـ `Plan` في `backend/app/subscription/models.py`.
+- وسّعت `Plan` بحقول `plan_type`, `max_requests_daily`, `max_devices`, `log_retention_days`.
+- حدثت الـ schemas والخدمة والـ API لإرجاع/إنشاء plan_features وتصفية الخطط حسب النوع (user/company).
+- ربطت ميزات الخطة تلقائيا بـ `tenant_features` عند إنشاء الاشتراك.
+- أضفت دعم عدّاد يومي للطلبات عبر `requests_daily`.
+- أضفت Migration جديد + تحديث سكربت `setup_initial_data.py` لإنشاء خطط AAA المطلوبة.
+
+## الملفات التي عدلتها
+- `backend/app/subscription/models.py`
+- `backend/app/subscription/schemas.py`
+- `backend/app/subscription/service.py`
+- `backend/app/api/subscription_api.py`
+- `backend/app/subscription/__init__.py`
+- `backend/scripts/setup_initial_data.py`
+- `backend/migrations/versions/007_add_plan_features_and_plan_fields.py`
+
+## كيف تستخدم التغييرات
+- **ترحيل قاعدة البيانات**: شغّل الـ migration الجديد
+- **تهيئة البيانات**: شغّل `backend/scripts/setup_initial_data.py` لإنشاء خطط Free/Pro/Power (User) وStarter/Business/Enterprise (Company) مع الميزات والحدود.
+
+## ملاحظات تشغيل
+- الاستخدام اليومي يدعم `requests_daily` عبر نافذة يومية تلقائيا.
+- ميزات الخطة تُحوّل تلقائيا إلى `tenant_features` لتسهيل التحكم بالميزات (Feature Flags).
+
+إذا تريد مني **أكمل الخطوة التالية بالكود**:
+- API Design أكثر تفصيلا (Auth / Roles / Plans)
+- Flow diagrams (User vs Company)
+- ربط الـ RBAC بالـ plans مباشرة
+- صفحة Pricing أو Mapping مع مشروع ShiftWave
+
+قلّي أي جزء تكمله مباشرة.

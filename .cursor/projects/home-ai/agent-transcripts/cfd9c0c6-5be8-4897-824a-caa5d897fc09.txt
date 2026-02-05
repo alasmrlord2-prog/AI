@@ -1,0 +1,349 @@
+user:
+<user_query>
+ حالات قياسية”، بدي منك شي واحد فقط قبل ما أبدأ:
+اكتب التدفق الحالي عندكم خطوة بخطوة (حتى لو مختصر):
+إنشاء اليوزر داخل CRM
+التحقق (إيميل/أدمن/MFA…)
+التفعيل
+الدخول (AuthN)
+الصلاحيات (AuthZ)
+الاستهلاك (Accounting)
+الـ Audit
+أول ما ترسله، رح أعمل مقارنة بين:
+حالتكم الحالية
+2–3 حالات قياسية (Best Practices/Enterprise/SaaS‑scale)
+وبوضح الفروقات وأيها أفضل ولماذا.
+بدي ياك تشرحلي هي الحكي من لكود بشكل كامل بدون ماتترك ولاتفصيل من فضلك
+</user_query>
+
+assistant:
+[Thinking] **Starting codebase exploration**
+[Tool call] Task
+  description: Explore auth/accounting/audit flow
+  prompt: Explore codebase in /home/ai to find current flow for: user creation in CRM, verification (email/admin/MFA), activation, login/authn, authorization/authz, accounting/consumption, audit. Provide step-by-step flow with file references. Search directories, read relevant files. Summarize in Arabic.
+  subagent_type: explore
+  model: fast
+
+[Tool result] Task
+
+assistant:
+[Thinking] **Planning reading key files for citations**
+[Tool call] ReadFile
+  path: /home/ai/ai-agent/backend/app/api/crm_api.py
+[Tool call] ReadFile
+  path: /home/ai/ai-agent/backend/app/identity/service.py
+[Tool call] ReadFile
+  path: /home/ai/ai-agent/backend/app/identity/models.py
+[Tool call] ReadFile
+  path: /home/ai/ai-agent/backend/app/api/auth.py
+
+[Tool result] ReadFile
+
+[Tool result] ReadFile
+
+[Tool result] ReadFile
+
+[Tool result] ReadFile
+
+assistant:
+[Thinking] **Identifying authz, accounting, audit files**
+
+I'm locating authorization, accounting, and audit-related files including middleware, access service, permissions, subscription, and audit service to understand their roles and interactions.
+[Tool call] ReadFile
+  path: /home/ai/ai-agent/backend/app/core/aaa_middleware.py
+[Tool call] ReadFile
+  path: /home/ai/ai-agent/backend/app/access/service.py
+[Tool call] ReadFile
+  path: /home/ai/ai-agent/backend/app/core/permissions.py
+[Tool call] ReadFile
+  path: /home/ai/ai-agent/backend/app/subscription/service.py
+[Tool call] ReadFile
+  path: /home/ai/ai-agent/backend/app/audit/service.py
+
+[Tool result] ReadFile
+
+[Tool result] ReadFile
+
+[Tool result] ReadFile
+
+[Tool result] ReadFile
+
+[Tool result] ReadFile
+
+assistant:
+[Thinking] **Searching MFA usage**
+[Tool call] rg
+  pattern: mfa
+  path: /home/ai/ai-agent/backend/app
+  output_mode: content
+  head_limit: 200
+
+[Tool result] rg
+
+assistant:
+[Thinking] **Identifying MFA dependency**
+
+I'm noting that the MFA flow depends on the identity_api and will read that file next to understand its role.
+[Tool call] ReadFile
+  path: /home/ai/ai-agent/backend/app/api/identity_api.py
+
+[Tool result] ReadFile
+
+assistant:
+[Thinking] **Outlining detailed Arabic step-by-step flow**
+
+I'm preparing a concise, detailed Arabic explanation of authentication, authorization, accounting, audit, and CRM user creation flows referencing key files and endpoints, noting MFA presence only in identity_api, and including code citations with selective code blocks for crucial steps.
+**Preparing detailed Arabic explanation with code excerpts**
+
+I'm organizing a step-by-step Arabic explanation including 6-7 concise code excerpts from crm_api, identity_service, identity_models, identity_api, auth.py, AAA middleware, access_service, subscription_service, and audit_service, emphasizing user creation, activation, MFA, brute force protection, authorization, accounting, and audit.
+هنا التدفق الحالي “من الكود” خطوة بخطوة، مع ذكر أين كل خطوة في الـ backend. ركّزت على المسارات التي تغطي البنود التي طلبتها: إنشاء اليوزر داخل CRM، التحقق، التفعيل، الدخول (AuthN)، الصلاحيات (AuthZ)، الاستهلاك (Accounting)، والـ Audit.
+
+## 1) إنشاء اليوزر داخل CRM
+**المسار:** `POST /api/crm/tenants/{tenant_id}/users`  
+**الخطوات الفعلية:**
+1) الـ CRM API يبني `UserCreate` من بيانات الطلب.  
+2) ينادي `IdentityService.create_user()` لإنشاء السجل الأساسي للمستخدم.  
+3) يربط المستخدم بالـ tenant عبر `IdentityService.add_user_to_tenant()` ويحدد الدور.  
+4) إذا كان `status == "active"` يفعّل المستخدم فورًا ويعين `email_verified` من المدخل.  
+
+```161:203:ai-agent/backend/app/api/crm_api.py
+@router.post("/tenants/{tenant_id}/users", response_model=dict)
+async def create_tenant_user(...):
+    ...
+    user = identity_service.IdentityService.create_user(db, user_create)
+    tenant_user = identity_service.IdentityService.add_user_to_tenant(
+        db, tenant_id, user.id, user_data.role
+    )
+    if user_data.status == "active":
+        user.status = "active"
+        user.email_verified = user_data.email_verified
+        db.commit()
+        db.refresh(user)
+```
+
+**إنشاء المستخدم الأساسي:**
+- يتم إنشاء المستخدم بحالة `pending` افتراضيًا.
+- يتم توليد `password_hash` وتخزينه.
+- إذا وصل `tenant_id` مع الطلب، يُنشأ ربط `TenantUser` تلقائيًا.
+
+```142:176:ai-agent/backend/app/identity/service.py
+def create_user(db: Session, user_data: UserCreate) -> User:
+    ...
+    user = User(
+        email=user_data.email,
+        password_hash=get_password_hash(raw_password),
+        full_name=user_data.full_name,
+        status="pending",
+        tenant_id=user_data.tenant_id,
+    )
+    db.add(user)
+    db.commit()
+    ...
+    if user_data.tenant_id:
+        tenant_user = TenantUser(
+            tenant_id=user_data.tenant_id,
+            user_id=user.id,
+            role="member",
+            status="active"
+        )
+```
+
+## 2) التحقق (Email/Admin/MFA)
+**حقول التحقق موجودة في نموذج المستخدم:**
+- `email_verified`  
+- `mfa_enabled` / `mfa_secret`  
+- `status` للتحكم بالتفعيل (pending/active/disabled)
+
+```11:26:ai-agent/backend/app/identity/models.py
+class User(Base):
+    ...
+    status = Column(String(50), default="pending")
+    mfa_enabled = Column(Boolean, default=False)
+    mfa_secret = Column(String(255), nullable=True)
+    email_verified = Column(Boolean, default=False)
+```
+
+**التحقق عبر البريد الإلكتروني:**  
+يوجد الحقل `email_verified` فقط؛ لا يوجد تدفق إرسال/تأكيد بريد مستقل في الكود الحالي.
+
+**تحقق إداري (Admin Verification):**  
+يتم عبر تغيير `status` إلى `active` (مثلاً من CRM عند الإنشاء أو عبر تحديث مستخدم).
+
+**MFA:**  
+مُطبق في مسار تسجيل الدخول الخاص بـ `identity_api`:
+- إذا كان `mfa_enabled=True` ولم يُرسل `mfa_code`، يتم الرد بـ `requires_mfa: true`.
+
+```81:155:ai-agent/backend/app/api/identity_api.py
+@router.post("/login", response_model=schemas.LoginResponse)
+async def login(...):
+    ...
+    if user.mfa_enabled and not login_data.mfa_code:
+        return {
+            "access_token": "",
+            "token_type": "bearer",
+            "user": schemas.UserResponse.from_orm(user),
+            "tenant": None,
+            "requires_mfa": True
+        }
+```
+
+## 3) التفعيل (Activation)
+**أين يتم التفعيل؟**
+- التفعيل يتم عبر تغيير `status` من `pending` إلى `active`.  
+- في CRM يتم التفعيل مباشرة إذا مرّرنا `status="active"`.
+
+```189:194:ai-agent/backend/app/api/crm_api.py
+if user_data.status == "active":
+    user.status = "active"
+    user.email_verified = user_data.email_verified
+    db.commit()
+    db.refresh(user)
+```
+
+## 4) الدخول (AuthN)
+هناك مساران لتسجيل الدخول:
+
+### 4.1 `POST /api/auth/login` (Auth API الأساسي)
+**خصائصه:**
+- حماية brute force (rate limit + lockout).
+- تحقق من كلمة المرور عبر `IdentityService.authenticate_user`.
+- اختيار tenant أول متاح.
+- إنشاء access/refresh tokens.
+- إنشاء session.
+- تسجيل Audit (login success/failed).
+
+```123:263:ai-agent/backend/app/api/auth.py
+@router.post("/login", response_model=TokenResponse)
+async def login(...):
+    ...
+    if not brute_force_protection.check_rate_limit(client_ip):
+        raise HTTPException(status_code=429, detail="Too many requests...")
+    lockout_check = brute_force_protection.check_lockout(req.email)
+    ...
+    user = identity_service.IdentityService.authenticate_user(db, req.email, req.password)
+    ...
+    tenant_users = identity_service.IdentityService.get_user_tenant_memberships(db, user.id)
+    tenant_user = tenant_users[0]
+    ...
+    access_token = create_access_token(token_data)
+    refresh_token = create_refresh_token(refresh_token_data, ...)
+    SessionManager.create_session(...)
+    AuditService.log_login(...)
+    AuditService.log_action(...)
+```
+
+### 4.2 `POST /api/identity/login` (Identity API)
+**خصائصه:**
+- يتحقق من MFA (إن كان مفعّلًا).
+- ينشئ access token فقط (لا refresh).
+- ينشئ session.
+- يتطلب وجود `tenant_id`.
+
+```114:145:ai-agent/backend/app/api/identity_api.py
+# Get user's tenant
+tenant_users = identity_service.IdentityService.get_user_tenant_memberships(db, user.id)
+tenant = identity_service.IdentityService.get_tenant_by_id(db, tenant_user.tenant_id)
+
+token_data = {
+    "sub": str(user.id),
+    "email": user.email,
+    "tenant_id": str(tenant.id) if tenant else None,
+    "type": "access"
+}
+access_token = create_access_token(token_data)
+
+identity_service.IdentityService.create_session(...)
+```
+
+**ملاحظة مهمة:**  
+تفعيل الـ MFA ظاهر فقط في `identity_api`، وليس في مسار `auth.py`.
+
+## 5) الصلاحيات (AuthZ)
+**التدفق:**
+1) يتم التحقق من التوكن والهوية في `AAAMiddleware.authenticate_request`.  
+2) التفويض يتم عبر `AAAMiddleware.authorize_request` الذي يستدعي `AccessService.has_permission`.  
+3) `AccessService.has_permission` يجمع الصلاحيات من الأدوار + الصلاحيات المباشرة ويطابق `resource:action`.
+
+```146:166:ai-agent/backend/app/core/aaa_middleware.py
+async def authorize_request(...):
+    has_permission = access_service.AccessService.has_permission(
+        db,
+        user_context["user_id"],
+        resource,
+        action,
+        user_context.get("tenant_id")
+    )
+    return has_permission
+```
+
+```171:204:ai-agent/backend/app/access/service.py
+def has_permission(...):
+    user_roles = AccessService.get_user_roles(db, user_id, tenant_id)
+    ...
+    role_permissions.add(f"{permission.resource}:{permission.action}")
+    ...
+    target_permission = f"{resource}:{action}"
+    return target_permission in role_permissions
+```
+
+## 6) الاستهلاك (Accounting)
+**التدفق:**
+- بعد كل طلب، `AAAMiddleware.account_request` يسجّل Audit ويزيد الاستخدام (requests).
+- استخدام الاشتراك يتم عبر `SubscriptionService.increment_usage` شهريًا.
+- فحص الحدود عبر `SubscriptionService.check_usage_limit`.
+
+```169:206:ai-agent/backend/app/core/aaa_middleware.py
+async def account_request(...):
+    AuditService.log_action(...)
+    if user_context.get("tenant_id"):
+        subscription = SubscriptionService.get_active_subscription(...)
+        if subscription:
+            SubscriptionService.increment_usage(db, subscription.id, "requests", 1)
+```
+
+```150:247:ai-agent/backend/app/subscription/service.py
+def increment_usage(...):
+    period_start = datetime(now.year, now.month, 1)
+    period_end = (period_start + timedelta(days=32)).replace(day=1)
+    ...
+def check_usage_limit(...):
+    quota = db.query(UsageQuota)...first()
+    current_usage = usage.get(resource_type, 0)
+    allowed = new_usage <= quota.limit
+```
+
+## 7) الـ Audit
+**التدفق:**
+- تسجيل العمليات عبر `AuditService.log_action`.
+- تسجيل محاولات الدخول عبر `AuditService.log_login`.
+
+```15:83:ai-agent/backend/app/audit/service.py
+def log_action(...):
+    audit_log = AuditLog(
+        user_id=user_id,
+        tenant_id=tenant_id,
+        action=action,
+        resource_type=resource_type,
+        ...
+        status=status,
+        error_message=error_message
+    )
+    db.add(audit_log)
+    db.commit()
+
+def log_login(...):
+    login_log = LoginLog(
+        user_id=user_id,
+        email=email,
+        status=status,
+        failure_reason=failure_reason,
+        ...
+        mfa_used=mfa_used,
+        mfa_method=mfa_method
+    )
+```
+
+---
+
+إذا بدك أعمل لك نسخة “مختصرة جدًا” في 7 أسطر (بدون تفاصيل)، أقدر.  
+أما إذا بدك ألخّص الاختلافات بين مساري `auth` و`identity` في AuthN بالتحديد قبل المقارنة مع الـ Best Practices، أخبرني.

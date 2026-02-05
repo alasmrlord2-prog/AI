@@ -1,0 +1,40 @@
+2026-01-20 09:39:10.774 [error] Error getting repo info: Failed to execute git
+2026-01-20 09:39:10.774 [error] Error: Failed to execute git
+	at t.Git._execOld (/home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/extensions/git/dist/main.js:2:38047)
+	at async t.Git.exec (/home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/extensions/git/dist/main.js:2:36390)
+	at async t.GitProvider.executeGitCommandStable (/home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/extensions/cursor-retrieval/dist/main.js:2:1519644)
+	at async t.GitProvider.getRepoInfo (/home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/extensions/cursor-retrieval/dist/main.js:2:1495357)
+2026-01-20 09:39:10.774 [info] Creating Indexing Repo client:  https://repo42.cursor.sh
+2026-01-20 09:39:10.774 [info] Creating repo client with backend url: https://repo42.cursor.sh
+2026-01-20 09:39:10.774 [info] Using existing keys for an index
+2026-01-20 09:39:10.774 [info] InternalRepoInfo constructor with preferredEmbeddingModel 0
+2026-01-20 09:39:11.742 [info] Using existing keys for an index
+2026-01-20 09:39:11.743 [info] InternalRepoInfo constructor with preferredEmbeddingModel 0
+2026-01-20 09:39:11.748 [info] Starting RepoIndexWatcher for repo: 2313b3d7-a175-4b5e-9e1c-62ef6437f09a, owner: google-oauth2|user_01JSPZR0DK1EQRGV4S0TM7K002
+2026-01-20 09:39:11.748 [error] We currently do not allow indexing the home directory.
+2026-01-20 09:39:11.748 [info] Indexing job successfully done or aborted.
+2026-01-20 09:39:11.783 [warning] Failed to get symbolic ref: Failed to execute git
+2026-01-20 09:39:11.784 [error] Error getting repo info: Failed to execute git
+2026-01-20 09:39:11.796 [warning] Failed to read .git/HEAD: A system error occurred (ENOENT: no such file or directory, open '/home/ai/.git/HEAD')
+2026-01-20 09:39:11.854 [warning] Failed to get branches from remote: Failed to execute git
+2026-01-20 09:39:11.859 [warning] Failed to get default branch from git config: Failed to execute git
+2026-01-20 09:44:02.747 [info] multiCodebaseIndexingJob dispose
+2026-01-20 09:44:02.747 [info] Aborting indexing job.
+2026-01-20 09:44:02.747 [error] We currently do not allow indexing the home directory.
+2026-01-20 09:44:02.747 [info] Indexing job successfully done or aborted.
+2026-01-20 09:48:53.748 [info] multiCodebaseIndexingJob dispose
+2026-01-20 09:48:53.748 [info] Aborting indexing job.
+2026-01-20 09:48:53.748 [error] We currently do not allow indexing the home directory.
+2026-01-20 09:48:53.748 [info] Indexing job successfully done or aborted.
+2026-01-20 09:53:44.749 [info] multiCodebaseIndexingJob dispose
+2026-01-20 09:53:44.749 [info] Aborting indexing job.
+2026-01-20 09:53:44.749 [error] We currently do not allow indexing the home directory.
+2026-01-20 09:53:44.749 [info] Indexing job successfully done or aborted.
+2026-01-20 09:58:35.748 [info] multiCodebaseIndexingJob dispose
+2026-01-20 09:58:35.748 [info] Aborting indexing job.
+2026-01-20 09:58:35.748 [error] We currently do not allow indexing the home directory.
+2026-01-20 09:58:35.748 [info] Indexing job successfully done or aborted.
+2026-01-20 10:01:43.180 [info] multiCodebaseIndexingJob dispose
+2026-01-20 10:01:43.180 [info] Aborting indexing job.
+2026-01-20 10:01:43.181 [error] Error getting server config, using proto default config Canceled
+2026-01-20 10:01:43.181 [error] Error getting server config, using proto default config Canceled

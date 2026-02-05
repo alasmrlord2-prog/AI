@@ -1,0 +1,1014 @@
+/* ============================================
+   📝 SHIFTWAVE FONTS - Google Fonts
+   ============================================ */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap");
+
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ============================================
+   🎨 BRAND IDENTITY SYSTEM - Complete Design System
+   ============================================ */
+
+@theme inline {
+  /* ============================================
+     🎨 SHIFTWAVE THEME COLORS (Light Mode Default)
+     ============================================ */
+  /* Primary Brand Colors */
+  --color-sw-primary: #1399FF;
+  --color-sw-primary-light: #4BB8FF;
+  --color-sw-primary-dark: #0D6BD0;
+  
+  /* Secondary Colors */
+  --color-sw-secondary: #00D1CE;
+  --color-sw-secondary-light: #2EE3E0;
+  --color-sw-secondary-dark: #00A3A0;
+  
+  /* Background Colors - Light Mode (Default) */
+  --color-sw-bg: #F5F7FA;
+  --color-sw-bg-soft: #EEF1F5;
+  --color-sw-bg-card: #FFFFFF;
+  --color-sw-bg-card-dark: #101621;
+  --color-sw-bg-hover: #F0F4F8;
+  --color-sw-bg-sidebar: #FFFFFF;
+  
+  /* Border Colors - Light Mode */
+  --color-sw-border: #E5E7EB;
+  
+  /* Text Colors - Light Mode */
+  --color-sw-text: #0A1A2F;
+  --color-sw-text-soft: #1F2937;
+  --color-sw-text-muted: #6B7280;
+  --color-sw-text-strong: #0A1A2F;
+  
+  /* Status Colors */
+  --color-sw-success: #10B981;
+  --color-sw-warning: #F59E0B;
+  --color-sw-danger: #EF4444;
+  
+  /* Background Gradient */
+  --gradient-sw-gradient: linear-gradient(90deg, #1399FF, #00D1CE);
+  
+  /* Original theme variables (keeping for compatibility) */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-arabic: "Cairo", system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  
+  /* ShiftWave Border Radius */
+  --radius-sw-card: 14px;
+  --radius-sw-btn: 8px;
+  
+  /* Spacing System - 8px base unit */
+  --spacing-micro: 0.5rem;    /* 8px */
+  --spacing-small: 1rem;       /* 16px */
+  --spacing-normal: 1.5rem;    /* 24px */
+  --spacing-medium: 2rem;      /* 32px */
+  --spacing-large: 3rem;        /* 48px */
+  --spacing-xlarge: 4rem;      /* 64px */
+  
+  /* Typography Scale */
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --font-weight-black: 900;
+  
+  /* Letter Spacing */
+  --letter-spacing-tight: -0.025em;
+  --letter-spacing-normal: 0;
+  --letter-spacing-wide: 0.025em;
+  --letter-spacing-wider: 0.05em;
+  
+  /* Icon System */
+  --icon-size-sm: 1rem;        /* 16px */
+  --icon-size-md: 1.25rem;     /* 20px */
+  --icon-size-lg: 1.5rem;      /* 24px */
+  --icon-size-xl: 2rem;        /* 32px */
+  
+  /* Border Radius System */
+  --radius-sm: 0.375rem;       /* 6px */
+  --radius-md: 0.5rem;         /* 8px */
+  --radius-lg: 0.625rem;       /* 10px */
+  --radius-xl: 0.75rem;        /* 12px */
+  --radius-2xl: 1rem;          /* 16px */
+  --radius-full: 9999px;
+  
+  /* Shadow System */
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+
+:root {
+  /* Border Radius */
+  --radius: 0.625rem; /* 10px - consistent rounded corners */
+  
+  /* ============================================
+     🌞 SHIFTWAVE LIGHT THEME (نوع 2) - DEFAULT
+     ============================================ */
+  
+  /* Brand Colors (مشتركة بين الوضعين) */
+  --sw-blue: #1399FF;
+  --sw-blue-light: #4BB8FF;
+  --sw-teal: #00D1CE;
+  --sw-teal-light: #2EE3E0;
+  
+  /* Background Colors - Light Mode (Default) */
+  --sw-bg: #F5F7FA;
+  --sw-bg-soft: #EEF1F5;
+  --sw-bg-card: #FFFFFF;
+  --sw-bg-hover: #F0F4F8;
+  --sw-bg-sidebar: #FFFFFF;
+  
+  /* Border Colors - Light Mode */
+  --sw-border: #E5E7EB;
+  
+  /* Text Colors - Light Mode */
+  --sw-text: #0A1A2F;
+  --sw-text-soft: #1F2937;
+  --sw-text-muted: #6B7280;
+  --sw-text-strong: #0A1A2F;
+  
+  /* Status Colors (مشتركة) */
+  --sw-success: #10B981;
+  --sw-warning: #F59E0B;
+  --sw-danger: #EF4444;
+  
+  /* Shadows - Light Mode */
+  --sw-shadow-card: 0 2px 8px rgba(0,0,0,0.06), 0 2px 14px rgba(0,0,0,0.03);
+  --sw-shadow-card-dark: 0 6px 14px rgba(0,0,0,0.35);
+  
+  /* Scrollbar Colors - Light Mode */
+  --sw-scrollbar-thumb: #E2E8F0; /* Very light gray for light mode */
+  --sw-scrollbar-track: #F8FAFC; /* Almost white for light mode */
+  --sw-scrollbar-thumb-hover: #CBD5E1; /* Light gray on hover */
+  --sw-scrollbar-thumb-active: #94A3B8; /* Medium gray when active */
+  
+  /* Light Mode Colors (if needed) */
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+  
+  /* Force all headings to be visible in light mode */
+  h1, h2, h3, h4, h5, h6 {
+    color: var(--sw-text-strong) !important;
+  }
+  
+  /* Force all text to be visible */
+  p, span, div, label, strong, em, small, a {
+    color: var(--sw-text) !important;
+  }
+  
+  /* Force logo and brand text to be visible */
+  [class*="SHIFTWAVE"],
+  h1, h2 {
+    color: var(--sw-text-strong) !important;
+  }
+  
+  /* Ensure logo image is always visible in light mode */
+  img[src*="shiftwave-logo"] {
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+  }
+  
+  /* Force all cards to use light theme colors */
+  [class*="bg-sw-bg-card"],
+  [class*="bg-sw-bg-soft"],
+  [class*="bg-sw-bg-hover"] {
+    background-color: var(--sw-bg-card) !important;
+    color: var(--sw-text) !important;
+  }
+  
+  /* Force all borders to use light theme */
+  [class*="border-sw-border"],
+  [class*="border"] {
+    border-color: var(--sw-border) !important;
+  }
+}
+
+html.dark {
+  /* ============================================
+     🌚 SHIFTWAVE DARK THEME - OVERRIDE
+     ============================================ */
+  
+  /* Brand Colors (مشتركة - نفس القيم) */
+  --sw-blue: #1399FF;
+  --sw-blue-light: #4BB8FF;
+  --sw-teal: #00D1CE;
+  --sw-teal-light: #2EE3E0;
+  
+  /* Background Colors - Dark Mode (OVERRIDE Light) */
+  --sw-bg: #0A0F16;
+  --sw-bg-soft: #0E1622;
+  --sw-bg-card: #121C27;
+  --sw-bg-hover: #182332;
+  --sw-bg-sidebar: #0A1A2F;
+  
+  /* Border Colors - Dark Mode */
+  --sw-border: #1F2A37;
+  
+  /* Text Colors - Dark Mode */
+  --sw-text: #FFFFFF;
+  --sw-text-soft: #C8D1E0;
+  --sw-text-muted: #8A94A6;
+  --sw-text-strong: #E4EBF5;
+  
+  /* Status Colors (مشتركة - نفس القيم) */
+  --sw-success: #10B981;
+  --sw-warning: #F59E0B;
+  --sw-danger: #EF4444;
+  
+  /* Shadows - Dark Mode */
+  --sw-shadow-card: 0 6px 14px rgba(0,0,0,0.35);
+  --sw-shadow-card-dark: 0 8px 20px rgba(0,0,0,0.45);
+  
+  /* Scrollbar Colors - Dark Mode */
+  --sw-scrollbar-thumb: #475569; /* Medium gray for dark mode */
+  --sw-scrollbar-track: #1E293B; /* Dark gray for dark mode */
+  --sw-scrollbar-thumb-hover: #1399FF; /* Brand blue on hover */
+  --sw-scrollbar-thumb-active: #0D6BD0; /* Darker blue when active */
+  
+  /* Update @theme inline variables for Tailwind v4 - Dark Mode */
+  --color-sw-bg: #0A0F16 !important;
+  --color-sw-bg-soft: #0E1622 !important;
+  --color-sw-bg-card: #121C27 !important;
+  --color-sw-bg-hover: #182332 !important;
+  --color-sw-bg-sidebar: #0A1A2F !important;
+  --color-sw-border: #1F2A37 !important;
+  --color-sw-text: #FFFFFF !important;
+  --color-sw-text-soft: #C8D1E0 !important;
+  --color-sw-text-muted: #8A94A6 !important;
+  --color-sw-text-strong: #E4EBF5 !important;
+  
+  /* Force update body and main elements */
+  background-color: var(--sw-bg) !important;
+  color: var(--sw-text) !important;
+  
+  /* Force all headings to be visible in dark mode */
+  h1, h2, h3, h4, h5, h6 {
+    color: var(--sw-text-strong) !important;
+  }
+  
+  /* Force all text to be visible */
+  p, span, div, label, strong, em, small, a {
+    color: var(--sw-text) !important;
+  }
+  
+  /* Force logo and brand text to be visible */
+  [class*="SHIFTWAVE"],
+  h1, h2 {
+    color: var(--sw-text-strong) !important;
+  }
+  
+  /* Ensure logo image is always visible in dark mode */
+  img[src*="shiftwave-logo"] {
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+  }
+  
+  /* Force all cards to use dark theme colors */
+  [class*="bg-sw-bg-card"],
+  [class*="bg-sw-bg-soft"],
+  [class*="bg-sw-bg-hover"] {
+    background-color: var(--sw-bg-card) !important;
+    color: var(--sw-text) !important;
+  }
+  
+  /* Force all borders to use dark theme */
+  [class*="border-sw-border"],
+  [class*="border"] {
+    border-color: var(--sw-border) !important;
+  }
+  
+  /* ============================================
+     🎨 PRIMARY COLOR SYSTEM
+     ============================================ */
+  
+  /* Primary Brand Colors - Modern Tech Blue/Purple Gradient */
+  --primary: oklch(0.65 0.22 264);           /* Primary brand color - vibrant blue */
+  --primary-foreground: oklch(0.98 0 0);    /* White text on primary */
+  --primary-hover: oklch(0.70 0.22 264);    /* Lighter on hover */
+  --primary-active: oklch(0.60 0.22 264);   /* Darker when active */
+  
+  /* Secondary Colors - Complementary Purple */
+  --secondary: oklch(0.27 0 0);              /* Dark gray for secondary actions */
+  --secondary-foreground: oklch(0.98 0 0);   /* White text */
+  --secondary-hover: oklch(0.32 0 0);        /* Slightly lighter */
+  
+  /* Accent Colors - Teal/Cyan for highlights */
+  --accent: oklch(0.50 0.15 180);           /* Teal accent */
+  --accent-foreground: oklch(0.98 0 0);      /* White text */
+  --accent-hover: oklch(0.55 0.15 180);     /* Lighter teal */
+  
+  /* ============================================
+     🎨 NEUTRAL COLOR SYSTEM
+     ============================================ */
+  
+  /* Background Hierarchy */
+  --background: oklch(0.08 0 0);            /* Deep black background */
+  --foreground: oklch(0.98 0 0);            /* Pure white text */
+  
+  /* Card System */
+  --card: oklch(0.12 0 0);                  /* Slightly lighter than background */
+  --card-foreground: oklch(0.95 0 0);       /* Off-white text */
+  --card-hover: oklch(0.15 0 0);            /* Lighter on hover */
+  
+  /* Muted Colors - For secondary text */
+  --muted: oklch(0.20 0 0);                 /* Dark gray background */
+  --muted-foreground: oklch(0.65 0 0);      /* Medium gray text */
+  
+  /* Border & Input System */
+  --border: oklch(1 0 0 / 0.12);            /* Subtle borders */
+  --input: oklch(1 0 0 / 0.15);             /* Input backgrounds */
+  --input-focus: oklch(0.65 0.22 264 / 0.3); /* Focus ring */
+  --ring: oklch(0.65 0.22 264);             /* Focus ring color */
+  
+  /* Popover & Overlay */
+  --popover: oklch(0.15 0 0);               /* Popover background */
+  --popover-foreground: oklch(0.98 0 0);     /* Popover text */
+  
+  /* ============================================
+     🎨 STATUS COLOR SYSTEM
+     ============================================ */
+  
+  /* Success - Green */
+  --success: oklch(0.65 0.20 145);          /* Success green */
+  --success-foreground: oklch(0.98 0 0);    /* White text */
+  --success-bg: oklch(0.65 0.20 145 / 0.15); /* Success background */
+  
+  /* Warning - Yellow/Orange */
+  --warning: oklch(0.75 0.18 70);           /* Warning yellow */
+  --warning-foreground: oklch(0.10 0 0);    /* Dark text */
+  --warning-bg: oklch(0.75 0.18 70 / 0.15); /* Warning background */
+  
+  /* Error/Destructive - Red */
+  --destructive: oklch(0.65 0.22 25);       /* Error red */
+  --destructive-foreground: oklch(0.98 0 0); /* White text */
+  --destructive-bg: oklch(0.65 0.22 25 / 0.15); /* Error background */
+  
+  /* Info - Blue */
+  --info: oklch(0.65 0.22 240);             /* Info blue */
+  --info-foreground: oklch(0.98 0 0);       /* White text */
+  --info-bg: oklch(0.65 0.22 240 / 0.15);   /* Info background */
+  
+  /* ============================================
+     🎨 CHART COLOR SYSTEM
+     ============================================ */
+  
+  --chart-1: oklch(0.65 0.22 264);          /* Primary blue */
+  --chart-2: oklch(0.70 0.17 162);          /* Teal */
+  --chart-3: oklch(0.75 0.18 70);           /* Yellow */
+  --chart-4: oklch(0.65 0.22 25);           /* Red */
+  --chart-5: oklch(0.65 0.20 300);          /* Purple */
+  
+  /* ============================================
+     🎨 SIDEBAR COLOR SYSTEM
+     ============================================ */
+  
+  --sidebar: oklch(0.11 0 0);               /* Sidebar background - slightly lighter than main */
+  --sidebar-foreground: oklch(0.90 0 0);    /* Sidebar text */
+  --sidebar-primary: oklch(0.65 0.22 264);  /* Active item color */
+  --sidebar-primary-foreground: oklch(0.98 0 0); /* Active item text */
+  --sidebar-accent: oklch(0.18 0 0);        /* Hover background */
+  --sidebar-accent-foreground: oklch(0.98 0 0); /* Hover text */
+  --sidebar-border: oklch(1 0 0 / 0.10);    /* Sidebar border */
+  --sidebar-ring: oklch(0.65 0.22 264);     /* Sidebar focus ring */
+  
+  /* Additional utility colors for Tailwind */
+  --color-sidebar-bg: #1a1d24;              /* Sidebar background */
+  --color-sidebar-text: #e5e7eb;            /* Sidebar text */
+  --color-sidebar-text-muted: #9ca3af;      /* Muted text */
+  --color-sidebar-active: #6366f1;           /* Active item (indigo-500) */
+  --color-sidebar-hover: #2a2d35;           /* Hover background */
+  --color-sidebar-border: rgba(255, 255, 255, 0.1); /* Border */
+  --color-sidebar-group: #6b7280;           /* Group header text */
+}
+
+/* ============================================
+   🎨 BASE LAYER - Typography & Base Styles
+   ============================================ */
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  
+  html {
+    overflow: hidden;
+    scroll-behavior: smooth;
+    /* Force light mode by default */
+    background-color: var(--sw-bg);
+    color: var(--sw-text);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  html.dark {
+    /* Dark mode overrides */
+    background-color: var(--sw-bg) !important;
+    color: var(--sw-text) !important;
+  }
+  
+  body {
+    background-color: var(--sw-bg) !important;
+    color: var(--sw-text) !important;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-normal);
+    letter-spacing: var(--letter-spacing-normal);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  /* Force all main containers to use theme colors */
+  main {
+    background-color: var(--sw-bg) !important;
+    color: var(--sw-text) !important;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  /* Force header and sidebar to use theme colors */
+  header,
+  aside {
+    background-color: var(--sw-bg-sidebar) !important;
+    color: var(--sw-text) !important;
+    border-color: var(--sw-border) !important;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+  
+  /* Force all cards to use theme colors */
+  [class*="bg-sw-bg-card"],
+  [class*="bg-sw-bg-soft"],
+  [class*="bg-sw-bg-hover"] {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+  
+  /* Force all text elements to use theme colors */
+  [class*="text-sw-text"],
+  [class*="text-sw-text-soft"],
+  [class*="text-sw-text-muted"],
+  [class*="text-sw-text-strong"] {
+    transition: color 0.3s ease;
+  }
+  
+  /* Force all input elements to use theme colors */
+  input,
+  textarea,
+  select {
+    background-color: var(--sw-bg-soft) !important;
+    color: var(--sw-text) !important;
+    border-color: var(--sw-border) !important;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+  
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--sw-text-muted) !important;
+  }
+  
+  /* Force all buttons to use theme colors (unless they have specific classes) */
+  button:not([class*="bg-gradient"]):not([class*="bg-sw-"]):not([class*="bg-indigo"]):not([class*="bg-red"]):not([class*="bg-green"]):not([class*="bg-blue"]) {
+    background-color: var(--sw-bg-card) !important;
+    color: var(--sw-text) !important;
+    border-color: var(--sw-border) !important;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+  
+  /* Force all divs with card-like classes to use theme colors */
+  div[class*="card"],
+  div[class*="Card"] {
+    background-color: var(--sw-bg-card) !important;
+    color: var(--sw-text) !important;
+    border-color: var(--sw-border) !important;
+  }
+  
+  /* Ensure all sections and containers use theme colors */
+  section,
+  article,
+  aside,
+  nav {
+    background-color: var(--sw-bg) !important;
+    color: var(--sw-text) !important;
+  }
+  
+  /* Ensure all links use theme colors */
+  a {
+    color: var(--sw-text) !important;
+  }
+  
+  a:hover {
+    color: var(--sw-blue) !important;
+  }
+  
+  /* Force all headings to use theme colors */
+  h1, h2, h3, h4, h5, h6 {
+    color: var(--sw-text-strong) !important;
+    font-weight: var(--font-weight-bold);
+    letter-spacing: var(--letter-spacing-tight);
+    line-height: 1.2;
+  }
+  
+  /* Force all text elements to use theme colors */
+  p, span, div, label, strong, em, small {
+    color: inherit;
+  }
+  
+  /* Force all elements with text to inherit theme colors */
+  * {
+    color: inherit;
+  }
+  
+  /* Override any white/black text that might be hardcoded */
+  .text-white,
+  [class*="text-white"] {
+    color: var(--sw-text) !important;
+  }
+  
+  .text-black,
+  [class*="text-black"] {
+    color: var(--sw-text) !important;
+  }
+  
+  /* Override any white/black backgrounds that might be hardcoded */
+  .bg-white,
+  [class*="bg-white"]:not([class*="bg-sw-"]):not([class*="bg-gradient"]) {
+    background-color: var(--sw-bg-card) !important;
+  }
+  
+  .bg-black,
+  [class*="bg-black"]:not([class*="bg-sw-"]):not([class*="bg-gradient"]) {
+    background-color: var(--sw-bg) !important;
+  }
+  
+  /* Force all elements with specific color classes to use theme */
+  [class*="text-slate"]:not([class*="text-sw-"]),
+  [class*="text-gray"]:not([class*="text-sw-"]),
+  [class*="text-zinc"]:not([class*="text-sw-"]) {
+    color: var(--sw-text) !important;
+  }
+  
+  [class*="bg-slate"]:not([class*="bg-sw-"]):not([class*="bg-gradient"]),
+  [class*="bg-gray"]:not([class*="bg-sw-"]):not([class*="bg-gradient"]),
+  [class*="bg-zinc"]:not([class*="bg-sw-"]):not([class*="bg-gradient"]) {
+    background-color: var(--sw-bg-card) !important;
+  }
+  
+  /* Ensure all icons and emojis are visible */
+  [class*="text-2xl"],
+  [class*="text-3xl"],
+  [class*="text-4xl"] {
+    color: inherit;
+  }
+  
+  /* Force all grid items to use theme */
+  [class*="grid"] > * {
+    color: inherit;
+  }
+  
+  /* Ensure SHIFTWAVE logo is always visible */
+  header h1,
+  header h2,
+  aside h1,
+  aside h2,
+  [class*="SHIFTWAVE"] {
+    color: var(--sw-text-strong) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+  
+  /* Ensure logo image is always visible */
+  header img[alt*="SHIFTWAVE"],
+  aside img[alt*="SHIFTWAVE"],
+  img[src*="shiftwave-logo"] {
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+  }
+  
+  /* Force all header and sidebar text to be visible */
+  header *,
+  aside * {
+    color: inherit;
+  }
+  
+  header h1,
+  header h2,
+  aside h1,
+  aside h2 {
+    color: var(--sw-text-strong) !important;
+  }
+  
+  /* Ensure logo container is visible */
+  header > div:first-child,
+  aside > div:first-child {
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+  
+  /* RTL Support for Arabic */
+  html[dir="rtl"] body {
+    font-family: var(--font-arabic);
+  }
+  
+  /* Typography Hierarchy */
+  
+  h1 {
+    font-size: 2.25rem;      /* 36px */
+    font-weight: var(--font-weight-extrabold);
+  }
+  
+  h2 {
+    font-size: 1.875rem;     /* 30px */
+    font-weight: var(--font-weight-bold);
+  }
+  
+  h3 {
+    font-size: 1.5rem;       /* 24px */
+    font-weight: var(--font-weight-semibold);
+  }
+  
+  h4 {
+    font-size: 1.25rem;      /* 20px */
+    font-weight: var(--font-weight-semibold);
+  }
+  
+  h5 {
+    font-size: 1.125rem;     /* 18px */
+    font-weight: var(--font-weight-medium);
+  }
+  
+  h6 {
+    font-size: 1rem;         /* 16px */
+    font-weight: var(--font-weight-medium);
+  }
+  
+  p {
+    line-height: 1.6;
+    font-weight: var(--font-weight-normal);
+  }
+  
+  /* Links */
+  a {
+    transition: color 0.2s ease, opacity 0.2s ease;
+  }
+  
+  a:hover {
+    opacity: 0.8;
+  }
+  
+  /* Code & Monospace */
+  code, pre {
+    font-family: var(--font-mono);
+  }
+}
+
+/* ============================================
+   🎨 ANIMATIONS & TRANSITIONS
+   ============================================ */
+
+@keyframes slide-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in {
+  animation: slide-in 0.3s ease-out;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.2s ease-out;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out;
+}
+
+/* ============================================
+   🎨 INTERACTION STATES
+   ============================================ */
+
+/* Button States */
+button {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Input States */
+input, textarea, select {
+  transition: all 0.2s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--input-focus);
+}
+
+/* Card Hover States */
+.card-hover {
+  transition: all 0.2s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* ============================================
+   🎨 SCROLLBAR SYSTEM - Brand Consistent (Theme Aware)
+   ============================================ */
+
+/* Global Scrollbar Styles - Apply to all scrollable elements */
+html,
+body,
+div,
+section,
+main,
+aside,
+nav,
+article,
+[class*="overflow"] {
+  scrollbar-width: thin;
+  scrollbar-color: var(--sw-scrollbar-thumb) var(--sw-scrollbar-track);
+  transition: scrollbar-color 0.3s ease;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+div::-webkit-scrollbar,
+section::-webkit-scrollbar,
+main::-webkit-scrollbar,
+aside::-webkit-scrollbar,
+nav::-webkit-scrollbar,
+article::-webkit-scrollbar,
+[class*="overflow"]::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track,
+div::-webkit-scrollbar-track,
+section::-webkit-scrollbar-track,
+main::-webkit-scrollbar-track,
+aside::-webkit-scrollbar-track,
+nav::-webkit-scrollbar-track,
+article::-webkit-scrollbar-track,
+[class*="overflow"]::-webkit-scrollbar-track {
+  background: var(--sw-scrollbar-track);
+  border-radius: var(--radius-md);
+  transition: background 0.3s ease;
+}
+
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb,
+div::-webkit-scrollbar-thumb,
+section::-webkit-scrollbar-thumb,
+main::-webkit-scrollbar-thumb,
+aside::-webkit-scrollbar-thumb,
+nav::-webkit-scrollbar-thumb,
+article::-webkit-scrollbar-thumb,
+[class*="overflow"]::-webkit-scrollbar-thumb {
+  background: var(--sw-scrollbar-thumb);
+  border-radius: var(--radius-md);
+  border: 2px solid var(--sw-scrollbar-track);
+  transition: background 0.2s ease, border-color 0.3s ease;
+}
+
+html::-webkit-scrollbar-thumb:hover,
+body::-webkit-scrollbar-thumb:hover,
+div::-webkit-scrollbar-thumb:hover,
+section::-webkit-scrollbar-thumb:hover,
+main::-webkit-scrollbar-thumb:hover,
+aside::-webkit-scrollbar-thumb:hover,
+nav::-webkit-scrollbar-thumb:hover,
+article::-webkit-scrollbar-thumb:hover,
+[class*="overflow"]::-webkit-scrollbar-thumb:hover {
+  background: var(--sw-scrollbar-thumb-hover);
+}
+
+html::-webkit-scrollbar-thumb:active,
+body::-webkit-scrollbar-thumb:active,
+div::-webkit-scrollbar-thumb:active,
+section::-webkit-scrollbar-thumb:active,
+main::-webkit-scrollbar-thumb:active,
+aside::-webkit-scrollbar-thumb:active,
+nav::-webkit-scrollbar-thumb:active,
+article::-webkit-scrollbar-thumb:active,
+[class*="overflow"]::-webkit-scrollbar-thumb:active {
+  background: var(--sw-scrollbar-thumb-active);
+}
+
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: var(--sw-scrollbar-thumb) var(--sw-scrollbar-track);
+  transition: scrollbar-color 0.3s ease;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: var(--sw-scrollbar-track);
+  border-radius: var(--radius-md);
+  transition: background 0.3s ease;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: var(--sw-scrollbar-thumb);
+  border-radius: var(--radius-md);
+  border: 2px solid var(--sw-scrollbar-track);
+  transition: background 0.2s ease, border-color 0.3s ease;
+}
+
+.scrollbar-thin:hover::-webkit-scrollbar-thumb,
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: var(--sw-scrollbar-thumb-hover);
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:active {
+  background: var(--sw-scrollbar-thumb-active);
+}
+
+/* Sidebar Specific Scrollbar */
+.sidebar-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--sw-scrollbar-thumb) transparent;
+  transition: scrollbar-color 0.3s ease;
+}
+
+.sidebar-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar-scroll::-webkit-scrollbar-thumb {
+  background: var(--sw-scrollbar-thumb);
+  border-radius: var(--radius-full);
+  border: 1px solid transparent;
+  transition: background 0.2s ease;
+}
+
+.sidebar-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--sw-scrollbar-thumb-hover);
+}
+
+/* ============================================
+   🎨 UTILITY CLASSES
+   ============================================ */
+
+/* Spacing Utilities */
+.spacing-micro { gap: var(--spacing-micro); }
+.spacing-small { gap: var(--spacing-small); }
+.spacing-normal { gap: var(--spacing-normal); }
+.spacing-medium { gap: var(--spacing-medium); }
+.spacing-large { gap: var(--spacing-large); }
+.spacing-xlarge { gap: var(--spacing-xlarge); }
+
+/* Icon Sizes */
+.icon-sm { width: var(--icon-size-sm); height: var(--icon-size-sm); }
+.icon-md { width: var(--icon-size-md); height: var(--icon-size-md); }
+.icon-lg { width: var(--icon-size-lg); height: var(--icon-size-lg); }
+.icon-xl { width: var(--icon-size-xl); height: var(--icon-size-xl); }
+
+/* Status Colors */
+.text-success { color: var(--success); }
+.text-warning { color: var(--warning); }
+.text-destructive { color: var(--destructive); }
+.text-info { color: var(--info); }
+
+.bg-success { background-color: var(--success-bg); }
+.bg-warning { background-color: var(--warning-bg); }
+.bg-destructive { background-color: var(--destructive-bg); }
+.bg-info { background-color: var(--info-bg); }
+
+/* Focus Visible - Accessibility */
+*:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}

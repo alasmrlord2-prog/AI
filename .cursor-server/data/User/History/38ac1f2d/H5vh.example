@@ -1,0 +1,21 @@
+# Frontend Environment Variables
+# Copy this file to .env.local and fill in your values
+
+# Backend API URL
+NEXT_PUBLIC_AGENT_API_URL=http://localhost:8000
+NEXT_PUBLIC_BACKEND_URL=http://localhost:8000
+
+# WebSocket URL
+NEXT_PUBLIC_AGENT_WS_URL=ws://localhost:8000
+
+# Prometheus (optional)
+NEXT_PUBLIC_PROMETHEUS_URL=http://localhost:9090
+
+# Grafana (optional)
+NEXT_PUBLIC_GRAFANA_URL=http://localhost:3001
+
+# For production, use your actual domain/IP:
+# NEXT_PUBLIC_AGENT_API_URL=https://api.yourdomain.com
+# NEXT_PUBLIC_BACKEND_URL=https://api.yourdomain.com
+# NEXT_PUBLIC_AGENT_WS_URL=wss://api.yourdomain.com
+

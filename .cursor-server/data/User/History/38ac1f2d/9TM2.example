@@ -1,0 +1,20 @@
+# Frontend Environment Variables
+# Copy this file to .env.local and fill in your values
+
+# Production Domain (Default)
+NEXT_PUBLIC_AGENT_API_URL=http://ai-agent.bankid-sy.com/api
+NEXT_PUBLIC_BACKEND_URL=http://ai-agent.bankid-sy.com/api
+NEXT_PUBLIC_AGENT_WS_URL=ws://ai-agent.bankid-sy.com/ws/chat
+
+# Prometheus (optional)
+NEXT_PUBLIC_PROMETHEUS_URL=http://localhost:9090
+
+# Grafana (optional)
+NEXT_PUBLIC_GRAFANA_URL=http://localhost:3001
+
+# For local development, uncomment these:
+# NEXT_PUBLIC_AGENT_API_URL=http://localhost:8000
+# NEXT_PUBLIC_BACKEND_URL=http://localhost:8000
+# NEXT_PUBLIC_AGENT_WS_URL=ws://localhost:8000/ws/chat
+
+

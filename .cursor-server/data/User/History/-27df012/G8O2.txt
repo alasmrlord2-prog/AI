@@ -1,0 +1,11 @@
+fastapi
+uvicorn[standard]
+requests
+python-multipart
+pydantic
+python-jose[cryptography]
+passlib[bcrypt]
+prometheus-client
+urllib3
+psutil
+

@@ -1,0 +1,82 @@
+/**
+ * 🎨 SHIFTWAVE DASHBOARD THEME
+ * 
+ * هذا الملف يحتوي على جميع متغيرات ShiftWave Theme
+ * استعمل هاي المتغيّرات لبناء كل الـ components
+ * كل UI لازم يلتزم بهالـ theme
+ */
+
+:root {
+  /* =============================
+     🎯 PRIMARY COLORS
+     ============================= */
+  --sw-primary: #00FFFF;
+  --sw-primary-light: #66FFFF;
+  --sw-primary-dark: #00CCCC;
+
+  /* =============================
+     🟦 SECONDARY COLORS
+     ============================= */
+  --sw-secondary: #1C2B5F;
+  --sw-secondary-light: #2C3E7A;
+  --sw-secondary-dark: #152045;
+
+  /* =============================
+     🔥 BRAND GRADIENT
+     ============================= */
+  --sw-gradient: linear-gradient(90deg, #00FFFF, #1C2B5F);
+
+  /* =============================
+     ⚫ DARK BACKGROUND
+     ============================= */
+  --sw-bg: #0A0F16;
+  --sw-bg-soft: #0E1622;
+  --sw-bg-card: #121C27;
+  --sw-bg-card-dark: #101621;
+  --sw-bg-hover: #182332;
+  --sw-bg-sidebar: #0E1622;
+
+  /* =============================
+     🧱 BORDERS
+     ============================= */
+  --sw-border: #1F2A37;
+
+  /* =============================
+     ⚪ TEXT COLORS
+     ============================= */
+  --sw-text: #FFFFFF;
+  --sw-text-soft: #C8D1E0;
+  --sw-text-muted: #8A94A6;
+  --sw-text-strong: #E4EBF5;
+
+  /* =============================
+     🟩 STATUS COLORS
+     ============================= */
+  --sw-success: #10B981;
+  --sw-warning: #F59E0B;
+  --sw-danger: #EF4444;
+
+  /* =============================
+     📏 SPACING SYSTEM
+     ============================= */
+  --sw-space-xxs: 4px;
+  --sw-space-xs: 8px;
+  --sw-space-s: 12px;
+  --sw-space-m: 16px;
+  --sw-space-l: 24px;
+  --sw-space-xl: 32px;
+  --sw-space-xxl: 48px;
+
+  /* =============================
+     📐 BORDER RADIUS
+     ============================= */
+  --sw-radius-card: 14px;
+  --sw-radius-btn: 8px;
+
+  /* =============================
+     🎭 SHADOWS
+     ============================= */
+  --sw-shadow-soft: 0 8px 20px rgba(0, 0, 0, 0.35);
+  --sw-shadow-glow: 0 0 20px rgba(19, 153, 255, 0.3);
+}
+

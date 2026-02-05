@@ -1,0 +1,23 @@
+2026-02-01 12:28:49.616 [info] [main] Log level: Info
+2026-02-01 12:28:49.616 [info] [main] Validating found git in: "/usr/bin/git"
+2026-02-01 12:28:49.639 [info] [main] Using git "2.34.1" from "/usr/bin/git"
+2026-02-01 12:28:49.639 [info] [Model][doInitialScan] Initial repository scan started
+2026-02-01 12:28:49.652 [info] [Model][doInitialScan] Initial repository scan completed - repositories (0), closed repositories (0), parent repositories (0), unsafe repositories (0)
+2026-02-01 12:28:50.636 [info] > git config --get remote.origin.url [421ms] 
+2026-02-01 12:28:52.182 [info] > git symbolic-ref --short refs/remotes/origin/HEAD [10ms] 
+2026-02-01 12:28:52.182 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-02-01 12:28:52.183 [info] > git config --get remote.origin.url [16ms] 
+2026-02-01 12:28:52.184 [info] > git log --skip=0 --max-count=1 --pretty=format:%H [23ms] 
+2026-02-01 12:28:52.184 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-02-01 12:28:52.194 [info] > git rev-parse --verify origin/main [2ms] 
+2026-02-01 12:28:52.194 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-02-01 12:28:52.201 [info] > git rev-parse --verify origin/master [1ms] 
+2026-02-01 12:28:52.201 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-02-01 12:28:52.219 [info] > git rev-parse --verify origin/develop [14ms] 
+2026-02-01 12:28:52.220 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-02-01 12:28:52.246 [info] > git branch -r [21ms] 
+2026-02-01 12:28:52.246 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-02-01 12:28:52.253 [info] > git config --get init.defaultBranch [1ms] 
+2026-02-01 12:28:59.635 [info] > git config --global user.name [2ms] 
+2026-02-01 12:28:59.644 [info] > git config --global user.email [1ms] 
+2026-02-01 12:28:59.644 [info] [main] Stored git author name in global state:  <>

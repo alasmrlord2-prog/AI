@@ -1,0 +1,9 @@
+{
+  "title": "Local AI Agent",
+  "subtitle": "Control panel for your local intelligent agent",
+  "placeholder": "Type a command… e.g. read /etc/hostname",
+  "run": "Run Command",
+  "processing": "Processing…",
+  "you": "You:",
+  "agent": "Agent:"
+}

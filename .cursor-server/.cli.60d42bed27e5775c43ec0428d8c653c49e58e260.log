@@ -1,0 +1,4 @@
+Listening on 127.0.0.1:39621
+[2025-12-01 11:43:48] info Disposed of connection to running server.
+[2025-12-01 11:43:48] info Checking /home/ai/.cursor-server/cli/servers/Stable-60d42bed27e5775c43ec0428d8c653c49e58e260/log.txt and /home/ai/.cursor-server/cli/servers/Stable-60d42bed27e5775c43ec0428d8c653c49e58e260/pid.txt for a running server...
+[2025-12-01 11:43:48] info Found running server (pid=2156)

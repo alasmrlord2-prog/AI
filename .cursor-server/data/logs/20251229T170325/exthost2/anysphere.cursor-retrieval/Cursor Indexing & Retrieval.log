@@ -1,0 +1,53 @@
+2025-12-29 17:04:49.282 [error] Error getting repo info: Failed to execute git
+2025-12-29 17:04:49.282 [error] Error: Failed to execute git
+	at t.Git._exec (/home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/extensions/git/dist/main.js:2:34792)
+	at async t.Git.exec (/home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/extensions/git/dist/main.js:2:33915)
+	at async t.GitProvider.executeGitCommandStable (/home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/extensions/cursor-retrieval/dist/main.js:2:1423402)
+	at async t.GitProvider.getRepoInfo (/home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/extensions/cursor-retrieval/dist/main.js:2:1399204)
+2025-12-29 17:04:49.282 [info] Creating Indexing Repo client:  https://repo42.cursor.sh
+2025-12-29 17:04:49.282 [info] Creating repo client with backend url: https://repo42.cursor.sh
+2025-12-29 17:04:49.569 [info] Using existing keys for an index
+2025-12-29 17:04:49.569 [info] InternalRepoInfo constructor with preferredEmbeddingModel 0
+2025-12-29 17:04:49.571 [info] Using existing keys for an index
+2025-12-29 17:04:49.571 [info] InternalRepoInfo constructor with preferredEmbeddingModel 0
+2025-12-29 17:04:49.575 [warning] Failed to get symbolic ref: Failed to execute git
+2025-12-29 17:04:49.576 [error] Error getting repo info: Failed to execute git
+2025-12-29 17:04:49.586 [warning] Failed to read .git/HEAD: A system error occurred (ENOENT: no such file or directory, open '/home/ai/.git/HEAD')
+2025-12-29 17:04:49.620 [warning] Failed to get branches from remote: Failed to execute git
+2025-12-29 17:04:49.621 [warning] Failed to get default branch from git config: Failed to execute git
+2025-12-29 17:04:49.807 [info] Starting RepoIndexWatcher for repo: 2313b3d7-a175-4b5e-9e1c-62ef6437f09a, owner: google-oauth2|user_01JSPZR0DK1EQRGV4S0TM7K002
+2025-12-29 17:04:49.807 [error] We currently do not allow indexing the home directory.
+2025-12-29 17:04:49.807 [info] Indexing job successfully done or aborted.
+2025-12-29 17:09:40.806 [info] multiCodebaseIndexingJob dispose
+2025-12-29 17:09:40.806 [info] Aborting indexing job.
+2025-12-29 17:09:40.806 [error] We currently do not allow indexing the home directory.
+2025-12-29 17:09:40.806 [info] Indexing job successfully done or aborted.
+2025-12-29 17:14:31.805 [info] multiCodebaseIndexingJob dispose
+2025-12-29 17:14:31.805 [info] Aborting indexing job.
+2025-12-29 17:14:31.806 [error] We currently do not allow indexing the home directory.
+2025-12-29 17:14:31.806 [info] Indexing job successfully done or aborted.
+2025-12-29 17:19:22.806 [info] multiCodebaseIndexingJob dispose
+2025-12-29 17:19:22.806 [info] Aborting indexing job.
+2025-12-29 17:19:22.806 [error] We currently do not allow indexing the home directory.
+2025-12-29 17:19:22.806 [info] Indexing job successfully done or aborted.
+2025-12-29 17:24:13.810 [info] multiCodebaseIndexingJob dispose
+2025-12-29 17:24:13.812 [info] Aborting indexing job.
+2025-12-29 17:24:13.812 [error] We currently do not allow indexing the home directory.
+2025-12-29 17:24:13.812 [info] Indexing job successfully done or aborted.
+2025-12-29 17:29:04.806 [info] multiCodebaseIndexingJob dispose
+2025-12-29 17:29:04.806 [info] Aborting indexing job.
+2025-12-29 17:29:04.806 [error] We currently do not allow indexing the home directory.
+2025-12-29 17:29:04.806 [info] Indexing job successfully done or aborted.
+2025-12-29 17:33:55.806 [info] multiCodebaseIndexingJob dispose
+2025-12-29 17:33:55.807 [info] Aborting indexing job.
+2025-12-29 17:33:55.807 [error] We currently do not allow indexing the home directory.
+2025-12-29 17:33:55.807 [info] Indexing job successfully done or aborted.
+2025-12-29 17:38:46.807 [info] multiCodebaseIndexingJob dispose
+2025-12-29 17:38:46.807 [info] Aborting indexing job.
+2025-12-29 17:38:46.807 [error] We currently do not allow indexing the home directory.
+2025-12-29 17:38:46.807 [info] Indexing job successfully done or aborted.
+2025-12-29 17:39:16.553 [info] multiCodebaseIndexingJob dispose
+2025-12-29 17:39:16.553 [info] Aborting indexing job.
+2025-12-29 17:39:16.554 [error] Error getting server config, using proto default config Canceled
+2025-12-29 17:39:16.554 [error] Error getting server config, using proto default config Canceled
+2025-12-29 17:39:16.555 [error] Error getting server config, using proto default config Canceled

@@ -1,0 +1,24 @@
+name: Deploy
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Deploy to server
+      run: |
+        echo "Deployment steps would go here"
+        # Add your deployment commands here
+        # For example:
+        # - SSH into server
+        # - Pull latest code
+        # - Restart services
+        # - Run migrations
+

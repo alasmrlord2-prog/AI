@@ -1,0 +1,15 @@
+[Info  - 6:48:03 PM] basedpyright language server 1.32.1 starting
+[Info  - 6:48:03 PM] Server root directory: file:///home/ai/.cursor-server/extensions/anysphere.cursorpyright-1.0.10/dist
+[Info  - 6:48:03 PM] Starting service instance "ai"
+Received pythonPath from Python extension: /home/ai/.venv/bin/python
+[Info  - 6:48:03 PM] Setting pythonPath for service "ai": "/home/ai/.venv/bin/python"
+[Info  - 6:48:03 PM] No include entries specified; assuming /home/ai
+[Info  - 6:48:03 PM] Auto-excluding **/node_modules
+[Info  - 6:48:03 PM] Auto-excluding **/__pycache__
+[Info  - 6:48:03 PM] Auto-excluding **/.*
+[Info  - 6:48:04 PM] Assuming Python version 3.11.0.candidate.1
+[Info  - 6:48:05 PM] Found 207 source files
+[Info  - 6:48:05 PM] BG: Background analysis(1) root directory: file:///home/ai/.cursor-server/extensions/anysphere.cursorpyright-1.0.10/dist
+[Info  - 6:48:05 PM] BG: Background analysis(1) started
+[Info  - 6:48:23 PM] BG: [BG(1)] Long operation: checking: file:///home/ai/ai-agent/backend/app/main.py (2366ms)
+[Info  - 6:48:23 PM] BG: [BG(1)] Long operation: analyzing: file:///home/ai/ai-agent/backend/app/main.py (2444ms)

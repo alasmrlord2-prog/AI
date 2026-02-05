@@ -1,0 +1,4 @@
+Listening on 127.0.0.1:44231
+[2026-01-21 11:37:36] info Disposed of connection to running server.
+[2026-01-21 11:37:36] info Checking /home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/log.txt and /home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/pid.txt for a running server...
+[2026-01-21 11:37:36] info Found running server (pid=176555)

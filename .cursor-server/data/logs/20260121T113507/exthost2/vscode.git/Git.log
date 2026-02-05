@@ -1,0 +1,185 @@
+2026-01-21 11:37:45.834 [info] [main] Log level: Info
+2026-01-21 11:37:45.834 [info] [main] Validating found git in: "/usr/bin/git"
+2026-01-21 11:37:45.858 [info] [main] Using git "2.34.1" from "/usr/bin/git"
+2026-01-21 11:37:45.858 [info] [Model][doInitialScan] Initial repository scan started
+2026-01-21 11:37:46.655 [info] > git rev-parse --show-toplevel [4ms] (getRepositoryRoot)
+2026-01-21 11:37:46.656 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 11:37:46.661 [info] [Model][doInitialScan] Initial repository scan completed - repositories (0), closed repositories (0), parent repositories (0), unsafe repositories (0)
+2026-01-21 11:37:47.555 [info] > git config --get remote.origin.url [786ms] 
+2026-01-21 11:37:47.992 [info] > git rev-parse --show-toplevel [246ms] (findGitRoot)
+2026-01-21 11:37:47.992 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 11:37:47.994 [info] > git rev-parse --show-toplevel [274ms] (findGitRoot)
+2026-01-21 11:37:47.994 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 11:37:48.027 [info] > git symbolic-ref --short refs/remotes/origin/HEAD [39ms] 
+2026-01-21 11:37:48.028 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 11:37:48.030 [info] > git config --get remote.origin.url [55ms] 
+2026-01-21 11:37:48.031 [info] > git log --skip=0 --max-count=1 --pretty=format:%H [68ms] 
+2026-01-21 11:37:48.031 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 11:37:48.032 [info] > git rev-parse --show-toplevel [80ms] 
+2026-01-21 11:37:48.032 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 11:37:48.032 [info] > git rev-parse --show-toplevel [94ms] 
+2026-01-21 11:37:48.032 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 11:37:48.032 [info] > git rev-parse --show-toplevel [103ms] 
+2026-01-21 11:37:48.033 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 11:37:48.033 [info] > git rev-parse --show-toplevel [116ms] 
+2026-01-21 11:37:48.033 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 11:37:48.033 [info] > git rev-parse --show-toplevel [125ms] 
+2026-01-21 11:37:48.033 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 11:37:48.033 [info] > git rev-parse --show-toplevel [137ms] 
+2026-01-21 11:37:48.033 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 11:37:48.034 [info] > git rev-parse --show-toplevel [148ms] 
+2026-01-21 11:37:48.034 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 11:37:48.034 [info] > git rev-parse --show-toplevel [161ms] 
+2026-01-21 11:37:48.035 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 11:37:48.035 [info] > git rev-parse --show-toplevel [173ms] 
+2026-01-21 11:37:48.035 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 11:37:48.036 [info] > git rev-parse --show-toplevel [184ms] 
+2026-01-21 11:37:48.036 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 11:37:48.060 [info] > git rev-parse --verify origin/main [14ms] 
+2026-01-21 11:37:48.060 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 11:37:48.076 [info] > git rev-parse --verify origin/master [5ms] 
+2026-01-21 11:37:48.076 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 11:37:49.368 [info] > git rev-parse --verify origin/develop [1282ms] 
+2026-01-21 11:37:49.368 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 11:37:49.402 [info] > git branch -r [12ms] 
+2026-01-21 11:37:49.403 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 11:37:49.426 [info] > git config --get init.defaultBranch [6ms] 
+2026-01-21 11:37:55.856 [info] > git config --global user.name [1ms] 
+2026-01-21 11:37:55.863 [info] > git config --global user.email [1ms] 
+2026-01-21 11:37:55.863 [info] [main] Stored git author name in global state:  <>
+2026-01-21 11:38:27.890 [info] > git rev-parse --show-toplevel [18ms] 
+2026-01-21 11:38:27.891 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 11:38:27.891 [info] > git rev-parse --show-toplevel [37ms] 
+2026-01-21 11:38:27.891 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 11:38:27.891 [info] > git rev-parse --show-toplevel [44ms] 
+2026-01-21 11:38:27.891 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 11:38:27.892 [info] > git rev-parse --show-toplevel [51ms] 
+2026-01-21 11:38:27.892 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 11:38:27.893 [info] > git rev-parse --show-toplevel [59ms] 
+2026-01-21 11:38:27.893 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 11:38:27.893 [info] > git rev-parse --show-toplevel [66ms] 
+2026-01-21 11:38:27.893 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 11:38:27.895 [info] > git rev-parse --show-toplevel [72ms] 
+2026-01-21 11:38:27.896 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 11:38:27.896 [info] > git rev-parse --show-toplevel [10ms] 
+2026-01-21 11:38:27.896 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 11:38:41.049 [info] > git rev-parse --show-toplevel [1ms] (getGitRepoPathForWorkspacePath)
+2026-01-21 11:38:41.049 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 11:39:48.708 [info] > git config --get remote.origin.url [5ms] (getGitRemoteUrl)
+2026-01-21 11:39:48.709 [info] > git config --get remote.origin.url [12ms] (getGitRemoteUrl)
+2026-01-21 11:39:48.709 [info] > git config --get remote.origin.url [22ms] (getGitRemoteUrl)
+2026-01-21 11:39:48.709 [info] > git config --get remote.origin.url [28ms] (getGitRemoteUrl)
+2026-01-21 11:39:48.710 [info] > git config --get remote.origin.url [35ms] (getGitRemoteUrl)
+2026-01-21 11:39:48.710 [info] > git config --get remote.origin.url [43ms] (getGitRemoteUrl)
+2026-01-21 11:39:48.710 [info] > git config --get remote.origin.url [50ms] (getGitRemoteUrl)
+2026-01-21 11:39:48.711 [info] > git config --get remote.origin.url [58ms] (getGitRemoteUrl)
+2026-01-21 11:39:48.711 [info] > git config --get remote.origin.url [65ms] (getGitRemoteUrl)
+2026-01-21 11:39:48.714 [info] > git config --get remote.origin.url [75ms] (getGitRemoteUrl)
+2026-01-21 11:39:48.714 [info] > git config --get remote.origin.url [82ms] (getGitRemoteUrl)
+2026-01-21 11:39:48.714 [info] > git config --get remote.origin.url [88ms] (getGitRemoteUrl)
+2026-01-21 11:40:18.977 [info] > git config --get remote.origin.url [2ms] (getGitRemoteUrl)
+2026-01-21 11:40:19.023 [info] > git config --get remote.origin.url [3ms] (getGitRemoteUrl)
+2026-01-21 11:40:19.023 [info] > git config --get remote.origin.url [10ms] (getGitRemoteUrl)
+2026-01-21 11:40:19.651 [info] > git config --get remote.origin.url [3ms] (getGitRemoteUrl)
+2026-01-21 11:40:20.135 [info] > git config --get remote.origin.url [1ms] (getGitRemoteUrl)
+2026-01-21 11:40:20.162 [info] > git config --get remote.origin.url [19ms] (getGitRemoteUrl)
+2026-01-21 11:40:20.181 [info] > git config --get remote.origin.url [0ms] (getGitRemoteUrl)
+2026-01-21 11:40:20.183 [info] > git config --get remote.origin.url [12ms] (getGitRemoteUrl)
+2026-01-21 11:40:20.520 [info] > git config --get remote.origin.url [3ms] (getGitRemoteUrl)
+2026-01-21 11:40:21.095 [info] > git config --get remote.origin.url [24ms] (getGitRemoteUrl)
+2026-01-21 11:40:21.104 [info] > git config --get remote.origin.url [93ms] (getGitRemoteUrl)
+2026-01-21 11:40:29.156 [info] > git config --get remote.origin.url [5ms] (getGitRemoteUrl)
+2026-01-21 11:40:31.987 [info] > git config --get remote.origin.url [1ms] (getGitRemoteUrl)
+2026-01-21 11:40:33.319 [info] > git config --get remote.origin.url [14ms] (getGitRemoteUrl)
+2026-01-21 11:40:33.321 [info] > git config --get remote.origin.url [47ms] (getGitRemoteUrl)
+2026-01-21 11:40:33.485 [info] > git config --get remote.origin.url [14ms] (getGitRemoteUrl)
+2026-01-21 11:40:42.921 [info] > git config --get remote.origin.url [3ms] (getGitRemoteUrl)
+2026-01-21 11:40:46.963 [info] > git config --get remote.origin.url [5ms] (getGitRemoteUrl)
+2026-01-21 11:41:03.380 [info] > git config --get remote.origin.url [1ms] (getGitRemoteUrl)
+2026-01-21 11:41:05.479 [info] > git config --get remote.origin.url [1ms] (getGitRemoteUrl)
+2026-01-21 11:41:05.683 [info] > git config --get remote.origin.url [4ms] (getGitRemoteUrl)
+2026-01-21 11:41:37.537 [info] > git config --get remote.origin.url [1ms] (getGitRemoteUrl)
+2026-01-21 11:41:38.787 [info] > git config --get remote.origin.url [7ms] (getGitRemoteUrl)
+2026-01-21 11:41:39.899 [info] > git config --get remote.origin.url [1ms] (getGitRemoteUrl)
+2026-01-21 11:41:42.303 [info] > git config --get remote.origin.url [2ms] (getGitRemoteUrl)
+2026-01-21 11:41:45.705 [info] > git config --get remote.origin.url [2ms] (getGitRemoteUrl)
+2026-01-21 11:41:45.971 [info] > git config --get remote.origin.url [4ms] (getGitRemoteUrl)
+2026-01-21 11:41:46.668 [info] > git config --get remote.origin.url [2ms] (getGitRemoteUrl)
+2026-01-21 11:42:07.689 [info] > git config --get remote.origin.url [95ms] (getGitRemoteUrl)
+2026-01-21 11:42:07.705 [info] > git config --get remote.origin.url [22ms] (getGitRemoteUrl)
+2026-01-21 11:42:07.707 [info] > git config --get remote.origin.url [49ms] (getGitRemoteUrl)
+2026-01-21 11:42:07.707 [info] > git config --get remote.origin.url [62ms] (getGitRemoteUrl)
+2026-01-21 11:42:07.708 [info] > git config --get remote.origin.url [71ms] (getGitRemoteUrl)
+2026-01-21 11:42:07.708 [info] > git config --get remote.origin.url [79ms] (getGitRemoteUrl)
+2026-01-21 11:42:07.708 [info] > git config --get remote.origin.url [86ms] (getGitRemoteUrl)
+2026-01-21 11:42:07.721 [info] > git config --get remote.origin.url [3ms] (getGitRemoteUrl)
+2026-01-21 11:42:07.734 [info] > git config --get remote.origin.url [5ms] (getGitRemoteUrl)
+2026-01-21 11:42:07.755 [info] > git config --get remote.origin.url [8ms] (getGitRemoteUrl)
+2026-01-21 11:42:12.444 [info] > git config --get remote.origin.url [9ms] (getGitRemoteUrl)
+2026-01-21 11:42:12.446 [info] > git config --get remote.origin.url [3ms] (getGitRemoteUrl)
+2026-01-21 11:42:17.160 [info] > git config --get remote.origin.url [11ms] (getGitRemoteUrl)
+2026-01-21 11:42:17.160 [info] > git config --get remote.origin.url [18ms] (getGitRemoteUrl)
+2026-01-21 11:42:17.160 [info] > git config --get remote.origin.url [26ms] (getGitRemoteUrl)
+2026-01-21 11:42:17.161 [info] > git config --get remote.origin.url [5ms] (getGitRemoteUrl)
+2026-01-21 11:42:18.733 [info] > git config --get remote.origin.url [1ms] (getGitRemoteUrl)
+2026-01-21 11:42:18.759 [info] > git config --get remote.origin.url [5ms] (getGitRemoteUrl)
+2026-01-21 11:42:18.781 [info] > git config --get remote.origin.url [12ms] (getGitRemoteUrl)
+2026-01-21 11:42:18.782 [info] > git config --get remote.origin.url [2ms] (getGitRemoteUrl)
+2026-01-21 11:42:19.516 [info] > git config --get remote.origin.url [2ms] (getGitRemoteUrl)
+2026-01-21 11:42:19.742 [info] > git config --get remote.origin.url [69ms] (getGitRemoteUrl)
+2026-01-21 11:42:19.745 [info] > git config --get remote.origin.url [110ms] (getGitRemoteUrl)
+2026-01-21 11:42:19.745 [info] > git config --get remote.origin.url [134ms] (getGitRemoteUrl)
+2026-01-21 11:42:19.747 [info] > git config --get remote.origin.url [10ms] (getGitRemoteUrl)
+2026-01-21 11:42:19.747 [info] > git config --get remote.origin.url [31ms] (getGitRemoteUrl)
+2026-01-21 11:42:30.900 [info] > git rev-parse --show-toplevel [2ms] 
+2026-01-21 11:42:30.900 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 11:42:31.055 [info] > git config --get remote.origin.url [2ms] (getGitRemoteUrl)
+2026-01-21 11:42:39.874 [info] > git config --get remote.origin.url [3ms] (getGitRemoteUrl)
+2026-01-21 11:42:42.318 [info] > git config --get remote.origin.url [2ms] (getGitRemoteUrl)
+2026-01-21 11:42:44.288 [info] > git config --get remote.origin.url [1ms] (getGitRemoteUrl)
+2026-01-21 11:42:44.956 [info] > git config --get remote.origin.url [1ms] (getGitRemoteUrl)
+2026-01-21 11:43:03.723 [info] > git config --get remote.origin.url [3ms] (getGitRemoteUrl)
+2026-01-21 11:43:23.718 [info] > git config --get remote.origin.url [5ms] (getGitRemoteUrl)
+2026-01-21 11:43:23.784 [info] > git config --get remote.origin.url [5ms] (getGitRemoteUrl)
+2026-01-21 11:43:24.594 [info] > git config --get remote.origin.url [1ms] (getGitRemoteUrl)
+2026-01-21 11:43:42.619 [info] > git config --get remote.origin.url [2ms] (getGitRemoteUrl)
+2026-01-21 11:43:47.564 [info] > git config --get remote.origin.url [1ms] (getGitRemoteUrl)
+2026-01-21 11:43:49.444 [info] > git config --get remote.origin.url [2ms] (getGitRemoteUrl)
+2026-01-21 11:43:49.879 [info] > git config --get remote.origin.url [2ms] (getGitRemoteUrl)
+2026-01-21 11:44:08.570 [info] > git config --get remote.origin.url [1ms] (getGitRemoteUrl)
+2026-01-21 11:44:08.579 [info] > git config --get remote.origin.url [1ms] (getGitRemoteUrl)
+2026-01-21 11:44:08.590 [info] > git config --get remote.origin.url [1ms] (getGitRemoteUrl)
+2026-01-21 11:44:13.420 [info] > git config --get remote.origin.url [1ms] (getGitRemoteUrl)
+2026-01-21 11:44:16.405 [info] > git config --get remote.origin.url [1ms] (getGitRemoteUrl)
+2026-01-21 11:44:16.835 [info] > git config --get remote.origin.url [1ms] (getGitRemoteUrl)
+2026-01-21 11:44:36.319 [info] > git config --get remote.origin.url [2ms] (getGitRemoteUrl)
+2026-01-21 11:44:54.868 [info] > git config --get remote.origin.url [2ms] (getGitRemoteUrl)
+2026-01-21 11:45:15.757 [info] > git config --get remote.origin.url [12ms] (getGitRemoteUrl)
+2026-01-21 11:45:15.758 [info] > git config --get remote.origin.url [22ms] (getGitRemoteUrl)
+2026-01-21 11:45:15.758 [info] > git config --get remote.origin.url [30ms] (getGitRemoteUrl)
+2026-01-21 11:45:15.771 [info] > git config --get remote.origin.url [15ms] (getGitRemoteUrl)
+2026-01-21 11:45:25.082 [info] > git config --get remote.origin.url [5ms] (getGitRemoteUrl)
+2026-01-21 11:45:25.086 [info] > git config --get remote.origin.url [26ms] (getGitRemoteUrl)
+2026-01-21 11:45:25.608 [info] > git config --get remote.origin.url [14ms] (getGitRemoteUrl)
+2026-01-21 11:45:25.609 [info] > git config --get remote.origin.url [2ms] (getGitRemoteUrl)
+2026-01-21 11:45:32.501 [info] > git config --get remote.origin.url [1ms] (getGitRemoteUrl)
+2026-01-21 11:45:33.029 [info] > git config --get remote.origin.url [1ms] (getGitRemoteUrl)
+2026-01-21 11:45:53.037 [info] > git config --get remote.origin.url [11ms] (getGitRemoteUrl)
+2026-01-21 11:45:53.047 [info] > git config --get remote.origin.url [11ms] (getGitRemoteUrl)
+2026-01-21 11:46:27.498 [info] > git config --get remote.origin.url [2ms] (getGitRemoteUrl)
+2026-01-21 11:46:30.092 [info] > git config --get remote.origin.url [6ms] (getGitRemoteUrl)
+2026-01-21 11:46:38.118 [info] > git config --get remote.origin.url [1ms] (getGitRemoteUrl)
+2026-01-21 11:46:56.009 [info] > git config --get remote.origin.url [1ms] (getGitRemoteUrl)
+2026-01-21 11:47:12.296 [info] > git config --get remote.origin.url [1ms] (getGitRemoteUrl)
+2026-01-21 11:47:28.868 [info] > git rev-parse --show-toplevel [1ms] 
+2026-01-21 11:47:28.869 [info] fatal: not a git repository (or any of the parent directories): .git
+2026-01-21 11:47:34.486 [info] > git config --get remote.origin.url [3ms] (getGitRemoteUrl)
+2026-01-21 11:47:41.883 [info] > git config --get remote.origin.url [2ms] (getGitRemoteUrl)
+2026-01-21 11:47:48.996 [info] > git config --get remote.origin.url [1ms] (getGitRemoteUrl)
+2026-01-21 11:48:00.283 [info] > git config --get remote.origin.url [1ms] (getGitRemoteUrl)
+2026-01-21 11:48:00.430 [info] > git config --get remote.origin.url [2ms] (getGitRemoteUrl)
+2026-01-21 11:48:09.085 [info] > git config --get remote.origin.url [1ms] (getGitRemoteUrl)
+2026-01-21 11:48:10.628 [info] > git config --get remote.origin.url [1ms] (getGitRemoteUrl)
+2026-01-21 11:48:37.021 [info] > git config --get remote.origin.url [1ms] (getGitRemoteUrl)
+2026-01-21 11:48:37.536 [info] > git config --get remote.origin.url [2ms] (getGitRemoteUrl)
+2026-01-21 11:49:01.259 [info] > git config --get remote.origin.url [2ms] (getGitRemoteUrl)

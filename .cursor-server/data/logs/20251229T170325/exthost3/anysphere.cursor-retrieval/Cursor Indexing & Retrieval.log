@@ -1,0 +1,22 @@
+2025-12-29 17:35:13.796 [error] Error getting repo info: Failed to execute git
+2025-12-29 17:35:13.796 [error] Error: Failed to execute git
+	at t.Git._exec (/home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/extensions/git/dist/main.js:2:34792)
+	at async t.Git.exec (/home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/extensions/git/dist/main.js:2:33915)
+	at async t.GitProvider.executeGitCommandStable (/home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/extensions/cursor-retrieval/dist/main.js:2:1423402)
+	at async t.GitProvider.getRepoInfo (/home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/extensions/cursor-retrieval/dist/main.js:2:1399204)
+2025-12-29 17:35:13.796 [info] Creating Indexing Repo client:  https://repo42.cursor.sh
+2025-12-29 17:35:13.796 [info] Creating repo client with backend url: https://repo42.cursor.sh
+2025-12-29 17:35:14.032 [info] Using existing keys for an index
+2025-12-29 17:35:14.035 [info] InternalRepoInfo constructor with preferredEmbeddingModel 0
+2025-12-29 17:35:14.163 [info] Using existing keys for an index
+2025-12-29 17:35:14.163 [info] InternalRepoInfo constructor with preferredEmbeddingModel 0
+2025-12-29 17:35:14.178 [info] Starting RepoIndexWatcher for repo: 2313b3d7-a175-4b5e-9e1c-62ef6437f09a, owner: google-oauth2|user_01JSPZR0DK1EQRGV4S0TM7K002
+2025-12-29 17:35:14.178 [error] We currently do not allow indexing the home directory.
+2025-12-29 17:35:14.178 [info] Indexing job successfully done or aborted.
+2025-12-29 17:35:15.665 [warning] Failed to get symbolic ref: Failed to execute git
+2025-12-29 17:35:15.666 [error] Error getting repo info: Failed to execute git
+2025-12-29 17:35:15.678 [warning] Failed to read .git/HEAD: A system error occurred (ENOENT: no such file or directory, open '/home/ai/.git/HEAD')
+2025-12-29 17:35:15.722 [warning] Failed to get branches from remote: Failed to execute git
+2025-12-29 17:35:15.724 [warning] Failed to get default branch from git config: Failed to execute git
+2025-12-29 17:39:16.537 [info] multiCodebaseIndexingJob dispose
+2025-12-29 17:39:16.537 [info] Aborting indexing job.

@@ -1,0 +1,1707 @@
+2025-12-14 08:31:58.500 [info] [main] Log level: Info
+2025-12-14 08:31:58.500 [info] [main] Validating found git in: "/usr/bin/git"
+2025-12-14 08:31:58.500 [info] [main] Using git "2.34.1" from "/usr/bin/git"
+2025-12-14 08:31:58.500 [info] [Model][doInitialScan] Initial repository scan started
+2025-12-14 08:31:58.551 [info] > git config --get remote.origin.url [133ms]
+2025-12-14 08:31:58.551 [info] > git rev-parse --show-toplevel [277ms]
+2025-12-14 08:31:58.551 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 08:31:58.703 [info] > git rev-parse --show-toplevel [101ms]
+2025-12-14 08:31:58.703 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 08:31:59.205 [info] [Model][doInitialScan] Initial repository scan completed - repositories (0), closed repositories (0), parent repositories (0), unsafe repositories (1)
+2025-12-14 08:31:59.733 [info] > git symbolic-ref --short refs/remotes/origin/HEAD [65ms]
+2025-12-14 08:31:59.733 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 08:31:59.736 [info] > git config --get remote.origin.url [87ms]
+2025-12-14 08:31:59.736 [info] > git log --skip=0 --max-count=1 --pretty=format:%H [106ms]
+2025-12-14 08:31:59.736 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 08:31:59.736 [info] > git remote get-url --push origin [123ms]
+2025-12-14 08:31:59.736 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 08:31:59.737 [info] > git rev-parse --show-toplevel [141ms]
+2025-12-14 08:31:59.737 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 08:31:59.740 [info] > git rev-parse --show-toplevel [159ms]
+2025-12-14 08:31:59.740 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 08:31:59.760 [info] > git rev-parse --verify origin/main [11ms]
+2025-12-14 08:31:59.760 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 08:31:59.776 [info] > git rev-parse --verify origin/master [7ms]
+2025-12-14 08:31:59.776 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 08:31:59.859 [info] > git rev-parse --verify origin/develop [72ms]
+2025-12-14 08:31:59.860 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 08:32:00.006 [info] > git branch -r [95ms]
+2025-12-14 08:32:00.006 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 08:32:00.030 [info] > git config --get init.defaultBranch [12ms]
+2025-12-14 08:32:06.631 [info] > git config --global user.name [1ms]
+2025-12-14 08:32:06.639 [info] > git config --global user.email [1ms]
+2025-12-14 08:32:06.639 [info] [main] Stored git author name in global state:  <>
+2025-12-14 08:36:24.602 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 08:36:24.602 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 08:38:34.748 [info] > git remote get-url --push origin [2ms]
+2025-12-14 08:38:34.748 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 08:38:34.748 [info] > git --no-optional-locks status [8ms]
+2025-12-14 08:38:34.748 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 08:41:24.800 [info] > git rev-parse --show-toplevel [0ms]
+2025-12-14 08:41:24.800 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 08:43:58.311 [info] > git rev-parse --show-toplevel [14ms]
+2025-12-14 08:43:58.311 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 08:43:58.374 [info] > git rev-parse --show-toplevel [14ms]
+2025-12-14 08:43:58.377 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 08:44:06.014 [info] > git rev-parse --show-toplevel [9ms]
+2025-12-14 08:44:06.014 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 08:44:06.080 [info] > git rev-parse --show-toplevel [27ms]
+2025-12-14 08:44:06.080 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 08:44:09.244 [info] > git rev-parse --show-toplevel [14ms]
+2025-12-14 08:44:09.244 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 08:44:09.341 [info] > git rev-parse --show-toplevel [27ms]
+2025-12-14 08:44:09.342 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 08:46:44.524 [info] > git rev-parse --show-toplevel [6ms]
+2025-12-14 08:46:44.524 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 08:50:52.268 [info] > git rev-parse --show-toplevel [11ms]
+2025-12-14 08:50:52.268 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 08:50:53.561 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 08:50:53.561 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 08:51:05.838 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 08:51:05.839 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 08:51:05.867 [info] > git rev-parse --show-toplevel [4ms]
+2025-12-14 08:51:05.867 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 08:51:06.495 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 08:51:06.495 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 08:51:07.385 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 08:51:07.385 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 08:51:07.409 [info] > git rev-parse --show-toplevel [3ms]
+2025-12-14 08:51:07.409 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 08:51:07.689 [info] > git rev-parse --show-toplevel [3ms]
+2025-12-14 08:51:07.689 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 08:51:07.726 [info] > git rev-parse --show-toplevel [5ms]
+2025-12-14 08:51:07.726 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 08:51:07.772 [info] > git rev-parse --show-toplevel [13ms]
+2025-12-14 08:51:07.772 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 08:51:07.815 [info] > git rev-parse --show-toplevel [11ms]
+2025-12-14 08:51:07.816 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 08:51:07.841 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 08:51:07.841 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 08:51:08.529 [info] > git rev-parse --show-toplevel [4ms]
+2025-12-14 08:51:08.529 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 08:51:08.542 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 08:51:08.542 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 08:51:08.559 [info] > git rev-parse --show-toplevel [5ms]
+2025-12-14 08:51:08.560 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 08:51:25.594 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 08:51:25.594 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 08:56:44.521 [info] > git rev-parse --show-toplevel [4ms]
+2025-12-14 08:56:44.521 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 09:01:22.480 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:01:22.480 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:01:22.487 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:01:22.487 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:01:23.292 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:01:23.292 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:01:24.622 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:01:24.622 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 09:05:46.599 [info] > git rev-parse --show-toplevel [5ms]
+2025-12-14 09:05:46.599 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:06:25.063 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:06:25.063 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 09:06:25.999 [info] > git remote get-url --push origin [2ms]
+2025-12-14 09:06:25.999 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 09:06:25.999 [info] > git --no-optional-locks status [8ms]
+2025-12-14 09:06:25.999 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 09:06:35.315 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:06:35.316 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:06:46.323 [info] > git rev-parse --show-toplevel [5ms]
+2025-12-14 09:06:46.324 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:06:46.345 [info] > git rev-parse --show-toplevel [6ms]
+2025-12-14 09:06:46.345 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:06:46.358 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:06:46.358 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:06:46.370 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:06:46.370 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:06:46.389 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:06:46.390 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:06:46.495 [info] > git rev-parse --show-toplevel [13ms]
+2025-12-14 09:06:46.495 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:06:46.551 [info] > git rev-parse --show-toplevel [26ms]
+2025-12-14 09:06:46.551 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:06:46.592 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:06:46.593 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:06:46.604 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:06:46.605 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:06:46.616 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:06:46.616 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:07:16.355 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:07:16.355 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:08:20.838 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:08:20.839 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:08:54.806 [info] > git remote get-url --push origin [1ms]
+2025-12-14 09:08:54.806 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 09:08:54.807 [info] > git --no-optional-locks status [10ms]
+2025-12-14 09:08:54.807 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 09:09:39.511 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:09:39.512 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:11:26.500 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:11:26.500 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 09:11:49.283 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:11:49.284 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:12:17.212 [info] > git remote get-url --push origin [3ms]
+2025-12-14 09:12:17.212 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 09:12:17.212 [info] > git --no-optional-locks status [11ms]
+2025-12-14 09:12:17.212 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 09:12:30.669 [info] > git remote get-url --push origin [2ms]
+2025-12-14 09:12:30.669 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 09:12:30.669 [info] > git --no-optional-locks status [8ms]
+2025-12-14 09:12:30.669 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 09:13:03.345 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:13:03.345 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:13:15.105 [info] > git remote get-url --push origin [2ms]
+2025-12-14 09:13:15.105 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 09:13:15.105 [info] > git --no-optional-locks status [10ms]
+2025-12-14 09:13:15.105 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 09:13:25.994 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:13:25.994 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:15:26.762 [info] > git remote get-url --push origin [2ms]
+2025-12-14 09:15:26.762 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 09:15:26.762 [info] > git --no-optional-locks status [11ms]
+2025-12-14 09:15:26.762 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 09:15:31.782 [info] > git rev-parse --show-toplevel [3ms]
+2025-12-14 09:15:31.782 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:15:34.807 [info] > git rev-parse --show-toplevel [8ms]
+2025-12-14 09:15:34.807 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:16:24.688 [info] > git rev-parse --show-toplevel [6ms]
+2025-12-14 09:16:24.688 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 09:17:40.146 [info] > git remote get-url --push origin [3ms]
+2025-12-14 09:17:40.146 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 09:17:40.147 [info] > git --no-optional-locks status [13ms]
+2025-12-14 09:17:40.147 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 09:18:05.411 [info] > git rev-parse --show-toplevel [14ms]
+2025-12-14 09:18:05.411 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:18:05.530 [info] > git rev-parse --show-toplevel [35ms]
+2025-12-14 09:18:05.530 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:20:22.085 [info] > git rev-parse --show-toplevel [5ms]
+2025-12-14 09:20:22.085 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:20:22.188 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:20:22.188 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:20:29.378 [info] > git rev-parse --show-toplevel [4ms]
+2025-12-14 09:20:29.378 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:20:29.467 [info] > git rev-parse --show-toplevel [11ms]
+2025-12-14 09:20:29.467 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:20:34.567 [info] > git rev-parse --show-toplevel [5ms]
+2025-12-14 09:20:34.567 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:20:34.649 [info] > git rev-parse --show-toplevel [5ms]
+2025-12-14 09:20:34.650 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:20:43.905 [info] > git rev-parse --show-toplevel [4ms]
+2025-12-14 09:20:43.905 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:20:43.987 [info] > git rev-parse --show-toplevel [4ms]
+2025-12-14 09:20:43.987 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:21:24.803 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:21:24.803 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 09:24:49.059 [info] > git rev-parse --show-toplevel [13ms]
+2025-12-14 09:24:49.063 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:24:49.149 [info] > git rev-parse --show-toplevel [3ms]
+2025-12-14 09:24:49.149 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:24:53.536 [info] > git rev-parse --show-toplevel [7ms]
+2025-12-14 09:24:53.536 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:24:53.566 [info] > git rev-parse --show-toplevel [4ms]
+2025-12-14 09:24:53.566 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:24:53.578 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:24:53.578 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:24:53.648 [info] > git rev-parse --show-toplevel [6ms]
+2025-12-14 09:24:53.648 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:24:53.661 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:24:53.661 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:25:31.710 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:25:31.710 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:25:34.797 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:25:34.797 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:26:24.637 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:26:24.637 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 09:27:34.769 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:27:34.769 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:27:34.871 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:27:34.871 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:27:46.102 [info] > git rev-parse --show-toplevel [6ms]
+2025-12-14 09:27:46.102 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:27:46.160 [info] > git rev-parse --show-toplevel [22ms]
+2025-12-14 09:27:46.160 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:27:46.211 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:27:46.211 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:27:46.280 [info] > git rev-parse --show-toplevel [7ms]
+2025-12-14 09:27:46.282 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:27:46.303 [info] > git rev-parse --show-toplevel [3ms]
+2025-12-14 09:27:46.303 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:28:27.767 [info] > git rev-parse --show-toplevel [3ms]
+2025-12-14 09:28:27.767 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:28:44.382 [info] > git rev-parse --show-toplevel [10ms]
+2025-12-14 09:28:44.384 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:28:44.497 [info] > git rev-parse --show-toplevel [4ms]
+2025-12-14 09:28:44.497 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:28:53.802 [info] > git rev-parse --show-toplevel [6ms]
+2025-12-14 09:28:53.802 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:28:53.855 [info] > git rev-parse --show-toplevel [6ms]
+2025-12-14 09:28:53.856 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:29:04.621 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:29:04.622 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:29:08.797 [info] > git rev-parse --show-toplevel [5ms]
+2025-12-14 09:29:08.797 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:29:08.808 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:29:08.809 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:29:08.820 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:29:08.820 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:29:08.834 [info] > git rev-parse --show-toplevel [3ms]
+2025-12-14 09:29:08.834 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:29:08.847 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:29:08.847 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:29:08.861 [info] > git rev-parse --show-toplevel [4ms]
+2025-12-14 09:29:08.861 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:29:08.923 [info] > git rev-parse --show-toplevel [9ms]
+2025-12-14 09:29:08.923 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:29:08.970 [info] > git rev-parse --show-toplevel [4ms]
+2025-12-14 09:29:08.970 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:29:09.046 [info] > git rev-parse --show-toplevel [3ms]
+2025-12-14 09:29:09.046 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:29:09.060 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:29:09.060 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:29:09.072 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:29:09.072 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:29:21.962 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:29:21.962 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:29:21.978 [info] > git rev-parse --show-toplevel [5ms]
+2025-12-14 09:29:21.978 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:29:21.997 [info] > git rev-parse --show-toplevel [5ms]
+2025-12-14 09:29:21.997 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:29:22.018 [info] > git rev-parse --show-toplevel [5ms]
+2025-12-14 09:29:22.018 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:29:22.036 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:29:22.036 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:29:22.115 [info] > git rev-parse --show-toplevel [4ms]
+2025-12-14 09:29:22.115 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:29:22.127 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:29:22.127 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:29:22.140 [info] > git rev-parse --show-toplevel [3ms]
+2025-12-14 09:29:22.140 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:29:24.708 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:29:24.708 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:29:24.720 [info] > git rev-parse --show-toplevel [3ms]
+2025-12-14 09:29:24.720 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:29:24.733 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:29:24.733 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:29:24.749 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:29:24.749 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:29:24.774 [info] > git rev-parse --show-toplevel [9ms]
+2025-12-14 09:29:24.774 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:29:30.491 [info] > git rev-parse --show-toplevel [0ms]
+2025-12-14 09:29:30.491 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:29:30.499 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:29:30.499 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:31:26.565 [info] > git rev-parse --show-toplevel [3ms]
+2025-12-14 09:31:26.565 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 09:37:44.512 [info] > git rev-parse --show-toplevel [9ms]
+2025-12-14 09:37:44.512 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 09:39:27.492 [info] > git rev-parse --show-toplevel [19ms]
+2025-12-14 09:39:27.492 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:39:27.575 [info] > git rev-parse --show-toplevel [19ms]
+2025-12-14 09:39:27.575 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:39:27.633 [info] > git rev-parse --show-toplevel [11ms]
+2025-12-14 09:39:27.641 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:39:27.677 [info] > git rev-parse --show-toplevel [8ms]
+2025-12-14 09:39:27.677 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:39:27.708 [info] > git rev-parse --show-toplevel [8ms]
+2025-12-14 09:39:27.709 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:39:27.749 [info] > git rev-parse --show-toplevel [13ms]
+2025-12-14 09:39:27.749 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:39:27.789 [info] > git rev-parse --show-toplevel [15ms]
+2025-12-14 09:39:27.795 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:39:27.832 [info] > git rev-parse --show-toplevel [4ms]
+2025-12-14 09:39:27.834 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:39:55.566 [info] > git rev-parse --show-toplevel [0ms]
+2025-12-14 09:39:55.566 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:39:55.576 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:39:55.576 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:41:24.732 [info] > git rev-parse --show-toplevel [10ms]
+2025-12-14 09:41:24.732 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 09:41:38.458 [info] > git rev-parse --show-toplevel [10ms]
+2025-12-14 09:41:38.458 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:41:38.520 [info] > git rev-parse --show-toplevel [7ms]
+2025-12-14 09:41:38.520 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:41:38.577 [info] > git rev-parse --show-toplevel [10ms]
+2025-12-14 09:41:38.577 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:41:38.616 [info] > git rev-parse --show-toplevel [15ms]
+2025-12-14 09:41:38.616 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:41:38.669 [info] > git rev-parse --show-toplevel [8ms]
+2025-12-14 09:41:38.673 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:41:38.700 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:41:38.700 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:41:38.713 [info] > git rev-parse --show-toplevel [3ms]
+2025-12-14 09:41:38.713 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:41:38.730 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:41:38.730 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:41:40.647 [info] > git rev-parse --show-toplevel [20ms]
+2025-12-14 09:41:40.647 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:41:40.741 [info] > git rev-parse --show-toplevel [48ms]
+2025-12-14 09:41:40.743 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:41:40.779 [info] > git rev-parse --show-toplevel [12ms]
+2025-12-14 09:41:40.779 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:41:40.817 [info] > git rev-parse --show-toplevel [13ms]
+2025-12-14 09:41:40.818 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:41:40.880 [info] > git rev-parse --show-toplevel [7ms]
+2025-12-14 09:41:40.881 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:41:43.163 [info] > git rev-parse --show-toplevel [3ms]
+2025-12-14 09:41:43.164 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:41:43.173 [info] > git rev-parse --show-toplevel [0ms]
+2025-12-14 09:41:43.174 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:41:54.870 [info] > git rev-parse --show-toplevel [24ms]
+2025-12-14 09:41:54.871 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:41:54.910 [info] > git rev-parse --show-toplevel [9ms]
+2025-12-14 09:41:54.910 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:41:54.986 [info] > git rev-parse --show-toplevel [18ms]
+2025-12-14 09:41:54.986 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:41:55.057 [info] > git rev-parse --show-toplevel [24ms]
+2025-12-14 09:41:55.060 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:41:55.141 [info] > git rev-parse --show-toplevel [17ms]
+2025-12-14 09:41:55.151 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:41:55.226 [info] > git rev-parse --show-toplevel [24ms]
+2025-12-14 09:41:55.226 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:41:55.331 [info] > git rev-parse --show-toplevel [21ms]
+2025-12-14 09:41:55.334 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:41:55.412 [info] > git rev-parse --show-toplevel [19ms]
+2025-12-14 09:41:55.412 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:41:58.265 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:41:58.266 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:41:58.278 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:41:58.278 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:42:25.615 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:42:25.615 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:42:25.628 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:42:25.628 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:42:25.640 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:42:25.640 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:42:25.671 [info] > git rev-parse --show-toplevel [6ms]
+2025-12-14 09:42:25.671 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:42:25.683 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:42:25.683 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:42:25.701 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:42:25.701 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:42:25.713 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:42:25.713 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:42:25.735 [info] > git rev-parse --show-toplevel [7ms]
+2025-12-14 09:42:25.736 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:43:18.449 [info] > git rev-parse --show-toplevel [7ms]
+2025-12-14 09:43:18.449 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:43:18.475 [info] > git rev-parse --show-toplevel [8ms]
+2025-12-14 09:43:18.475 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:43:18.522 [info] > git rev-parse --show-toplevel [8ms]
+2025-12-14 09:43:18.526 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:43:18.565 [info] > git rev-parse --show-toplevel [5ms]
+2025-12-14 09:43:18.565 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:43:18.607 [info] > git rev-parse --show-toplevel [17ms]
+2025-12-14 09:43:18.607 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:43:21.700 [info] > git rev-parse --show-toplevel [0ms]
+2025-12-14 09:43:21.701 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:43:21.714 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:43:21.714 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:43:43.407 [info] > git rev-parse --show-toplevel [17ms]
+2025-12-14 09:43:43.407 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:43:43.489 [info] > git rev-parse --show-toplevel [17ms]
+2025-12-14 09:43:43.489 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:43:43.586 [info] > git rev-parse --show-toplevel [61ms]
+2025-12-14 09:43:43.586 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:43:43.650 [info] > git rev-parse --show-toplevel [8ms]
+2025-12-14 09:43:43.651 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:43:43.705 [info] > git rev-parse --show-toplevel [12ms]
+2025-12-14 09:43:43.705 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:43:43.779 [info] > git rev-parse --show-toplevel [15ms]
+2025-12-14 09:43:43.779 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:43:43.824 [info] > git rev-parse --show-toplevel [7ms]
+2025-12-14 09:43:43.824 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:43:43.879 [info] > git rev-parse --show-toplevel [17ms]
+2025-12-14 09:43:43.879 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:43:51.601 [info] > git rev-parse --show-toplevel [0ms]
+2025-12-14 09:43:51.601 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:43:51.622 [info] > git rev-parse --show-toplevel [3ms]
+2025-12-14 09:43:51.624 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:46:26.523 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:46:26.523 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 09:48:00.392 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:48:00.392 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:48:00.400 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:48:00.400 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:48:00.408 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:48:00.408 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:48:01.768 [info] > git rev-parse --show-toplevel [13ms]
+2025-12-14 09:48:01.770 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:48:01.802 [info] > git rev-parse --show-toplevel [13ms]
+2025-12-14 09:48:01.802 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:48:01.849 [info] > git rev-parse --show-toplevel [26ms]
+2025-12-14 09:48:01.849 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:48:01.876 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:48:01.876 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:48:01.910 [info] > git rev-parse --show-toplevel [11ms]
+2025-12-14 09:48:01.910 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:48:04.927 [info] > git rev-parse --show-toplevel [4ms]
+2025-12-14 09:48:04.928 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:48:04.954 [info] > git rev-parse --show-toplevel [7ms]
+2025-12-14 09:48:04.954 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:48:04.971 [info] > git rev-parse --show-toplevel [4ms]
+2025-12-14 09:48:04.971 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:48:04.998 [info] > git rev-parse --show-toplevel [3ms]
+2025-12-14 09:48:04.998 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:48:05.037 [info] > git rev-parse --show-toplevel [12ms]
+2025-12-14 09:48:05.037 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:48:43.599 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:48:43.599 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:48:43.607 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:48:43.607 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:51:19.583 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:51:19.583 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:51:19.600 [info] > git rev-parse --show-toplevel [7ms]
+2025-12-14 09:51:19.600 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:51:19.615 [info] > git rev-parse --show-toplevel [7ms]
+2025-12-14 09:51:19.615 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:51:20.664 [info] > git rev-parse --show-toplevel [11ms]
+2025-12-14 09:51:20.664 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:51:20.748 [info] > git rev-parse --show-toplevel [7ms]
+2025-12-14 09:51:20.750 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:51:20.884 [info] > git rev-parse --show-toplevel [14ms]
+2025-12-14 09:51:20.884 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:51:20.903 [info] > git rev-parse --show-toplevel [4ms]
+2025-12-14 09:51:20.903 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:51:20.915 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:51:20.915 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:51:21.988 [info] > git rev-parse --show-toplevel [0ms]
+2025-12-14 09:51:21.989 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:51:21.998 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:51:21.998 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:51:22.007 [info] > git rev-parse --show-toplevel [3ms]
+2025-12-14 09:51:22.007 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:51:22.019 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:51:22.019 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:51:50.309 [info] > git rev-parse --show-toplevel [226ms]
+2025-12-14 09:51:50.309 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 09:52:24.537 [info] > git rev-parse --show-toplevel [6ms]
+2025-12-14 09:52:24.539 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:52:24.557 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:52:24.560 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:52:24.597 [info] > git rev-parse --show-toplevel [8ms]
+2025-12-14 09:52:24.599 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:52:24.614 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:52:24.615 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:52:24.632 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:52:24.632 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:52:24.648 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:52:24.648 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:52:24.663 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:52:24.664 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:52:24.677 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:52:24.677 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:52:24.694 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:52:24.694 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:52:24.705 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:52:24.705 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:52:24.716 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:52:24.717 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:52:47.291 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:52:47.301 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:52:47.363 [info] > git rev-parse --show-toplevel [24ms]
+2025-12-14 09:52:47.363 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:52:47.413 [info] > git rev-parse --show-toplevel [28ms]
+2025-12-14 09:52:47.413 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:52:47.451 [info] > git rev-parse --show-toplevel [5ms]
+2025-12-14 09:52:47.451 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:52:47.476 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:52:47.476 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:52:47.507 [info] > git rev-parse --show-toplevel [13ms]
+2025-12-14 09:52:47.507 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:52:47.531 [info] > git rev-parse --show-toplevel [5ms]
+2025-12-14 09:52:47.531 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:52:47.549 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:52:47.549 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:52:47.566 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:52:47.568 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:52:47.587 [info] > git rev-parse --show-toplevel [6ms]
+2025-12-14 09:52:47.587 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:52:47.605 [info] > git rev-parse --show-toplevel [4ms]
+2025-12-14 09:52:47.605 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:52:47.623 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:52:47.623 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:52:47.636 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:52:47.636 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:52:47.649 [info] > git rev-parse --show-toplevel [3ms]
+2025-12-14 09:52:47.650 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:52:47.666 [info] > git rev-parse --show-toplevel [5ms]
+2025-12-14 09:52:47.666 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:52:47.680 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:52:47.681 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:52:47.697 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:52:47.697 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:52:47.712 [info] > git rev-parse --show-toplevel [3ms]
+2025-12-14 09:52:47.712 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:52:47.730 [info] > git rev-parse --show-toplevel [3ms]
+2025-12-14 09:52:47.730 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:52:47.747 [info] > git rev-parse --show-toplevel [3ms]
+2025-12-14 09:52:47.747 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:53:57.228 [info] > git rev-parse --show-toplevel [7ms]
+2025-12-14 09:53:57.230 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:53:57.261 [info] > git rev-parse --show-toplevel [5ms]
+2025-12-14 09:53:57.262 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:53:57.282 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:53:57.282 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:53:57.297 [info] > git rev-parse --show-toplevel [0ms]
+2025-12-14 09:53:57.298 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:53:57.318 [info] > git rev-parse --show-toplevel [3ms]
+2025-12-14 09:53:57.318 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:53:57.333 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:53:57.333 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:53:58.296 [info] > git rev-parse --show-toplevel [0ms]
+2025-12-14 09:53:58.296 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:53:58.313 [info] > git rev-parse --show-toplevel [4ms]
+2025-12-14 09:53:58.313 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:53:58.331 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:53:58.332 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:53:58.353 [info] > git rev-parse --show-toplevel [4ms]
+2025-12-14 09:53:58.353 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:53:58.390 [info] > git rev-parse --show-toplevel [10ms]
+2025-12-14 09:53:58.390 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:53:58.444 [info] > git rev-parse --show-toplevel [10ms]
+2025-12-14 09:53:58.444 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:53:58.468 [info] > git rev-parse --show-toplevel [3ms]
+2025-12-14 09:53:58.468 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:53:58.489 [info] > git rev-parse --show-toplevel [4ms]
+2025-12-14 09:53:58.489 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:53:58.509 [info] > git rev-parse --show-toplevel [3ms]
+2025-12-14 09:53:58.509 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:53:59.374 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:53:59.375 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:53:59.394 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:53:59.394 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:53:59.417 [info] > git rev-parse --show-toplevel [5ms]
+2025-12-14 09:53:59.417 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:53:59.435 [info] > git rev-parse --show-toplevel [3ms]
+2025-12-14 09:53:59.435 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:53:59.446 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:53:59.446 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:54:00.540 [info] > git rev-parse --show-toplevel [5ms]
+2025-12-14 09:54:00.540 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:54:04.160 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:54:04.160 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:54:04.181 [info] > git rev-parse --show-toplevel [5ms]
+2025-12-14 09:54:04.181 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:54:04.201 [info] > git rev-parse --show-toplevel [4ms]
+2025-12-14 09:54:04.201 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:54:04.217 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:54:04.217 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:54:04.236 [info] > git rev-parse --show-toplevel [3ms]
+2025-12-14 09:54:04.236 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:54:04.252 [info] > git rev-parse --show-toplevel [3ms]
+2025-12-14 09:54:04.253 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:54:04.267 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:54:04.267 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:54:04.278 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:54:04.278 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:54:04.297 [info] > git rev-parse --show-toplevel [5ms]
+2025-12-14 09:54:04.297 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:54:04.317 [info] > git rev-parse --show-toplevel [5ms]
+2025-12-14 09:54:04.317 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:54:04.332 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:54:04.332 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:54:04.351 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:54:04.351 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:54:04.373 [info] > git rev-parse --show-toplevel [3ms]
+2025-12-14 09:54:04.375 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:54:04.394 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:54:04.394 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:54:04.415 [info] > git rev-parse --show-toplevel [4ms]
+2025-12-14 09:54:04.416 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:54:04.427 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:54:04.427 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:54:04.441 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:54:04.441 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:54:04.453 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:54:04.453 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:54:04.739 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 09:54:04.740 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:54:04.762 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:54:04.762 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:54:04.787 [info] > git rev-parse --show-toplevel [4ms]
+2025-12-14 09:54:04.788 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:54:04.800 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:54:04.801 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:54:04.816 [info] > git rev-parse --show-toplevel [5ms]
+2025-12-14 09:54:04.816 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:54:04.827 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:54:04.828 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:54:04.840 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:54:04.840 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:54:04.851 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 09:54:04.852 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 09:56:26.517 [info] > git rev-parse --show-toplevel [5ms]
+2025-12-14 09:56:26.517 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 10:02:25.544 [info] > git rev-parse --show-toplevel [14ms]
+2025-12-14 10:02:25.544 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 10:05:03.564 [info] > git rev-parse --show-toplevel [4ms]
+2025-12-14 10:05:03.564 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:03.573 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 10:05:03.574 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:03.582 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 10:05:03.582 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:03.593 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 10:05:03.593 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:03.608 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 10:05:03.608 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:03.618 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 10:05:03.618 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:03.626 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 10:05:03.626 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:03.636 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 10:05:03.636 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:03.644 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 10:05:03.644 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:03.653 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 10:05:03.653 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:03.692 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 10:05:03.692 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:03.712 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 10:05:03.712 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:03.757 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 10:05:03.757 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:03.799 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 10:05:03.799 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:03.807 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 10:05:03.807 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:05.304 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 10:05:05.304 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:05.312 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 10:05:05.312 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:05.324 [info] > git rev-parse --show-toplevel [5ms]
+2025-12-14 10:05:05.324 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:16.481 [info] > git rev-parse --show-toplevel [6ms]
+2025-12-14 10:05:16.481 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:20.352 [info] > git rev-parse --show-toplevel [7ms]
+2025-12-14 10:05:20.352 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:20.368 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 10:05:20.368 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:20.388 [info] > git rev-parse --show-toplevel [6ms]
+2025-12-14 10:05:20.388 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:20.400 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 10:05:20.400 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:20.416 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 10:05:20.416 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:20.430 [info] > git rev-parse --show-toplevel [3ms]
+2025-12-14 10:05:20.430 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:20.447 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 10:05:20.447 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:20.459 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 10:05:20.460 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:20.484 [info] > git rev-parse --show-toplevel [9ms]
+2025-12-14 10:05:20.484 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:20.503 [info] > git rev-parse --show-toplevel [4ms]
+2025-12-14 10:05:20.504 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:20.517 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 10:05:20.517 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:20.529 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 10:05:20.529 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:20.543 [info] > git rev-parse --show-toplevel [3ms]
+2025-12-14 10:05:20.543 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:20.560 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 10:05:20.560 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:20.578 [info] > git rev-parse --show-toplevel [3ms]
+2025-12-14 10:05:20.578 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:20.596 [info] > git rev-parse --show-toplevel [5ms]
+2025-12-14 10:05:20.596 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:20.612 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 10:05:20.613 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:20.631 [info] > git rev-parse --show-toplevel [4ms]
+2025-12-14 10:05:20.631 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:20.650 [info] > git rev-parse --show-toplevel [3ms]
+2025-12-14 10:05:20.650 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:20.671 [info] > git rev-parse --show-toplevel [7ms]
+2025-12-14 10:05:20.671 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:20.690 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 10:05:20.690 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:20.707 [info] > git rev-parse --show-toplevel [5ms]
+2025-12-14 10:05:20.707 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:20.721 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 10:05:20.721 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:20.739 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 10:05:20.739 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:20.755 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 10:05:20.755 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:20.787 [info] > git rev-parse --show-toplevel [12ms]
+2025-12-14 10:05:20.787 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:20.817 [info] > git rev-parse --show-toplevel [3ms]
+2025-12-14 10:05:20.817 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:20.830 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 10:05:20.830 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:05:20.845 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 10:05:20.845 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:06:24.653 [info] > git rev-parse --show-toplevel [10ms]
+2025-12-14 10:06:24.655 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 10:07:43.110 [info] > git rev-parse --show-toplevel [35ms]
+2025-12-14 10:07:43.112 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 10:11:22.577 [info] > git rev-parse --show-toplevel [6ms]
+2025-12-14 10:11:22.577 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:11:24.782 [info] > git rev-parse --show-toplevel [3ms]
+2025-12-14 10:11:24.782 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 10:13:26.026 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 10:13:26.026 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:14:16.529 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 10:14:16.529 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent
+2025-12-14 10:16:24.646 [info] > git rev-parse --show-toplevel [1ms]
+2025-12-14 10:16:24.646 [info] fatal: not a git repository (or any of the parent directories): .git
+2025-12-14 10:17:58.108 [info] > git rev-parse --show-toplevel [2ms]
+2025-12-14 10:17:58.108 [info] fatal: detected dubious ownership in repository at '/home/ai/ai-agent'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/ai/ai-agent

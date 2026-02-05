@@ -1,0 +1,72 @@
+2025-12-14 08:31:51.564 [info] Extension host with pid 7788 started
+2025-12-14 08:31:51.564 [info] [ExtHostShellExec] Initializing terminal executor with userTerminalHint: undefined
+2025-12-14 08:31:51.564 [info] [ExtHostShellExec] Detecting sandbox support...
+2025-12-14 08:31:51.564 [info] [ExtHostShellExec] Platform: linux, Shell type: unknown
+2025-12-14 08:31:51.564 [info] [ExtHostShellExec] dirname: /home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node
+2025-12-14 08:31:51.564 [info] [ExtHostShellExec] Linux sandbox helper path: /home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/resources/helpers/cursor-sandbox
+2025-12-14 08:31:51.564 [info] [ExtHostShellExec] process.resourcesPath: undefined
+2025-12-14 08:31:51.564 [info] [ExtHostShellExec] process.execPath: /home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/node
+2025-12-14 08:31:51.564 [info] [ExtHostShellExec] ripgrep path for sandboxing: /home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/node_modules/@vscode/ripgrep/bin/rg
+2025-12-14 08:31:51.564 [error] [shell-exec:sandbox] [isLinuxSandboxSupported] Starting sandbox support check... undefined
+2025-12-14 08:31:51.564 [error] [shell-exec:sandbox] [checkBinaryAvailable] Resolved binary path: /home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/resources/helpers/cursor-sandbox undefined
+2025-12-14 08:31:51.564 [error] [shell-exec:sandbox] [checkBinaryAvailable] Binary found at: /home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/resources/helpers/cursor-sandbox undefined
+2025-12-14 08:31:51.564 [error] [shell-exec:sandbox] [isLinuxSandboxSupported] Running preflight with binary: /home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/resources/helpers/cursor-sandbox undefined
+2025-12-14 08:31:51.564 [error] [shell-exec:sandbox] [isLinuxSandboxSupported] CWD: /home/ai undefined
+2025-12-14 08:31:51.564 [error] [shell-exec:sandbox] [isLinuxSandboxSupported] Preflight failed: Command failed: /home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/resources/helpers/cursor-sandbox --sandbox-policy-cwd /home/ai --sandbox-policy {"type":"workspace_readwrite","cwd":"/home/ai","additional_readwrite_paths":[],"additional_readonly_paths":[],"network_access":false,"disable_tmp_write":false,"block_git_writes":false} --preflight-only -- /bin/true undefined
+2025-12-14 08:31:51.564 [error] [shell-exec:sandbox] [isLinuxSandboxSupported] Exit status: 1 undefined
+2025-12-14 08:31:51.564 [info] [ExtHostShellExec] Sandbox support detected: false
+2025-12-14 08:31:51.564 [error] Error: EEXIST: file already exists, open '/home/ai/.cursor-server/data/User/workspaceStorage/eab66dda0420b31847345816f5821335/vscode.lock'
+2025-12-14 08:31:51.585 [info] Lock '/home/ai/.cursor-server/data/User/workspaceStorage/eab66dda0420b31847345816f5821335/vscode.lock': Could not acquire lock, checking if the file is stale.
+2025-12-14 08:31:51.663 [info] Lock '/home/ai/.cursor-server/data/User/workspaceStorage/eab66dda0420b31847345816f5821335/vscode.lock': The pid 4969 appears to be gone.
+2025-12-14 08:31:51.663 [info] Lock '/home/ai/.cursor-server/data/User/workspaceStorage/eab66dda0420b31847345816f5821335/vscode.lock': Deleting a stale lock.
+2025-12-14 08:31:51.690 [info] Lock '/home/ai/.cursor-server/data/User/workspaceStorage/eab66dda0420b31847345816f5821335/vscode.lock': Lock acquired.
+2025-12-14 08:31:51.785 [info] ExtensionService#_doActivateExtension vscode.emmet, startup: false, activationEvent: 'onLanguage'
+2025-12-14 08:31:51.787 [info] ExtensionService#_doActivateExtension anysphere.cursor-agent-exec, startup: false, activationEvent: '*'
+2025-12-14 08:31:51.787 [info] ExtensionService#_doActivateExtension vscode.git-base, startup: false, activationEvent: '*', root cause: vscode.git
+2025-12-14 08:31:51.788 [info] ExtensionService#_doActivateExtension vscode.tunnel-forwarding, startup: false, activationEvent: 'onTunnel'
+2025-12-14 08:31:51.789 [info] ExtensionService#_doActivateExtension anysphere.cursorpyright, startup: false, activationEvent: 'onLanguage:python'
+2025-12-14 08:31:51.792 [info] ExtensionService#_doActivateExtension ms-python.python, startup: false, activationEvent: 'onLanguage:python'
+2025-12-14 08:31:51.792 [info] ExtensionService#_doActivateExtension ms-toolsai.jupyter, startup: false, activationEvent: 'onLanguage:python'
+2025-12-14 08:31:53.975 [info] ExtensionService#_doActivateExtension ms-toolsai.jupyter-renderers, startup: false, activationEvent: 'api', root cause: ms-toolsai.jupyter
+2025-12-14 08:31:54.054 [info] ExtensionService#_doActivateExtension vscode.git, startup: false, activationEvent: '*'
+2025-12-14 08:31:54.055 [info] ExtensionService#_doActivateExtension vscode.github, startup: false, activationEvent: '*'
+2025-12-14 08:31:54.862 [info] ExtensionService#_doActivateExtension anysphere.cursor-mcp, startup: false, activationEvent: 'api', root cause: anysphere.cursor-agent-exec
+2025-12-14 08:31:56.698 [info] Eager extensions activated
+2025-12-14 08:31:56.701 [info] ExtensionService#_doActivateExtension anysphere.cursor-browser-connect, startup: false, activationEvent: 'onStartupFinished'
+2025-12-14 08:31:56.707 [info] ExtensionService#_doActivateExtension anysphere.cursor-retrieval, startup: false, activationEvent: 'onStartupFinished'
+2025-12-14 08:31:56.708 [info] ExtensionService#_doActivateExtension anysphere.cursor-shadow-workspace, startup: false, activationEvent: 'onStartupFinished'
+2025-12-14 08:31:56.708 [info] ExtensionService#_doActivateExtension vscode.debug-auto-launch, startup: false, activationEvent: 'onStartupFinished'
+2025-12-14 08:31:56.708 [info] ExtensionService#_doActivateExtension vscode.merge-conflict, startup: false, activationEvent: 'onStartupFinished'
+2025-12-14 08:31:59.228 [warning] DiagnosticCollection with name 'basedpyright' does already exist.
+2025-12-14 08:31:59.461 [error] TypeError: Cannot read properties of null (reading 'elapsed')
+	at Mvt.getStats (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:154:2438)
+	at file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:154:4714
+	at Mvt.walk (file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:150:41393)
+	at file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:154:4612
+	at new Promise (<anonymous>)
+	at file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:154:4584
+	at file:///home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/out/vs/workbench/api/node/extensionHostProcess.js:150:39613
+	at Observable._subscribe (/home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/node_modules/rxjs/dist/cjs/internal/observable/defer.js:7:35)
+	at Observable._trySubscribe (/home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/node_modules/rxjs/dist/cjs/internal/Observable.js:274:25)
+	at Observable.subscribe (/home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/node_modules/rxjs/dist/cjs/internal/Observable.js:269:29)
+	at doInnerSub (/home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/node_modules/rxjs/dist/cjs/internal/operators/mergeInternals.js:21:60)
+	at Subscriber.finalize [as _onFinalize] (/home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/node_modules/rxjs/dist/cjs/internal/operators/mergeInternals.js:45:33)
+	at Subscriber.unsubscribe (/home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/node_modules/rxjs/dist/cjs/internal/Observable.js:147:31)
+	at Subscriber.overrideComplete [as _complete] (/home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/node_modules/rxjs/dist/cjs/internal/Observable.js:202:14)
+	at Subscriber.complete (/home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/node_modules/rxjs/dist/cjs/internal/Observable.js:140:18)
+	at Subscriber._complete (/home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/node_modules/rxjs/dist/cjs/internal/Observable.js:163:30)
+	at Subscriber.complete (/home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/node_modules/rxjs/dist/cjs/internal/Observable.js:140:18)
+	at Subscriber._complete (/home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/node_modules/rxjs/dist/cjs/internal/Observable.js:163:30)
+	at Subscriber.complete (/home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/node_modules/rxjs/dist/cjs/internal/Observable.js:140:18)
+	at /home/ai/.cursor-server/cli/servers/Stable-1685afce45886aa5579025ac7e077fc3d4369c50/server/node_modules/rxjs/dist/cjs/internal/Observable.js:432:28
+2025-12-14 08:32:00.064 [warning] DiagnosticCollection with name 'basedpyright' does already exist.
+2025-12-14 08:36:09.264 [info] ExtensionService#_doActivateExtension anysphere.cursor-ndjson-ingest, startup: false, activationEvent: 'onCommand:cursor.ndjsonIngest.start'
+2025-12-14 08:40:43.550 [info] ExtensionService#_doActivateExtension vscode.npm, startup: false, activationEvent: 'onTerminalQuickFixRequest:ms-vscode.npm-command'
+2025-12-14 08:40:49.495 [info] ExtensionService#_doActivateExtension vscode.configuration-editing, startup: false, activationEvent: 'onLanguage:json'
+2025-12-14 08:40:49.495 [info] ExtensionService#_doActivateExtension vscode.extension-editing, startup: false, activationEvent: 'onLanguage:json'
+2025-12-14 08:40:49.495 [info] ExtensionService#_doActivateExtension vscode.json-language-features, startup: false, activationEvent: 'onLanguage:json'
+2025-12-14 09:15:34.194 [info] ExtensionService#_doActivateExtension ms-azuretools.vscode-containers, startup: false, activationEvent: 'onLanguage:dockercompose'
+2025-12-14 09:15:35.063 [warning] registerMcpServerDefinitionProvider is not supported in Cursor
+2025-12-14 09:47:58.089 [info] ExtensionService#_doActivateExtension vscode.typescript-language-features, startup: false, activationEvent: 'onLanguage:typescript'
+2025-12-14 10:07:42.707 [info] ExtensionService#_doActivateExtension vscode.markdown-language-features, startup: false, activationEvent: 'onLanguage:markdown'
+2025-12-14 10:07:44.424 [info] ExtensionService#_doActivateExtension vscode.markdown-math, startup: false, activationEvent: 'api', root cause: vscode.markdown-language-features

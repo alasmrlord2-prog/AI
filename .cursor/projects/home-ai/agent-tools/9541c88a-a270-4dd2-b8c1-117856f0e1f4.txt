@@ -1,0 +1,535 @@
+
+> frontend@0.1.0 lint
+> eslint
+
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+
+/home/ai/ai-agent/frontend/app/aaa/audit/page.tsx
+   7:18  warning  'Clock' is defined but never used                                                                                  @typescript-eslint/no-unused-vars
+   7:25  warning  'User' is defined but never used                                                                                   @typescript-eslint/no-unused-vars
+   7:31  warning  'Activity' is defined but never used                                                                               @typescript-eslint/no-unused-vars
+  21:14  error    Unexpected any. Specify a different type                                                                           @typescript-eslint/no-explicit-any
+  39:6   warning  React Hook useEffect has a missing dependency: 'fetchAuditLogs'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  47:21  error    Unexpected any. Specify a different type                                                                           @typescript-eslint/no-explicit-any
+
+/home/ai/ai-agent/frontend/app/aaa/login/page.tsx
+  65:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/ai/ai-agent/frontend/app/aaa/page.tsx
+   7:40  warning  'TrendingUp' is defined but never used                                                                         @typescript-eslint/no-unused-vars
+  32:6   warning  React Hook useEffect has a missing dependency: 'fetchStats'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  39:54  error    Unexpected any. Specify a different type                                                                       @typescript-eslint/no-explicit-any
+  46:58  error    Unexpected any. Specify a different type                                                                       @typescript-eslint/no-explicit-any
+  61:21  error    Unexpected any. Specify a different type                                                                       @typescript-eslint/no-explicit-any
+
+/home/ai/ai-agent/frontend/app/aaa/sessions/page.tsx
+   8:10  warning  'Activity' is defined but never used                                                                              @typescript-eslint/no-unused-vars
+  37:6   warning  React Hook useEffect has a missing dependency: 'fetchSessions'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  44:21  error    Unexpected any. Specify a different type                                                                          @typescript-eslint/no-explicit-any
+
+/home/ai/ai-agent/frontend/app/aaa/tokens/page.tsx
+    8:10  warning  'Key' is defined but never used                                                                                 @typescript-eslint/no-unused-vars
+    8:29  warning  'Eye' is defined but never used                                                                                 @typescript-eslint/no-unused-vars
+    8:34  warning  'EyeOff' is defined but never used                                                                              @typescript-eslint/no-unused-vars
+   40:6   warning  React Hook useEffect has a missing dependency: 'fetchTokens'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+   47:21  error    Unexpected any. Specify a different type                                                                        @typescript-eslint/no-explicit-any
+  124:53  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                 react/no-unescaped-entities
+
+/home/ai/ai-agent/frontend/app/aaa/users/page.tsx
+   7:17  warning  'Mail' is defined but never used                                                                               @typescript-eslint/no-unused-vars
+  31:6   warning  React Hook useEffect has a missing dependency: 'fetchUsers'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  38:21  error    Unexpected any. Specify a different type                                                                       @typescript-eslint/no-explicit-any
+
+/home/ai/ai-agent/frontend/app/abac/page.tsx
+  11:44  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/ai/ai-agent/frontend/app/agent-mesh/page.tsx
+  11:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  12:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/ai/ai-agent/frontend/app/approvals/page.tsx
+  14:29  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/ai/ai-agent/frontend/app/audit/page.tsx
+  13:36  error    Unexpected any. Specify a different type                                                                      @typescript-eslint/no-explicit-any
+  24:6   warning  React Hook useEffect has a missing dependency: 'fetchLogs'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/home/ai/ai-agent/frontend/app/backup/page.tsx
+  13:42  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  42:17  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  61:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  75:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  89:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/ai/ai-agent/frontend/app/behavior-alerts/page.tsx
+  11:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/ai/ai-agent/frontend/app/billing/page.tsx
+    7:10  warning  'Input' is defined but never used                                      @typescript-eslint/no-unused-vars
+   13:17  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  187:55  error    Unexpected any. Specify a different type                               @typescript-eslint/no-explicit-any
+
+/home/ai/ai-agent/frontend/app/blueprints/page.tsx
+   8:10  warning  'apiRequest' is defined but never used    @typescript-eslint/no-unused-vars
+  11:48  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/ai/ai-agent/frontend/app/cicd/page.tsx
+    7:10  warning  'Input' is defined but never used                                                                             @typescript-eslint/no-unused-vars
+   16:46  error    Unexpected any. Specify a different type                                                                      @typescript-eslint/no-explicit-any
+   17:50  error    Unexpected any. Specify a different type                                                                      @typescript-eslint/no-explicit-any
+   18:50  error    Unexpected any. Specify a different type                                                                      @typescript-eslint/no-explicit-any
+   19:62  error    Unexpected any. Specify a different type                                                                      @typescript-eslint/no-explicit-any
+   20:42  error    Unexpected any. Specify a different type                                                                      @typescript-eslint/no-explicit-any
+   27:6   warning  React Hook useEffect has a missing dependency: 'fetchData'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+   36:48  error    Unexpected any. Specify a different type                                                                      @typescript-eslint/no-explicit-any
+  275:32  warning  'err' is defined but never used                                                                               @typescript-eslint/no-unused-vars
+
+/home/ai/ai-agent/frontend/app/code-review/page.tsx
+  12:42  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/ai/ai-agent/frontend/app/cost-analyzer/page.tsx
+   5:10  warning  'Button' is defined but never used        @typescript-eslint/no-unused-vars
+  11:42  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  12:58  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/ai/ai-agent/frontend/app/crm/analytics/page.tsx
+  27:6  warning  React Hook useEffect has a missing dependency: 'fetchAnalytics'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/home/ai/ai-agent/frontend/app/crm/audit/page.tsx
+   7:10  warning  'Button' is defined but never used                                                                                 @typescript-eslint/no-unused-vars
+  22:29  error    Unexpected any. Specify a different type                                                                           @typescript-eslint/no-explicit-any
+  34:9   warning  'router' is assigned a value but never used                                                                        @typescript-eslint/no-unused-vars
+  39:18  warning  'setOffset' is assigned a value but never used                                                                     @typescript-eslint/no-unused-vars
+  45:6   warning  React Hook useEffect has a missing dependency: 'fetchAuditLogs'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/home/ai/ai-agent/frontend/app/crm/incidents/page.tsx
+   7:10  warning  'Button' is defined but never used                                                                                 @typescript-eslint/no-unused-vars
+  32:18  warning  'setOffset' is assigned a value but never used                                                                     @typescript-eslint/no-unused-vars
+  38:6   warning  React Hook useEffect has a missing dependency: 'fetchIncidents'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/home/ai/ai-agent/frontend/app/crm/layout.tsx
+  3:8  warning  'CRMHeader' is defined but never used  @typescript-eslint/no-unused-vars
+
+/home/ai/ai-agent/frontend/app/crm/login/page.tsx
+  67:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/ai/ai-agent/frontend/app/crm/page.tsx
+   6:10  warning  'Card' is defined but never used                                                                               @typescript-eslint/no-unused-vars
+   6:16  warning  'CardHeader' is defined but never used                                                                         @typescript-eslint/no-unused-vars
+   6:28  warning  'CardTitle' is defined but never used                                                                          @typescript-eslint/no-unused-vars
+   6:39  warning  'CardContent' is defined but never used                                                                        @typescript-eslint/no-unused-vars
+   8:40  warning  'TrendingUp' is defined but never used                                                                         @typescript-eslint/no-unused-vars
+   8:62  warning  'AlertTriangle' is defined but never used                                                                      @typescript-eslint/no-unused-vars
+  34:6   warning  React Hook useEffect has a missing dependency: 'fetchStats'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  43:48  error    Unexpected any. Specify a different type                                                                       @typescript-eslint/no-explicit-any
+  44:58  error    Unexpected any. Specify a different type                                                                       @typescript-eslint/no-explicit-any
+  45:54  error    Unexpected any. Specify a different type                                                                       @typescript-eslint/no-explicit-any
+  54:21  error    Unexpected any. Specify a different type                                                                       @typescript-eslint/no-explicit-any
+
+/home/ai/ai-agent/frontend/app/crm/subscriptions/page.tsx
+   7:10  warning  'Button' is defined but never used        @typescript-eslint/no-unused-vars
+  56:96  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/ai/ai-agent/frontend/app/crm/tenants/[tenantId]/page.tsx
+   11:46  error    Unexpected any. Specify a different type                                                                           @typescript-eslint/no-explicit-any
+   95:25  error    Unexpected any. Specify a different type                                                                           @typescript-eslint/no-explicit-any
+   96:26  error    Unexpected any. Specify a different type                                                                           @typescript-eslint/no-explicit-any
+  116:6   warning  React Hook useEffect has a missing dependency: 'fetchDashboard'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  129:21  error    Unexpected any. Specify a different type                                                                           @typescript-eslint/no-explicit-any
+
+/home/ai/ai-agent/frontend/app/crm/tenants/[tenantId]/subscription/page.tsx
+   5:27  warning  'crmApi' is defined but never used                                                                            @typescript-eslint/no-unused-vars
+  55:6   warning  React Hook useEffect has a missing dependency: 'fetchData'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/home/ai/ai-agent/frontend/app/crm/tenants/[tenantId]/users/new/page.tsx
+  43:13  warning  'user' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  47:19  error    Unexpected any. Specify a different type   @typescript-eslint/no-explicit-any
+
+/home/ai/ai-agent/frontend/app/crm/tenants/[tenantId]/users/page.tsx
+  44:6   warning  React Hook useEffect has a missing dependency: 'fetchUsers'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  58:57  warning  'userId' is defined but never used                                                                             @typescript-eslint/no-unused-vars
+
+/home/ai/ai-agent/frontend/app/crm/tenants/new/page.tsx
+  39:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/ai/ai-agent/frontend/app/crm/tenants/page.tsx
+  35:6  warning  React Hook useEffect has a missing dependency: 'fetchTenants'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/home/ai/ai-agent/frontend/app/crm/users/page.tsx
+  5:18  warning  'identityApi' is defined but never used  @typescript-eslint/no-unused-vars
+  7:10  warning  'Button' is defined but never used       @typescript-eslint/no-unused-vars
+
+/home/ai/ai-agent/frontend/app/debugger/page.tsx
+  11:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  66:44  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/ai/ai-agent/frontend/app/digital-twin/page.tsx
+  11:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/ai/ai-agent/frontend/app/global-search/page.tsx
+  13:42  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  67:53  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/ai/ai-agent/frontend/app/hardening/page.tsx
+  11:40  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  12:50  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  38:30  warning  'suggestionId' is defined but never used  @typescript-eslint/no-unused-vars
+
+/home/ai/ai-agent/frontend/app/iam/access-control/page.tsx
+   4:21  warning  'accessApi' is defined but never used     @typescript-eslint/no-unused-vars
+  14:40  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  43:21  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  65:21  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/ai/ai-agent/frontend/app/iam/policies/page.tsx
+  45:6  warning  React Hook useEffect has a missing dependency: 'fetchData'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/home/ai/ai-agent/frontend/app/incident-center/page.tsx
+  11:46  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/ai/ai-agent/frontend/app/incidents/page.tsx
+  13:46  error    Unexpected any. Specify a different type                                                                           @typescript-eslint/no-explicit-any
+  25:6   warning  React Hook useEffect has a missing dependency: 'fetchIncidents'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  59:19  error    Unexpected any. Specify a different type                                                                           @typescript-eslint/no-explicit-any
+  73:19  error    Unexpected any. Specify a different type                                                                           @typescript-eslint/no-explicit-any
+  86:19  error    Unexpected any. Specify a different type                                                                           @typescript-eslint/no-explicit-any
+
+/home/ai/ai-agent/frontend/app/knowledge/page.tsx
+   11:17  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  139:55  error    Unexpected any. Specify a different type                               @typescript-eslint/no-explicit-any
+
+/home/ai/ai-agent/frontend/app/logs/page.tsx
+  14:25  error    Unexpected any. Specify a different type                                                                     @typescript-eslint/no-explicit-any
+  37:6   warning  React Hook useEffect has a missing dependency: 'loadLogs'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/home/ai/ai-agent/frontend/app/monitor/page.tsx
+   15:36   error    Unexpected any. Specify a different type                                                                        @typescript-eslint/no-explicit-any
+   16:56   error    Unexpected any. Specify a different type                                                                        @typescript-eslint/no-explicit-any
+   18:10   warning  'error' is assigned a value but never used                                                                      @typescript-eslint/no-unused-vars
+   39:22   error    Unexpected any. Specify a different type                                                                        @typescript-eslint/no-explicit-any
+   63:21   error    Unexpected any. Specify a different type                                                                        @typescript-eslint/no-explicit-any
+  193:6    warning  React Hook useEffect has a missing dependency: 'fetchStatus'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  528:68   error    Unexpected any. Specify a different type                                                                        @typescript-eslint/no-explicit-any
+  532:68   error    Unexpected any. Specify a different type                                                                        @typescript-eslint/no-explicit-any
+  730:100  error    Unexpected any. Specify a different type                                                                        @typescript-eslint/no-explicit-any
+  804:56   error    Unexpected any. Specify a different type                                                                        @typescript-eslint/no-explicit-any
+
+/home/ai/ai-agent/frontend/app/monitoring/page.tsx
+   11:7   warning  'PROMETHEUS_URL' is assigned a value but never used                                                             @typescript-eslint/no-unused-vars
+   16:36  error    Unexpected any. Specify a different type                                                                        @typescript-eslint/no-explicit-any
+  131:6   warning  React Hook useEffect has a missing dependency: 'fetchStatus'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/home/ai/ai-agent/frontend/app/page.tsx
+   5:8   warning  'Link' is defined but never used            @typescript-eslint/no-unused-vars
+   9:10  warning  'getApiUrl' is defined but never used       @typescript-eslint/no-unused-vars
+  33:48  error    Unexpected any. Specify a different type    @typescript-eslint/no-explicit-any
+  44:9   warning  'wsRef' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/home/ai/ai-agent/frontend/app/performance-tuner/page.tsx
+  11:44  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  94:61  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/ai/ai-agent/frontend/app/plugins/page.tsx
+  11:42  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  12:46  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/ai/ai-agent/frontend/app/secrets/page.tsx
+  12:42  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/ai/ai-agent/frontend/app/security/page.tsx
+   10:42   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   11:46   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   12:42   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   13:46   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   34:131  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  164:40   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/ai/ai-agent/frontend/app/settings/page.tsx
+  207:41  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/ai/ai-agent/frontend/app/siem/page.tsx
+   10:8   warning  'BarChart' is defined but never used                                   @typescript-eslint/no-unused-vars
+   14:17  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+   47:20  error    Unexpected any. Specify a different type                               @typescript-eslint/no-explicit-any
+   80:10  warning  'eventHistory' is assigned a value but never used                      @typescript-eslint/no-unused-vars
+   90:23  error    Unexpected any. Specify a different type                               @typescript-eslint/no-explicit-any
+   92:20  error    Unexpected any. Specify a different type                               @typescript-eslint/no-explicit-any
+   94:47  error    Unexpected any. Specify a different type                               @typescript-eslint/no-explicit-any
+  302:57  warning  'idx' is defined but never used                                        @typescript-eslint/no-unused-vars
+
+/home/ai/ai-agent/frontend/app/snapshots/page.tsx
+  11:46  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/ai/ai-agent/frontend/app/soc/page.tsx
+   15:17  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+   50:13  error    Unexpected any. Specify a different type                               @typescript-eslint/no-explicit-any
+   64:29  error    Unexpected any. Specify a different type                               @typescript-eslint/no-explicit-any
+   74:13  error    Unexpected any. Specify a different type                               @typescript-eslint/no-explicit-any
+  114:9   warning  'getAuthToken' is assigned a value but never used                      @typescript-eslint/no-unused-vars
+  126:92  error    Unexpected any. Specify a different type                               @typescript-eslint/no-explicit-any
+  129:53  error    Unexpected any. Specify a different type                               @typescript-eslint/no-explicit-any
+  130:29  error    Unexpected any. Specify a different type                               @typescript-eslint/no-explicit-any
+  143:33  error    Unexpected any. Specify a different type                               @typescript-eslint/no-explicit-any
+  249:17  error    Unexpected any. Specify a different type                               @typescript-eslint/no-explicit-any
+  319:17  error    Unexpected any. Specify a different type                               @typescript-eslint/no-explicit-any
+  405:55  error    Unexpected any. Specify a different type                               @typescript-eslint/no-explicit-any
+
+/home/ai/ai-agent/frontend/app/tenants/page.tsx
+   7:10  warning  'Button' is defined but never used                                                                            @typescript-eslint/no-unused-vars
+  57:6   warning  React Hook useEffect has a missing dependency: 'fetchData'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/home/ai/ai-agent/frontend/app/threat-detection/page.tsx
+  11:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  12:46  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/ai/ai-agent/frontend/app/tools/page.tsx
+  3:10  warning  'useState' is defined but never used    @typescript-eslint/no-unused-vars
+  6:16  warning  'CardHeader' is defined but never used  @typescript-eslint/no-unused-vars
+  6:28  warning  'CardTitle' is defined but never used   @typescript-eslint/no-unused-vars
+
+/home/ai/ai-agent/frontend/app/visualization/page.tsx
+   11:48  error    Unexpected any. Specify a different type                                                                      @typescript-eslint/no-explicit-any
+   12:52  error    Unexpected any. Specify a different type                                                                      @typescript-eslint/no-explicit-any
+   13:42  error    Unexpected any. Specify a different type                                                                      @typescript-eslint/no-explicit-any
+   25:6   warning  React Hook useEffect has a missing dependency: 'fetchData'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  107:74  error    Unexpected any. Specify a different type                                                                      @typescript-eslint/no-explicit-any
+  118:67  error    Unexpected any. Specify a different type                                                                      @typescript-eslint/no-explicit-any
+  154:76  error    Unexpected any. Specify a different type                                                                      @typescript-eslint/no-explicit-any
+  204:59  error    Unexpected any. Specify a different type                                                                      @typescript-eslint/no-explicit-any
+
+/home/ai/ai-agent/frontend/app/workflow-builder/page.tsx
+  11:46  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/ai/ai-agent/frontend/app/workflows/page.tsx
+   13:46  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   17:48  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   20:58  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   51:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   97:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  111:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  255:61  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/ai/ai-agent/frontend/components/TopNav.tsx
+    4:39  warning  'useMemo' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     @typescript-eslint/no-unused-vars
+   23:5   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/home/ai/ai-agent/frontend/components/TopNav.tsx:23:5
+  21 |
+  22 |   useEffect(() => {
+> 23 |     setMounted(true);
+     |     ^^^^^^^^^^ Avoid calling setState() directly within an effect
+  24 |     const saved = localStorage.getItem("theme");
+  25 |     const shouldBeDark = saved === "dark";
+  26 |     setIsDark(shouldBeDark);                                                          react-hooks/set-state-in-effect
+  145:7   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/home/ai/ai-agent/frontend/components/TopNav.tsx:145:7
+  143 |         service.href.toLowerCase().includes(query)
+  144 |       );
+> 145 |       setSearchResults(filtered.slice(0, 8)); // Limit to 8 results
+      |       ^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  146 |       setShowSearchResults(true);
+  147 |     } else {
+  148 |       setSearchResults([]);  react-hooks/set-state-in-effect
+  289:39  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         react/no-unescaped-entities
+  289:53  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         react/no-unescaped-entities
+
+/home/ai/ai-agent/frontend/components/aaa/AAAHeader.tsx
+   7:36  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           @typescript-eslint/no-explicit-any
+  16:9   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/home/ai/ai-agent/frontend/components/aaa/AAAHeader.tsx:16:9
+  14 |       try {
+  15 |         const payload = JSON.parse(atob(token.split(".")[1]));
+> 16 |         setUser({ email: payload.email || "admin@shiftwave.com" });
+     |         ^^^^^^^ Avoid calling setState() directly within an effect
+  17 |       } catch (e) {
+  18 |         setUser({ email: "admin@shiftwave.com" });
+  19 |       }  react-hooks/set-state-in-effect
+  17:16  warning  'e' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      @typescript-eslint/no-unused-vars
+
+/home/ai/ai-agent/frontend/components/aaa/AAASidebar.tsx
+  28:5  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/home/ai/ai-agent/frontend/components/aaa/AAASidebar.tsx:28:5
+  26 |
+  27 |   useEffect(() => {
+> 28 |     setMounted(true);
+     |     ^^^^^^^^^^ Avoid calling setState() directly within an effect
+  29 |   }, []);
+  30 |
+  31 |   const menuItems: MenuItem[] = [  react-hooks/set-state-in-effect
+
+/home/ai/ai-agent/frontend/components/alerts/AlertNotification.tsx
+   3:20  warning  'useEffect' is defined but never used             @typescript-eslint/no-unused-vars
+  29:20  warning  'setPosition' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/home/ai/ai-agent/frontend/components/charts/PieChart.tsx
+  19:28  warning  'idx' is defined but never used  @typescript-eslint/no-unused-vars
+
+/home/ai/ai-agent/frontend/components/chat/ChatContainer.tsx
+  6:13  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/ai/ai-agent/frontend/components/crm/CRMHeader.tsx
+  16:7  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/home/ai/ai-agent/frontend/components/crm/CRMHeader.tsx:16:7
+  14 |     if (token) {
+  15 |       // TODO: Fetch user info from API
+> 16 |       setUser({ email: "admin@shiftwave.com", full_name: "CRM Admin" });
+     |       ^^^^^^^ Avoid calling setState() directly within an effect
+  17 |     }
+  18 |   }, []);
+  19 |  react-hooks/set-state-in-effect
+
+/home/ai/ai-agent/frontend/components/crm/CRMSidebar.tsx
+  29:5  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/home/ai/ai-agent/frontend/components/crm/CRMSidebar.tsx:29:5
+  27 |
+  28 |   useEffect(() => {
+> 29 |     setMounted(true);
+     |     ^^^^^^^^^^ Avoid calling setState() directly within an effect
+  30 |   }, []);
+  31 |
+  32 |   const menuItems: MenuItem[] = [  react-hooks/set-state-in-effect
+
+/home/ai/ai-agent/frontend/components/layout/Header.tsx
+  4:10  warning  'ThemeToggle' is defined but never used  @typescript-eslint/no-unused-vars
+
+/home/ai/ai-agent/frontend/components/layout/Sidebar.tsx
+   65:5   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/home/ai/ai-agent/frontend/components/layout/Sidebar.tsx:65:5
+  63 |
+  64 |   useEffect(() => {
+> 65 |     setMounted(true);
+     |     ^^^^^^^^^^ Avoid calling setState() directly within an effect
+  66 |   }, []);
+  67 |
+  68 |   const menuGroups: MenuGroup[] = [                                                                                                                                                                                                                                                                                          react-hooks/set-state-in-effect
+  209:38  error    Compilation Skipped: Existing memoization could not be preserved
+
+React Compiler has skipped optimizing this component because the existing manual memoization could not be preserved. The inferred dependencies did not match the manually specified dependencies, which could cause the value to change more or less frequently than expected. The inferred dependency was `isFeatureEnabled`, but the source dependencies were [menuGroups, tenantFeatures]. Inferred different dependency than source.
+
+/home/ai/ai-agent/frontend/components/layout/Sidebar.tsx:209:38
+  207 |   };
+  208 |
+> 209 |   const filteredMenuGroups = useMemo(() => {
+      |                                      ^^^^^^^
+> 210 |     const filterItems = (items: MenuItem[]): MenuItem[] =>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 211 |       items
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 227 |       .filter((group) => group.items.length > 0);
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 228 |   }, [menuGroups, tenantFeatures]);
+      | ^^^^ Could not preserve existing manual memoization
+  229 |
+  230 |   const isActive = (href: string) => {
+  231 |     if (!mounted) return false;  react-hooks/preserve-manual-memoization
+  228:6   warning  React Hook useMemo has a missing dependency: 'isFeatureEnabled'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    react-hooks/exhaustive-deps
+  257:11  warning  'groupKey' is assigned a value but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+  339:11  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              @next/next/no-img-element
+  344:11  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              @next/next/no-img-element
+
+/home/ai/ai-agent/frontend/components/ui/theme-toggle.tsx
+  10:5  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/home/ai/ai-agent/frontend/components/ui/theme-toggle.tsx:10:5
+   8 |
+   9 |   useEffect(() => {
+> 10 |     setMounted(true);
+     |     ^^^^^^^^^^ Avoid calling setState() directly within an effect
+  11 |     // Check localStorage - default to light mode
+  12 |     const saved = localStorage.getItem("theme");
+  13 |       react-hooks/set-state-in-effect
+
+/home/ai/ai-agent/frontend/hooks/useApi.ts
+   4:22  warning  'APIError' is defined but never used      @typescript-eslint/no-unused-vars
+   4:32  warning  'NetworkError' is defined but never used  @typescript-eslint/no-unused-vars
+   4:46  warning  'TimeoutError' is defined but never used  @typescript-eslint/no-unused-vars
+   7:22  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  14:36  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/ai/ai-agent/frontend/hooks/useFavorites.ts
+  16:9  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/home/ai/ai-agent/frontend/hooks/useFavorites.ts:16:9
+  14 |       const saved = localStorage.getItem(STORAGE_KEY);
+  15 |       if (saved) {
+> 16 |         setFavorites(JSON.parse(saved));
+     |         ^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  17 |       }
+  18 |       setHydrated(true);
+  19 |     } catch (e) {  react-hooks/set-state-in-effect
+
+/home/ai/ai-agent/frontend/jest.config.js
+  1:18  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+/home/ai/ai-agent/frontend/lib/api.ts
+   77:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  116:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  116:49  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  227:54  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  275:16  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  319:54  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  417:48  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+✖ 226 problems (140 errors, 86 warnings)
+

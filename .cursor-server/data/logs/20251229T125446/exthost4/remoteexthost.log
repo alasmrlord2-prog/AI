@@ -1,0 +1,90 @@
+2025-12-29 14:06:36.641 [info] Extension host with pid 23674 started
+2025-12-29 14:06:36.641 [info] [ExtHostShellExec] Initializing terminal executor with userTerminalHint: undefined
+2025-12-29 14:06:36.642 [info] [ExtHostShellExec] Detecting sandbox support...
+2025-12-29 14:06:36.642 [info] [ExtHostShellExec] Platform: linux, Shell type: unknown
+2025-12-29 14:06:36.642 [info] [ExtHostShellExec] dirname: /home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/out/vs/workbench/api/node
+2025-12-29 14:06:36.642 [info] [ExtHostShellExec] Linux sandbox helper path: /home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/resources/helpers/cursor-sandbox
+2025-12-29 14:06:36.642 [info] [ExtHostShellExec] process.resourcesPath: undefined
+2025-12-29 14:06:36.642 [info] [ExtHostShellExec] process.execPath: /home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/node
+2025-12-29 14:06:36.642 [info] [ExtHostShellExec] ripgrep path for sandboxing: /home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/node_modules/@vscode/ripgrep/bin/rg
+2025-12-29 14:06:36.642 [error] [shell-exec:sandbox] [isLinuxSandboxSupported] Starting sandbox support check... undefined
+2025-12-29 14:06:36.642 [error] [shell-exec:sandbox] [checkBinaryAvailable] Resolved binary path: /home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/resources/helpers/cursor-sandbox undefined
+2025-12-29 14:06:36.642 [error] [shell-exec:sandbox] [checkBinaryAvailable] Binary found at: /home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/resources/helpers/cursor-sandbox undefined
+2025-12-29 14:06:36.642 [error] [shell-exec:sandbox] [isLinuxSandboxSupported] Running preflight with binary: /home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/resources/helpers/cursor-sandbox undefined
+2025-12-29 14:06:36.642 [error] [shell-exec:sandbox] [isLinuxSandboxSupported] CWD: /home/ai undefined
+2025-12-29 14:06:36.642 [error] [shell-exec:sandbox] [isLinuxSandboxSupported] Preflight failed: Command failed: /home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/resources/helpers/cursor-sandbox --sandbox-policy-cwd /home/ai --sandbox-policy {"type":"workspace_readwrite","cwd":"/home/ai","additional_readwrite_paths":[],"additional_readonly_paths":[],"network_access":false,"disable_tmp_write":false,"block_git_writes":false} --preflight-only -- /bin/true undefined
+2025-12-29 14:06:36.642 [error] [shell-exec:sandbox] [isLinuxSandboxSupported] Exit status: 1 undefined
+2025-12-29 14:06:36.642 [info] [ExtHostShellExec] Sandbox support detected: false
+2025-12-29 14:06:36.642 [error] Error: EEXIST: file already exists, open '/home/ai/.cursor-server/data/User/workspaceStorage/6ee029fe5f1672881c11d42bbe065b82/vscode.lock'
+2025-12-29 14:06:36.647 [info] Lock '/home/ai/.cursor-server/data/User/workspaceStorage/6ee029fe5f1672881c11d42bbe065b82/vscode.lock': Could not acquire lock, checking if the file is stale.
+2025-12-29 14:06:36.679 [info] Lock '/home/ai/.cursor-server/data/User/workspaceStorage/6ee029fe5f1672881c11d42bbe065b82/vscode.lock': The lock does not look stale, elapsed: 763 ms, giving up.
+2025-12-29 14:06:36.682 [error] Error: EEXIST: file already exists, open '/home/ai/.cursor-server/data/User/workspaceStorage/6ee029fe5f1672881c11d42bbe065b82-1/vscode.lock'
+2025-12-29 14:06:36.683 [info] Lock '/home/ai/.cursor-server/data/User/workspaceStorage/6ee029fe5f1672881c11d42bbe065b82-1/vscode.lock': Could not acquire lock, checking if the file is stale.
+2025-12-29 14:06:36.684 [info] Lock '/home/ai/.cursor-server/data/User/workspaceStorage/6ee029fe5f1672881c11d42bbe065b82-1/vscode.lock': The lock does not look stale, elapsed: 60 ms, giving up.
+2025-12-29 14:06:36.696 [info] Lock '/home/ai/.cursor-server/data/User/workspaceStorage/6ee029fe5f1672881c11d42bbe065b82-2/vscode.lock': Lock acquired.
+2025-12-29 14:06:36.907 [info] ExtensionService#_doActivateExtension vscode.emmet, startup: false, activationEvent: 'onLanguage'
+2025-12-29 14:06:36.912 [info] ExtensionService#_doActivateExtension anysphere.cursor-agent-exec, startup: false, activationEvent: '*'
+2025-12-29 14:06:36.914 [info] ExtensionService#_doActivateExtension vscode.git-base, startup: false, activationEvent: '*', root cause: vscode.git
+2025-12-29 14:06:36.915 [info] ExtensionService#_doActivateExtension vscode.extension-editing, startup: false, activationEvent: 'onLanguage:markdown'
+2025-12-29 14:06:36.915 [info] ExtensionService#_doActivateExtension vscode.markdown-language-features, startup: false, activationEvent: 'onLanguage:markdown'
+2025-12-29 14:06:38.838 [info] ExtensionService#_doActivateExtension vscode.git, startup: false, activationEvent: '*'
+2025-12-29 14:06:38.839 [info] ExtensionService#_doActivateExtension vscode.github, startup: false, activationEvent: '*'
+2025-12-29 14:06:40.046 [info] ExtensionService#_doActivateExtension anysphere.cursor-mcp, startup: false, activationEvent: 'api', root cause: anysphere.cursor-agent-exec
+2025-12-29 14:06:40.807 [info] ExtensionService#_doActivateExtension vscode.markdown-math, startup: false, activationEvent: 'api', root cause: vscode.markdown-language-features
+2025-12-29 14:06:40.912 [info] Eager extensions activated
+2025-12-29 14:06:40.915 [info] ExtensionService#_doActivateExtension anysphere.cursor-browser-connect, startup: false, activationEvent: 'onStartupFinished'
+2025-12-29 14:06:40.916 [info] ExtensionService#_doActivateExtension anysphere.cursor-retrieval, startup: false, activationEvent: 'onStartupFinished'
+2025-12-29 14:06:40.916 [info] ExtensionService#_doActivateExtension anysphere.cursor-shadow-workspace, startup: false, activationEvent: 'onStartupFinished'
+2025-12-29 14:06:40.917 [info] ExtensionService#_doActivateExtension vscode.debug-auto-launch, startup: false, activationEvent: 'onStartupFinished'
+2025-12-29 14:06:40.918 [info] ExtensionService#_doActivateExtension vscode.merge-conflict, startup: false, activationEvent: 'onStartupFinished'
+2025-12-29 14:07:21.475 [info] ExtensionService#_doActivateExtension anysphere.cursorpyright, startup: false, activationEvent: 'onLanguage:python'
+2025-12-29 14:07:21.476 [info] ExtensionService#_doActivateExtension ms-python.python, startup: false, activationEvent: 'onLanguage:python'
+2025-12-29 14:07:21.476 [info] ExtensionService#_doActivateExtension ms-toolsai.jupyter, startup: false, activationEvent: 'onLanguage:python'
+2025-12-29 14:07:22.903 [info] ExtensionService#_doActivateExtension ms-toolsai.jupyter-renderers, startup: false, activationEvent: 'api', root cause: ms-toolsai.jupyter
+2025-12-29 14:07:26.741 [warning] DiagnosticCollection with name 'basedpyright' does already exist.
+2025-12-29 14:07:27.244 [warning] DiagnosticCollection with name 'basedpyright' does already exist.
+2025-12-29 14:07:51.001 [info] ExtensionService#_doActivateExtension ms-azuretools.vscode-containers, startup: false, activationEvent: 'onLanguage:dockercompose'
+2025-12-29 14:07:51.858 [warning] registerMcpServerDefinitionProvider is not supported in Cursor
+2025-12-29 14:24:22.576 [error] Error: illegal state - object is disposed
+	at QVe._checkDisposed (file:///home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/out/vs/workbench/api/node/extensionHostProcess.js:160:2029856)
+	at QVe.delete (file:///home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/out/vs/workbench/api/node/extensionHostProcess.js:160:2029263)
+	at g.forgetDocument (/home/ai/.cursor-server/extensions/anysphere.cursorpyright-1.0.10/dist/extension.js:1:64809)
+	at v.cleanUpDocument (/home/ai/.cursor-server/extensions/anysphere.cursorpyright-1.0.10/dist/extension.js:1:75075)
+	at Wpe.value (/home/ai/.cursor-server/extensions/anysphere.cursorpyright-1.0.10/dist/extension.js:1:74372)
+	at x._deliver (file:///home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/out/vs/workbench/api/node/extensionHostProcess.js:42:2961)
+	at x._deliverQueue (file:///home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/out/vs/workbench/api/node/extensionHostProcess.js:42:3052)
+	at x.fire (file:///home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/out/vs/workbench/api/node/extensionHostProcess.js:42:3389)
+	at Wpe.value (/home/ai/.cursor-server/extensions/anysphere.cursorpyright-1.0.10/dist/extension.js:1:206659)
+	at x._deliver (file:///home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/out/vs/workbench/api/node/extensionHostProcess.js:42:2961)
+	at x._deliverQueue (file:///home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/out/vs/workbench/api/node/extensionHostProcess.js:42:3052)
+	at x.fire (file:///home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/out/vs/workbench/api/node/extensionHostProcess.js:42:3389)
+	at JPe.$acceptTabOperation (file:///home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/out/vs/workbench/api/node/extensionHostProcess.js:143:27753)
+	at M0e._doInvokeHandler (file:///home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/out/vs/workbench/api/node/extensionHostProcess.js:44:170621)
+	at M0e._invokeHandler (file:///home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/out/vs/workbench/api/node/extensionHostProcess.js:44:170363)
+	at M0e._receiveRequest (file:///home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/out/vs/workbench/api/node/extensionHostProcess.js:44:169128)
+	at M0e._receiveOneMessage (file:///home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/out/vs/workbench/api/node/extensionHostProcess.js:44:167953)
+	at Wpe.value (file:///home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/out/vs/workbench/api/node/extensionHostProcess.js:44:166049)
+	at x._deliver (file:///home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/out/vs/workbench/api/node/extensionHostProcess.js:42:2961)
+	at x.fire (file:///home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/out/vs/workbench/api/node/extensionHostProcess.js:42:3282)
+	at Ko.fire (file:///home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/out/vs/workbench/api/node/extensionHostProcess.js:44:10988)
+	at Wpe.value (file:///home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/out/vs/workbench/api/node/extensionHostProcess.js:749:16134)
+	at x._deliver (file:///home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/out/vs/workbench/api/node/extensionHostProcess.js:42:2961)
+	at x.fire (file:///home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/out/vs/workbench/api/node/extensionHostProcess.js:42:3282)
+	at Ko.fire (file:///home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/out/vs/workbench/api/node/extensionHostProcess.js:44:10988)
+	at Ake._receiveMessage (file:///home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/out/vs/workbench/api/node/extensionHostProcess.js:44:15941)
+	at Wpe.value (file:///home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/out/vs/workbench/api/node/extensionHostProcess.js:44:13302)
+	at x._deliver (file:///home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/out/vs/workbench/api/node/extensionHostProcess.js:42:2961)
+	at x.fire (file:///home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/out/vs/workbench/api/node/extensionHostProcess.js:42:3282)
+	at nBe.acceptChunk (file:///home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/out/vs/workbench/api/node/extensionHostProcess.js:44:8782)
+	at file:///home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/out/vs/workbench/api/node/extensionHostProcess.js:44:7910
+	at Socket.e (file:///home/ai/.cursor-server/cli/servers/Stable-20adc1003928b0f1b99305dbaf845656ff81f5d0/server/out/vs/workbench/api/node/extensionHostProcess.js:44:19505)
+	at Socket.emit (node:events:518:28)
+	at addChunk (node:internal/streams/readable:561:12)
+	at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+	at Readable.push (node:internal/streams/readable:392:5)
+	at Pipe.onStreamRead (node:internal/stream_base_commons:191:23)
+	at Pipe.callbackTrampoline (node:internal/async_hooks:130:17)
+2025-12-29 14:41:17.305 [info] ExtensionService#_doActivateExtension vscode.npm, startup: false, activationEvent: 'onTerminalQuickFixRequest:ms-vscode.npm-command'
+2025-12-29 14:41:24.246 [info] ExtensionService#_doActivateExtension vscode.configuration-editing, startup: false, activationEvent: 'onLanguage:json'
+2025-12-29 14:41:24.247 [info] ExtensionService#_doActivateExtension vscode.json-language-features, startup: false, activationEvent: 'onLanguage:json'
+2025-12-29 14:57:56.116 [info] ExtensionService#_doActivateExtension vscode.tunnel-forwarding, startup: false, activationEvent: 'onTunnel'

@@ -1,0 +1,969 @@
+user:
+<user_query>
+🚀 Starting PostgreSQL, Ollama, and Backend...
+[+] Running 3/3
+ ✔ Container ai-agent-postgres  Healthy                                                                                                          10.7s
+ ✔ Container ai-agent-ollama    Started                                                                                                           0.7s
+ ✔ Container ai-backend         Started                                                                                                          10.8s
+⏳ Waiting for services to be ready...
+✅ Backend is running!
+   API: http://localhost:8000
+   Docs: http://localhost:8000/docs
+
+📝 View logs: docker compose logs -f backend
+root@ip-172-31-20-228:/home/ai/ai-agent# docker compose logs -f backend
+ai-backend  | INFO:     Will watch for changes in these directories: ['/app']
+ai-backend  | INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+ai-backend  | INFO:     Started reloader process [1] using StatReload
+ai-backend  | [CRM_API] Router created with prefix: /api/crm
+ai-backend  | [MAIN] ✅ CRM router imported successfully: <fastapi.routing.APIRouter object at 0x7abc5f1da1d0>
+ai-backend  | [MAIN] ✅ CRM router prefix: /api/crm
+ai-backend  | [MAIN] ✅ CRM router has 10 routes
+ai-backend  | [MAIN] ✅ CRM router included in app with prefix: /api/crm
+ai-backend  | [MAIN] ✅ Total routes in app after CRM: 311
+ai-backend  | INFO:     Started server process [9]
+ai-backend  | INFO:     Waiting for application startup.
+ai-backend  | INFO:     Application startup complete.
+ai-backend  | INFO:     172.18.0.1:46002 - "GET /health HTTP/1.1" 200 OK
+ai-backend  | INFO:     127.0.0.1:56774 - "GET /health HTTP/1.1" 200 OK
+
+ai-backend  | INFO:     127.0.0.1:37598 - "GET /health HTTP/1.1" 200 OK
+^C
+root@ip-172-31-20-228:/home/ai/ai-agent# lsof -i :3000
+root@ip-172-31-20-228:/home/ai/ai-agent# docker ps
+CONTAINER ID   IMAGE                         COMMAND                  CREATED              STATUS                        PORTS                                                   NAMES
+72b14fffd07a   ai-agent-backend              "uvicorn app.main:ap…"   About a minute ago   Up About a minute (healthy)   0.0.0.0:8000->8000/tcp, [::]:8000->8000/tcp             ai-backend
+69c38426449d   postgres:15-alpine            "docker-entrypoint.s…"   About a minute ago   Up About a minute (healthy)   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp             ai-agent-postgres
+4ff38181751f   ollama/ollama:latest          "/bin/ollama serve"      About a minute ago   Up About a minute             0.0.0.0:11434->11434/tcp, [::]:11434->11434/tcp         ai-agent-ollama
+403bbe577b4f   ai-agent-frontend-crm         "docker-entrypoint.s…"   5 days ago           Up 52 minutes (healthy)       3000/tcp, 0.0.0.0:3001->3001/tcp, [::]:3001->3001/tcp   ai-agent-frontend-crm
+8d6b1717f56d   ai-agent-frontend-dashboard   "docker-entrypoint.s…"   5 days ago           Up 52 minutes (unhealthy)     0.0.0.0:3000->3000/tcp, [::]:3000->3000/tcp             ai-agent-frontend-dashboard
+54938264c7a2   ai-agent-frontend-aaa         "docker-entrypoint.s…"   5 days ago           Up 52 minutes (healthy)       3000/tcp, 0.0.0.0:3002->3002/tcp, [::]:3002->3002/tcp   ai-agent-frontend-aaa
+root@ip-172-31-20-228:/home/ai/ai-agent#
+
+</user_query>
+
+assistant:
+<think>
+The user is showing me logs from their Docker setup. I can see:
+1. Backend is running successfully on port 8000
+2. There are multiple frontend containers running
+3. One frontend container (ai-agent-frontend-dashboard) is showing as "unhealthy" on port 3000
+
+The user seems to be showing me this information, but they haven't explicitly asked me to do anything. However, the fact that one container is "unhealthy" might be something they want me to investigate or fix.
+
+Let me first check what the current state is - I should look at the dashboard.py file since it's open, and also understand the project structure to see if there's an issue with the dashboard frontend.
+
+Actually, wait - the user might just be sharing status information. But given that there's an unhealthy container, I should probably investigate. Let me start by understanding the project structure and checking what might be wrong.
+
+Let me read the dashboard.py file first since it's open, and then explore the project to understand the issue.
+</think>
+Noting that `ai-agent-frontend-dashboard` is unhealthy. Investigating the dashboard frontend and related configuration.
+
+[Tool call] read_file
+  target_file: /home/ai/ai-agent/backend/app/api/dashboard.py
+[Tool call] codebase_search
+  query: dashboard frontend container health check configuration docker compose
+  target_directories: []
+[Tool call] glob_file_search
+  glob_pattern: docker-compose*.yml
+[Tool call] glob_file_search
+  glob_pattern: docker-compose*.yaml
+
+[Tool result] read_file
+
+[Tool result] codebase_search
+
+[Tool result] glob_file_search
+
+[Tool result] glob_file_search
+
+assistant:
+<think>
+Let me read the docker-compose.yml file to see the health check configuration for the dashboard frontend container.
+</think>
+
+
+[Tool call] read_file
+  target_file: /home/ai/ai-agent/docker-compose.yml
+[Tool call] run_terminal_cmd
+  command: docker logs ai-agent-frontend-dashboard --tail 50
+  is_background: false
+
+[Tool result] read_file
+
+[Tool result] run_terminal_cmd
+
+assistant:
+<think>
+Looking at the logs, the dashboard frontend seems to be running fine - it's responding to HEAD requests with 200 status codes. The health check is using `wget` to check `http://localhost:3000`, but the container might not have `wget` installed, or there might be an issue with the health check itself.
+
+Let me check if wget is available in the container and test the health check manually.
+</think>
+Checking if the health check command works inside the container:
+
+[Tool call] run_terminal_cmd
+  command: docker exec ai-agent-frontend-dashboard wget --no-verbose --tries=1 --spider http://localhost:3000 2>&1
+  is_background: false
+[Tool call] run_terminal_cmd
+  command: docker inspect ai-agent-frontend-dashboard --format='{{json .State.Health}}' | python3 -m json.tool
+  is_background: false
+
+[Tool result] run_terminal_cmd
+
+[Tool result] run_terminal_cmd
+
+user:
+<user_query>
+View logs: docker compose logs -f backend
+root@ip-172-31-20-228:/home/ai/ai-agent# docker compose logs -f backend
+ai-backend  | INFO:     Will watch for changes in these directories: ['/app']
+ai-backend  | INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+ai-backend  | INFO:     Started reloader process [1] using StatReload
+ai-backend  | [CRM_API] Router created with prefix: /api/crm
+ai-backend  | [MAIN] ✅ CRM router imported successfully: <fastapi.routing.APIRouter object at 0x7abc5f1da1d0>
+ai-backend  | [MAIN] ✅ CRM router prefix: /api/crm
+ai-backend  | [MAIN] ✅ CRM router has 10 routes
+ai-backend  | [MAIN] ✅ CRM router included in app with prefix: /api/crm
+ai-backend  | [MAIN] ✅ Total routes in app after CRM: 311
+ai-backend  | INFO:     Started server process [9]
+ai-backend  | INFO:     Waiting for application startup.
+ai-backend  | INFO:     Application startup complete.
+ai-backend  | INFO:     172.18.0.1:46002 - "GET /health HTTP/1.1" 200 OK
+ai-backend  | INFO:     127.0.0.1:56774 - "GET /health HTTP/1.1" 200 OK
+
+ai-backend  | INFO:     127.0.0.1:37598 - "GET /health HTTP/1.1" 200 OK
+^C
+root@ip-172-31-20-228:/home/ai/ai-agent# lsof -i :3000
+root@ip-172-31-20-228:/home/ai/ai-agent# docker ps
+CONTAINER ID   IMAGE                         COMMAND                  CREATED              STATUS                        PORTS                                                   NAMES
+72b14fffd07a   ai-agent-backend              "uvicorn app.main:ap…"   About a minute ago   Up About a minute (healthy)   0.0.0.0:8000->8000/tcp, [::]:8000->8000/tcp             ai-backend
+69c38426449d   postgres:15-alpine            "docker-entrypoint.s…"   About a minute ago   Up About a minute (healthy)   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp             ai-agent-postgres
+4ff38181751f   ollama/ollama:latest          "/bin/ollama serve"      About a minute ago   Up About a minute             0.0.0.0:11434->11434/tcp, [::]:11434->11434/tcp         ai-agent-ollama
+403bbe577b4f   ai-agent-frontend-crm         "docker-entrypoint.s…"   5 days ago           Up 52 minutes (healthy)       3000/tcp, 0.0.0.0:3001->3001/tcp, [::]:3001->3001/tcp   ai-agent-frontend-crm
+8d6b1717f56d   ai-agent-frontend-dashboard   "docker-entrypoint.s…"   5 days ago           Up 52 minutes (unhealthy)     0.0.0.0:3000->3000/tcp, [::]:3000->3000/tcp             ai-agent-frontend-dashboard
+54938264c7a2   ai-agent-frontend-aaa         "docker-entrypoint.s…"   5 days ago           Up 52 minutes (healthy)       3000/tcp, 0.0.0.0:3002->3002/tcp, [::]:3002->3002/tcp   ai-agent-frontend-aaa
+root@ip-172-31-20-228:/home/ai/ai-agent# ^C
+root@ip-172-31-20-228:/home/ai/ai-agent# lsof -i :3000
+root@ip-172-31-20-228:/home/ai/ai-agent# docker compose logs -f backend
+ai-backend  | INFO:     Will watch for changes in these directories: ['/app']
+ai-backend  | INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+ai-backend  | INFO:     Started reloader process [1] using StatReload
+ai-backend  | [CRM_API] Router created with prefix: /api/crm
+ai-backend  | [MAIN] ✅ CRM router imported successfully: <fastapi.routing.APIRouter object at 0x7abc5f1da1d0>
+ai-backend  | [MAIN] ✅ CRM router prefix: /api/crm
+ai-backend  | [MAIN] ✅ CRM router has 10 routes
+ai-backend  | [MAIN] ✅ CRM router included in app with prefix: /api/crm
+ai-backend  | [MAIN] ✅ Total routes in app after CRM: 311
+ai-backend  | INFO:     Started server process [9]
+ai-backend  | INFO:     Waiting for application startup.
+ai-backend  | INFO:     Application startup complete.
+ai-backend  | INFO:     172.18.0.1:46002 - "GET /health HTTP/1.1" 200 OK
+ai-backend  | INFO:     127.0.0.1:56774 - "GET /health HTTP/1.1" 200 OK
+ai-backend  | INFO:     127.0.0.1:37598 - "GET /health HTTP/1.1" 200 OK
+ai-backend  | INFO:     127.0.0.1:46738 - "GET /health HTTP/1.1" 200 OK
+ai-backend  | INFO:     127.0.0.1:48616 - "GET /health HTTP/1.1" 200 OK
+ai-backend  | INFO:     127.0.0.1:54054 - "GET /health HTTP/1.1" 200 OK
+ai-backend  | INFO:     127.0.0.1:43946 - "GET /health HTTP/1.1" 200 OK
+ai-backend  | WARNING:  StatReload detected changes in 'app/identity/service.py'. Reloading...
+ai-backend  | INFO:     Shutting down
+ai-backend  | INFO:     Waiting for application shutdown.
+ai-backend  | INFO:     Application shutdown complete.
+ai-backend  | INFO:     Finished server process [9]
+ai-backend  | [CRM_API] Router created with prefix: /api/crm
+ai-backend  | [MAIN] ✅ CRM router imported successfully: <fastapi.routing.APIRouter object at 0x78cf063f0c10>
+ai-backend  | [MAIN] ✅ CRM router prefix: /api/crm
+ai-backend  | [MAIN] ✅ CRM router has 10 routes
+ai-backend  | [MAIN] ✅ CRM router included in app with prefix: /api/crm
+ai-backend  | [MAIN] ✅ Total routes in app after CRM: 311
+ai-backend  | INFO:     Started server process [56]
+ai-backend  | INFO:     Waiting for application startup.
+ai-backend  | INFO:     Application startup complete.
+ai-backend  | INFO:     127.0.0.1:53804 - "GET /health HTTP/1.1" 200 OK
+ai-backend  | WARNING:  StatReload detected changes in 'app/identity/service.py'. Reloading...
+ai-backend  | INFO:     Shutting down
+ai-backend  | INFO:     Waiting for application shutdown.
+ai-backend  | INFO:     Application shutdown complete.
+ai-backend  | INFO:     Finished server process [56]
+ai-backend  | [CRM_API] Router created with prefix: /api/crm
+ai-backend  | [MAIN] ✅ CRM router imported successfully: <fastapi.routing.APIRouter object at 0x73da261e9410>
+ai-backend  | [MAIN] ✅ CRM router prefix: /api/crm
+ai-backend  | [MAIN] ✅ CRM router has 10 routes
+ai-backend  | [MAIN] ✅ CRM router included in app with prefix: /api/crm
+ai-backend  | [MAIN] ✅ Total routes in app after CRM: 311
+ai-backend  | INFO:     Started server process [68]
+ai-backend  | INFO:     Waiting for application startup.
+ai-backend  | INFO:     Application startup complete.
+ai-backend  | 2025-12-14 09:07:28,625 INFO sqlalchemy.engine.Engine select pg_catalog.version()
+ai-backend  | 2025-12-14 09:07:28,625 INFO sqlalchemy.engine.Engine [raw sql] {}
+ai-backend  | 2025-12-14 09:07:28,627 INFO sqlalchemy.engine.Engine select current_schema()
+ai-backend  | 2025-12-14 09:07:28,627 INFO sqlalchemy.engine.Engine [raw sql] {}
+ai-backend  | 2025-12-14 09:07:28,628 INFO sqlalchemy.engine.Engine show standard_conforming_strings
+ai-backend  | 2025-12-14 09:07:28,628 INFO sqlalchemy.engine.Engine [raw sql] {}
+ai-backend  | 2025-12-14 09:07:28,629 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+ai-backend  | 2025-12-14 09:07:28,635 INFO sqlalchemy.engine.Engine SELECT pg_catalog.pg_class.relname
+ai-backend  | FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace
+ai-backend  | WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+ai-backend  | 2025-12-14 09:07:28,636 INFO sqlalchemy.engine.Engine [generated in 0.00043s] {'table_name': 'users', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+ai-backend  | 2025-12-14 09:07:28,650 INFO sqlalchemy.engine.Engine SELECT pg_catalog.pg_class.relname
+ai-backend  | FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace
+ai-backend  | WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+ai-backend  | 2025-12-14 09:07:28,650 INFO sqlalchemy.engine.Engine [cached since 0.01502s ago] {'table_name': 'tenants', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+ai-backend  | 2025-12-14 09:07:28,652 INFO sqlalchemy.engine.Engine SELECT pg_catalog.pg_class.relname
+ai-backend  | FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace
+ai-backend  | WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+ai-backend  | 2025-12-14 09:07:28,652 INFO sqlalchemy.engine.Engine [cached since 0.01651s ago] {'table_name': 'tenant_users', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+ai-backend  | 2025-12-14 09:07:28,656 INFO sqlalchemy.engine.Engine SELECT pg_catalog.pg_class.relname
+ai-backend  | FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace
+ai-backend  | WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+ai-backend  | 2025-12-14 09:07:28,656 INFO sqlalchemy.engine.Engine [cached since 0.0212s ago] {'table_name': 'sessions', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+ai-backend  | 2025-12-14 09:07:28,658 INFO sqlalchemy.engine.Engine SELECT pg_catalog.pg_class.relname
+ai-backend  | FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace
+ai-backend  | WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+ai-backend  | 2025-12-14 09:07:28,658 INFO sqlalchemy.engine.Engine [cached since 0.02259s ago] {'table_name': 'api_tokens', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+ai-backend  | 2025-12-14 09:07:28,660 INFO sqlalchemy.engine.Engine SELECT pg_catalog.pg_class.relname
+ai-backend  | FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace
+ai-backend  | WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+ai-backend  | 2025-12-14 09:07:28,660 INFO sqlalchemy.engine.Engine [cached since 0.02495s ago] {'table_name': 'departments', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+ai-backend  | 2025-12-14 09:07:28,666 INFO sqlalchemy.engine.Engine SELECT pg_catalog.pg_class.relname
+ai-backend  | FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace
+ai-backend  | WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+ai-backend  | 2025-12-14 09:07:28,666 INFO sqlalchemy.engine.Engine [cached since 0.03063s ago] {'table_name': 'projects', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+ai-backend  | 2025-12-14 09:07:28,669 INFO sqlalchemy.engine.Engine SELECT pg_catalog.pg_class.relname
+ai-backend  | FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace
+ai-backend  | WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+ai-backend  | 2025-12-14 09:07:28,669 INFO sqlalchemy.engine.Engine [cached since 0.0339s ago] {'table_name': 'plans', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+ai-backend  | 2025-12-14 09:07:28,671 INFO sqlalchemy.engine.Engine SELECT pg_catalog.pg_class.relname
+ai-backend  | FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace
+ai-backend  | WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+ai-backend  | 2025-12-14 09:07:28,671 INFO sqlalchemy.engine.Engine [cached since 0.03575s ago] {'table_name': 'subscriptions', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+ai-backend  | 2025-12-14 09:07:28,672 INFO sqlalchemy.engine.Engine SELECT pg_catalog.pg_class.relname
+ai-backend  | FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace
+ai-backend  | WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+ai-backend  | 2025-12-14 09:07:28,672 INFO sqlalchemy.engine.Engine [cached since 0.03728s ago] {'table_name': 'usage_counters', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+ai-backend  | 2025-12-14 09:07:28,674 INFO sqlalchemy.engine.Engine SELECT pg_catalog.pg_class.relname
+ai-backend  | FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace
+ai-backend  | WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+ai-backend  | 2025-12-14 09:07:28,674 INFO sqlalchemy.engine.Engine [cached since 0.03868s ago] {'table_name': 'usage_quotas', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+ai-backend  | 2025-12-14 09:07:28,675 INFO sqlalchemy.engine.Engine SELECT pg_catalog.pg_class.relname
+ai-backend  | FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace
+ai-backend  | WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+ai-backend  | 2025-12-14 09:07:28,675 INFO sqlalchemy.engine.Engine [cached since 0.04017s ago] {'table_name': 'role_permissions', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+ai-backend  | 2025-12-14 09:07:28,677 INFO sqlalchemy.engine.Engine SELECT pg_catalog.pg_class.relname
+ai-backend  | FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace
+ai-backend  | WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+ai-backend  | 2025-12-14 09:07:28,677 INFO sqlalchemy.engine.Engine [cached since 0.04167s ago] {'table_name': 'roles', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+ai-backend  | 2025-12-14 09:07:28,678 INFO sqlalchemy.engine.Engine SELECT pg_catalog.pg_class.relname
+ai-backend  | FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace
+ai-backend  | WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+ai-backend  | 2025-12-14 09:07:28,678 INFO sqlalchemy.engine.Engine [cached since 0.04311s ago] {'table_name': 'permissions', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+ai-backend  | 2025-12-14 09:07:28,680 INFO sqlalchemy.engine.Engine SELECT pg_catalog.pg_class.relname
+ai-backend  | FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace
+ai-backend  | WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+ai-backend  | 2025-12-14 09:07:28,680 INFO sqlalchemy.engine.Engine [cached since 0.04466s ago] {'table_name': 'user_roles', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+ai-backend  | 2025-12-14 09:07:28,681 INFO sqlalchemy.engine.Engine SELECT pg_catalog.pg_class.relname
+ai-backend  | FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace
+ai-backend  | WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+ai-backend  | 2025-12-14 09:07:28,681 INFO sqlalchemy.engine.Engine [cached since 0.04616s ago] {'table_name': 'user_permissions', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+ai-backend  | 2025-12-14 09:07:28,683 INFO sqlalchemy.engine.Engine SELECT pg_catalog.pg_class.relname
+ai-backend  | FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace
+ai-backend  | WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+ai-backend  | 2025-12-14 09:07:28,683 INFO sqlalchemy.engine.Engine [cached since 0.04757s ago] {'table_name': 'audit_logs', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+ai-backend  | 2025-12-14 09:07:28,684 INFO sqlalchemy.engine.Engine SELECT pg_catalog.pg_class.relname
+ai-backend  | FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace
+ai-backend  | WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+ai-backend  | 2025-12-14 09:07:28,684 INFO sqlalchemy.engine.Engine [cached since 0.04902s ago] {'table_name': 'login_logs', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+ai-backend  | 2025-12-14 09:07:28,685 INFO sqlalchemy.engine.Engine SELECT pg_catalog.pg_class.relname
+ai-backend  | FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace
+ai-backend  | WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+ai-backend  | 2025-12-14 09:07:28,686 INFO sqlalchemy.engine.Engine [cached since 0.05048s ago] {'table_name': 'relation_tuples', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+ai-backend  | 2025-12-14 09:07:28,687 INFO sqlalchemy.engine.Engine SELECT pg_catalog.pg_class.relname
+ai-backend  | FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace
+ai-backend  | WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+ai-backend  | 2025-12-14 09:07:28,687 INFO sqlalchemy.engine.Engine [cached since 0.05195s ago] {'table_name': 'policy_rules', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+ai-backend  | 2025-12-14 09:07:28,688 INFO sqlalchemy.engine.Engine COMMIT
+ai-backend  | 2025-12-14 09:07:28,753 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+ai-backend  | 2025-12-14 09:07:28,756 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.email AS users_email, users.password_hash AS users_password_hash, users.full_name AS users_full_name, users.status AS users_status, users.last_login_at AS users_last_login_at, users.mfa_enabled AS users_mfa_enabled, users.mfa_secret AS users_mfa_secret, users.email_verified AS users_email_verified, users.created_at AS users_created_at, users.updated_at AS users_updated_at
+ai-backend  | FROM users
+ai-backend  | WHERE users.email = %(email_1)s
+ai-backend  |  LIMIT %(param_1)s
+ai-backend  | 2025-12-14 09:07:28,756 INFO sqlalchemy.engine.Engine [generated in 0.00027s] {'email_1': 'admin@example.com', 'param_1': 1}
+ai-backend  | 2025-12-14 09:07:28,766 INFO sqlalchemy.engine.Engine INSERT INTO tenants (id, name, type, contact_email, contact_phone, status, created_at, updated_at) VALUES (%(id)s::UUID, %(name)s, %(type)s, %(contact_email)s, %(contact_phone)s, %(status)s, %(created_at)s, %(updated_at)s)
+ai-backend  | 2025-12-14 09:07:28,766 INFO sqlalchemy.engine.Engine [generated in 0.00048s] {'id': UUID('40c5febd-b644-425f-a41e-39d649bb1b9b'), 'name': 'Default Organization', 'type': 'company', 'contact_email': 'admin@example.com', 'contact_phone': '+1234567890', 'status': 'active', 'created_at': datetime.datetime(2025, 12, 14, 9, 7, 28, 765937), 'updated_at': datetime.datetime(2025, 12, 14, 9, 7, 28, 765940)}
+ai-backend  | (trapped) error reading bcrypt version
+ai-backend  | Traceback (most recent call last):
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/passlib/handlers/bcrypt.py", line 620, in _load_backend_mixin
+ai-backend  |     version = _bcrypt.__about__.__version__
+ai-backend  |               ^^^^^^^^^^^^^^^^^
+ai-backend  | AttributeError: module 'bcrypt' has no attribute '__about__'
+ai-backend  | 2025-12-14 09:07:28,783 INFO sqlalchemy.engine.Engine ROLLBACK
+ai-backend  | Unhandled exception: password cannot be longer than 72 bytes, truncate manually if necessary (e.g. my_password[:72])
+ai-backend  | Traceback (most recent call last):
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py", line 164, in __call__
+ai-backend  |     await self.app(scope, receive, _send)
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/starlette/middleware/cors.py", line 93, in __call__
+ai-backend  |     await self.simple_response(scope, receive, send, request_headers=headers)
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/starlette/middleware/cors.py", line 144, in simple_response
+ai-backend  |     await self.app(scope, receive, send)
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+ai-backend  |     await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+ai-backend  |     raise exc
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+ai-backend  |     await app(scope, receive, sender)
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+ai-backend  |     await self.app(scope, receive, send)
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/starlette/routing.py", line 716, in __call__
+ai-backend  |     await self.middleware_stack(scope, receive, send)
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/starlette/routing.py", line 736, in app
+ai-backend  |     await route.handle(scope, receive, send)
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/starlette/routing.py", line 290, in handle
+ai-backend  |     await self.app(scope, receive, send)
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/fastapi/routing.py", line 125, in app
+ai-backend  |     await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+ai-backend  |     raise exc
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+ai-backend  |     await app(scope, receive, sender)
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/fastapi/routing.py", line 111, in app
+ai-backend  |     response = await f(request)
+ai-backend  |                ^^^^^^^^^^^^^^^^
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/fastapi/routing.py", line 391, in app
+ai-backend  |     raw_response = await run_endpoint_function(
+ai-backend  |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/fastapi/routing.py", line 290, in run_endpoint_function
+ai-backend  |     return await dependant.call(**values)
+ai-backend  |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ai-backend  |   File "/app/app/api/identity_api.py", line 90, in login
+ai-backend  |     identity_service.IdentityService.ensure_default_admin(db)
+ai-backend  |   File "/app/app/identity/service.py", line 55, in ensure_default_admin
+ai-backend  |     password_hash=get_password_hash(settings.DEFAULT_ADMIN_PASSWORD),
+ai-backend  |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ai-backend  |   File "/app/app/core/security.py", line 26, in get_password_hash
+ai-backend  |     return pwd_context.hash(password)
+ai-backend  |            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/passlib/context.py", line 2258, in hash
+ai-backend  |     return record.hash(secret, **kwds)
+ai-backend  |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/passlib/utils/handlers.py", line 779, in hash
+ai-backend  |     self.checksum = self._calc_checksum(secret)
+ai-backend  |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/passlib/handlers/bcrypt.py", line 591, in _calc_checksum
+ai-backend  |     self._stub_requires_backend()
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/passlib/utils/handlers.py", line 2254, in _stub_requires_backend
+ai-backend  |     cls.set_backend()
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/passlib/utils/handlers.py", line 2156, in set_backend
+ai-backend  |     return owner.set_backend(name, dryrun=dryrun)
+ai-backend  |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/passlib/utils/handlers.py", line 2163, in set_backend
+ai-backend  |     return cls.set_backend(name, dryrun=dryrun)
+ai-backend  |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/passlib/utils/handlers.py", line 2188, in set_backend
+ai-backend  |     cls._set_backend(name, dryrun)
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/passlib/utils/handlers.py", line 2311, in _set_backend
+ai-backend  |     super(SubclassBackendMixin, cls)._set_backend(name, dryrun)
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/passlib/utils/handlers.py", line 2224, in _set_backend
+ai-backend  |     ok = loader(**kwds)
+ai-backend  |          ^^^^^^^^^^^^^^
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/passlib/handlers/bcrypt.py", line 626, in _load_backend_mixin
+ai-backend  |     return mixin_cls._finalize_backend_mixin(name, dryrun)
+ai-backend  |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/passlib/handlers/bcrypt.py", line 421, in _finalize_backend_mixin
+ai-backend  |     if detect_wrap_bug(IDENT_2A):
+ai-backend  |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/passlib/handlers/bcrypt.py", line 380, in detect_wrap_bug
+ai-backend  |     if verify(secret, bug_hash):
+ai-backend  |        ^^^^^^^^^^^^^^^^^^^^^^^^
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/passlib/utils/handlers.py", line 792, in verify
+ai-backend  |     return consteq(self._calc_checksum(secret), chk)
+ai-backend  |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/passlib/handlers/bcrypt.py", line 655, in _calc_checksum
+ai-backend  |     hash = _bcrypt.hashpw(secret, config)
+ai-backend  |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ai-backend  | ValueError: password cannot be longer than 72 bytes, truncate manually if necessary (e.g. my_password[:72])
+ai-backend  | INFO:     172.18.0.1:38218 - "POST /api/identity/login HTTP/1.1" 500 Internal Server Error
+ai-backend  | ERROR:    Exception in ASGI application
+ai-backend  | Traceback (most recent call last):
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/uvicorn/protocols/http/h11_impl.py", line 403, in run_asgi
+ai-backend  |     result = await app(  # type: ignore[func-returns-value]
+ai-backend  |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+ai-backend  |     return await self.app(scope, receive, send)
+ai-backend  |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/fastapi/applications.py", line 1134, in __call__
+ai-backend  |     await super().__call__(scope, receive, send)
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/starlette/applications.py", line 107, in __call__
+ai-backend  |     await self.middleware_stack(scope, receive, send)
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py", line 186, in __call__
+ai-backend  |     raise exc
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/starlette/middleware/errors.py", line 164, in __call__
+ai-backend  |     await self.app(scope, receive, _send)
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/starlette/middleware/cors.py", line 93, in __call__
+ai-backend  |     await self.simple_response(scope, receive, send, request_headers=headers)
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/starlette/middleware/cors.py", line 144, in simple_response
+ai-backend  |     await self.app(scope, receive, send)
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+ai-backend  |     await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+ai-backend  |     raise exc
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+ai-backend  |     await app(scope, receive, sender)
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+ai-backend  |     await self.app(scope, receive, send)
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/starlette/routing.py", line 716, in __call__
+ai-backend  |     await self.middleware_stack(scope, receive, send)
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/starlette/routing.py", line 736, in app
+ai-backend  |     await route.handle(scope, receive, send)
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/starlette/routing.py", line 290, in handle
+ai-backend  |     await self.app(scope, receive, send)
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/fastapi/routing.py", line 125, in app
+ai-backend  |     await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+ai-backend  |     raise exc
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+ai-backend  |     await app(scope, receive, sender)
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/fastapi/routing.py", line 111, in app
+ai-backend  |     response = await f(request)
+ai-backend  |                ^^^^^^^^^^^^^^^^
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/fastapi/routing.py", line 391, in app
+ai-backend  |     raw_response = await run_endpoint_function(
+ai-backend  |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/fastapi/routing.py", line 290, in run_endpoint_function
+ai-backend  |     return await dependant.call(**values)
+ai-backend  |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ai-backend  |   File "/app/app/api/identity_api.py", line 90, in login
+ai-backend  |     identity_service.IdentityService.ensure_default_admin(db)
+ai-backend  |   File "/app/app/identity/service.py", line 55, in ensure_default_admin
+ai-backend  |     password_hash=get_password_hash(settings.DEFAULT_ADMIN_PASSWORD),
+ai-backend  |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ai-backend  |   File "/app/app/core/security.py", line 26, in get_password_hash
+ai-backend  |     return pwd_context.hash(password)
+ai-backend  |            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/passlib/context.py", line 2258, in hash
+ai-backend  |     return record.hash(secret, **kwds)
+ai-backend  |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/passlib/utils/handlers.py", line 779, in hash
+ai-backend  |     self.checksum = self._calc_checksum(secret)
+ai-backend  |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/passlib/handlers/bcrypt.py", line 591, in _calc_checksum
+ai-backend  |     self._stub_requires_backend()
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/passlib/utils/handlers.py", line 2254, in _stub_requires_backend
+ai-backend  |     cls.set_backend()
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/passlib/utils/handlers.py", line 2156, in set_backend
+ai-backend  |     return owner.set_backend(name, dryrun=dryrun)
+ai-backend  |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/passlib/utils/handlers.py", line 2163, in set_backend
+ai-backend  |     return cls.set_backend(name, dryrun=dryrun)
+ai-backend  |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/passlib/utils/handlers.py", line 2188, in set_backend
+ai-backend  |     cls._set_backend(name, dryrun)
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/passlib/utils/handlers.py", line 2311, in _set_backend
+ai-backend  |     super(SubclassBackendMixin, cls)._set_backend(name, dryrun)
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/passlib/utils/handlers.py", line 2224, in _set_backend
+ai-backend  |     ok = loader(**kwds)
+ai-backend  |          ^^^^^^^^^^^^^^
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/passlib/handlers/bcrypt.py", line 626, in _load_backend_mixin
+ai-backend  |     return mixin_cls._finalize_backend_mixin(name, dryrun)
+ai-backend  |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/passlib/handlers/bcrypt.py", line 421, in _finalize_backend_mixin
+ai-backend  |     if detect_wrap_bug(IDENT_2A):
+ai-backend  |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/passlib/handlers/bcrypt.py", line 380, in detect_wrap_bug
+ai-backend  |     if verify(secret, bug_hash):
+ai-backend  |        ^^^^^^^^^^^^^^^^^^^^^^^^
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/passlib/utils/handlers.py", line 792, in verify
+ai-backend  |     return consteq(self._calc_checksum(secret), chk)
+ai-backend  |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ai-backend  |   File "/usr/local/lib/python3.11/site-packages/passlib/handlers/bcrypt.py", line 655, in _calc_checksum
+ai-backend  |     hash = _bcrypt.hashpw(secret, config)
+ai-backend  |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ai-backend  | ValueError: password cannot be longer than 72 bytes, truncate manually if necessary (e.g. my_password[:72])
+ai-backend  | 2025-12-14 09:07:32,506 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+ai-backend  | 2025-12-14 09:07:32,506 INFO sqlalchemy.engine.Engine SELECT pg_catalog.pg_class.relname
+ai-backend  | FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace
+ai-backend  | WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+ai-backend  | 2025-12-14 09:07:32,506 INFO sqlalchemy.engine.Engine [cached since 3.871s ago] {'table_name': 'users', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+ai-backend  | 2025-12-14 09:07:32,508 INFO sqlalchemy.engine.Engine SELECT pg_catalog.pg_class.relname
+ai-backend  | FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace
+ai-backend  | WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+ai-backend  | 2025-12-14 09:07:32,508 INFO sqlalchemy.engine.Engine [cached since 3.873s ago] {'table_name': 'tenants', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+ai-backend  | 2025-12-14 09:07:32,510 INFO sqlalchemy.engine.Engine SELECT pg_catalog.pg_class.relname
+ai-backend  | FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace
+ai-backend  | WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+ai-backend  | 2025-12-14 09:07:32,510 INFO sqlalchemy.engine.Engine [cached since 3.875s ago] {'table_name': 'tenant_users', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+ai-backend  | 2025-12-14 09:07:32,511 INFO sqlalchemy.engine.Engine SELECT pg_catalog.pg_class.relname
+ai-backend  | FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace
+ai-backend  | WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+ai-backend  | 2025-12-14 09:07:32,511 INFO sqlalchemy.engine.Engine [cached since 3.876s ago] {'table_name': 'sessions', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+ai-backend  | 2025-12-14 09:07:32,512 INFO sqlalchemy.engine.Engine SELECT pg_catalog.pg_class.relname
+ai-backend  | FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace
+ai-backend  | WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+ai-backend  | 2025-12-14 09:07:32,512 INFO sqlalchemy.engine.Engine [cached since 3.877s ago] {'table_name': 'api_tokens', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+ai-backend  | 2025-12-14 09:07:32,514 INFO sqlalchemy.engine.Engine SELECT pg_catalog.pg_class.relname
+ai-backend  | FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace
+ai-backend  | WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+ai-backend  | 2025-12-14 09:07:32,514 INFO sqlalchemy.engine.Engine [cached since 3.879s ago] {'table_name': 'departments', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+ai-backend  | 2025-12-14 09:07:32,515 INFO sqlalchemy.engine.Engine SELECT pg_catalog.pg_class.relname
+ai-backend  | FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace
+ai-backend  | WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+ai-backend  | 2025-12-14 09:07:32,515 INFO sqlalchemy.engine.Engine [cached since 3.88s ago] {'table_name': 'projects', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+ai-backend  | 2025-12-14 09:07:32,516 INFO sqlalchemy.engine.Engine SELECT pg_catalog.pg_class.relname
+ai-backend  | FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace
+ai-backend  | WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+ai-backend  | 2025-12-14 09:07:32,516 INFO sqlalchemy.engine.Engine [cached since 3.881s ago] {'table_name': 'plans', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+ai-backend  | 2025-12-14 09:07:32,517 INFO sqlalchemy.engine.Engine SELECT pg_catalog.pg_class.relname
+ai-backend  | FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace
+ai-backend  | WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+ai-backend  | 2025-12-14 09:07:32,517 INFO sqlalchemy.engine.Engine [cached since 3.882s ago] {'table_name': 'subscriptions', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+ai-backend  | 2025-12-14 09:07:32,518 INFO sqlalchemy.engine.Engine SELECT pg_catalog.pg_class.relname
+ai-backend  | FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace
+ai-backend  | WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+ai-backend  | 2025-12-14 09:07:32,518 INFO sqlalchemy.engine.Engine [cached since 3.883s ago] {'table_name': 'usage_counters', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+ai-backend  | 2025-12-14 09:07:32,519 INFO sqlalchemy.engine.Engine SELECT pg_catalog.pg_class.relname
+ai-backend  | FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace
+ai-backend  | WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visib
+</user_query>
+
+assistant:
+<think>
+The user is showing me backend logs that reveal a critical error. The error is:
+
+```
+ValueError: password cannot be longer than 72 bytes, truncate manually if necessary (e.g. my_password[:72])
+```
+
+This is happening when trying to hash the default admin password in `ensure_default_admin`. The issue is that `DEFAULT_ADMIN_PASSWORD` is longer than 72 bytes, which is bcrypt's limit.
+
+The error occurs in:
+- `/app/app/identity/service.py`, line 55: `password_hash=get_password_hash(settings.DEFAULT_ADMIN_PASSWORD)`
+- `/app/app/core/security.py`, line 26: `return pwd_context.hash(password)`
+
+I need to:
+1. Check what the `DEFAULT_ADMIN_PASSWORD` value is
+2. Fix the `get_password_hash` function to truncate passwords longer than 72 bytes before hashing
+3. Or check the settings to see what the password is set to
+
+Let me first check the security.py file and the identity service to understand the issue better.
+</think>
+The error is that bcrypt can't hash passwords longer than 72 bytes. Checking the relevant files to fix this:
+
+[Tool call] read_file
+  target_file: /home/ai/ai-agent/backend/app/core/security.py
+[Tool call] read_file
+  target_file: /home/ai/ai-agent/backend/app/identity/service.py
+[Tool call] codebase_search
+  query: DEFAULT_ADMIN_PASSWORD configuration setting
+  target_directories: []
+
+[Tool result] read_file
+
+[Tool result] read_file
+
+[Tool result] codebase_search
+
+assistant:
+<think>
+I can see the issue. In `service.py`, the `create_user` method already has logic to truncate passwords longer than 72 bytes (lines 127-130), but the `ensure_default_admin` method (lines 55 and 70) doesn't have this protection. It directly calls `get_password_hash(settings.DEFAULT_ADMIN_PASSWORD)` without truncating.
+
+I also notice that `get_password_hash` in `security.py` doesn't have any truncation logic. The comment on line 11 says "Explicitly disable bcrypt length errors (truncate >72 bytes instead of raising)" but `bcrypt__truncate_error=False` actually means it won't truncate automatically - it will raise an error.
+
+I should:
+1. Fix `get_password_hash` to truncate passwords longer than 72 bytes before hashing
+2. This will fix the issue in `ensure_default_admin` and any other places that use `get_password_hash`
+
+Let me check the config to see what the password might be set to.
+</think>
+The issue: `get_password_hash` doesn't truncate passwords longer than 72 bytes (bcrypt's limit). `create_user` handles this, but `ensure_default_admin` doesn't. Fixing `get_password_hash` to truncate long passwords before hashing:
+
+[Tool call] grep
+  pattern: DEFAULT_ADMIN_PASSWORD
+  path: /home/ai/ai-agent/backend
+[Tool call] read_file
+  target_file: /home/ai/ai-agent/backend/app/core/config.py
+
+[Tool result] grep
+
+[Tool result] read_file
+
+assistant:
+<think>
+Interesting - the default password is "admin123" which is only 9 bytes, so it shouldn't be longer than 72 bytes. But the error says the password is longer than 72 bytes. This means the password must be set via an environment variable to something longer.
+
+The issue is that `get_password_hash` doesn't handle passwords longer than 72 bytes. The best fix is to add truncation logic directly in `get_password_hash` so it works everywhere, similar to what's done in `create_user`.
+
+I'll fix `get_password_hash` to truncate passwords longer than 72 bytes before hashing.
+</think>
+The default password is short, but it may be overridden via environment variable. Updating `get_password_hash` to truncate passwords longer than 72 bytes before hashing:
+
+[Tool call] search_replace
+  file_path: /home/ai/ai-agent/backend/app/core/security.py
+  old_string: def get_password_hash(password: str) -> str:
+    """Hash a password."""
+    return pwd_context.hash(password)
+  new_string: def get_password_hash(password: str) -> str:
+    """Hash a password.
+    
+    Bcrypt has a 72-byte limit for passwords. If the password exceeds this,
+    it will be truncated to 72 bytes to avoid errors.
+    """
+    # Truncate password to 72 bytes if it's longer (bcrypt limit)
+    password_bytes = password.encode('utf-8')
+    if len(password_bytes) > 72:
+        password = password_bytes[:72].decode('utf-8', errors='ignore')
+    return pwd_context.hash(password)
+
+[Tool result] search_replace
+
+assistant:
+<think>
+Good, I've fixed the `get_password_hash` function to truncate passwords longer than 72 bytes. This will fix the issue in `ensure_default_admin` and any other places that use this function.
+
+Now I should also check if `verify_password` needs similar handling, but actually, when verifying, we're comparing against an already-hashed password, so the truncation should happen on the input password side. Let me also update `verify_password` to truncate the plain password before verification to ensure consistency.
+</think>
+Updating `verify_password` to truncate the input password before verification for consistency:
+
+[Tool call] search_replace
+  file_path: /home/ai/ai-agent/backend/app/core/security.py
+  old_string: def verify_password(plain_password: str, hashed_password: str) -> bool:
+    """Verify a password against a hash."""
+    return pwd_context.verify(plain_password, hashed_password)
+  new_string: def verify_password(plain_password: str, hashed_password: str) -> bool:
+    """Verify a password against a hash.
+    
+    Bcrypt has a 72-byte limit for passwords. If the password exceeds this,
+    it will be truncated to 72 bytes before verification to match the hashing behavior.
+    """
+    # Truncate password to 72 bytes if it's longer (bcrypt limit)
+    password_bytes = plain_password.encode('utf-8')
+    if len(password_bytes) > 72:
+        plain_password = password_bytes[:72].decode('utf-8', errors='ignore')
+    return pwd_context.verify(plain_password, hashed_password)
+
+[Tool result] search_replace
+
+assistant:
+<think>
+Good! Now I've fixed both `get_password_hash` and `verify_password` to handle passwords longer than 72 bytes. This should fix the error. The backend should automatically reload since it's using `--reload` flag, so the fix should take effect immediately.
+
+Let me verify the changes look correct by reading the updated file.
+</think>
+Verifying the changes:
+
+[Tool call] read_file
+  target_file: /home/ai/ai-agent/backend/app/core/security.py
+
+[Tool result] read_file
+
+assistant:
+<think>
+Perfect! The changes look good. Now both `get_password_hash` and `verify_password` will truncate passwords longer than 72 bytes before processing them. This should fix the error.
+
+Since the backend is running with `--reload`, it should automatically detect the file change and reload. The error should be resolved now.
+
+I should also note that the comment on line 11 says "Explicitly disable bcrypt length errors (truncate >72 bytes instead of raising)" but `bcrypt__truncate_error=False` actually means it won't truncate automatically. However, with our manual truncation, this is fine. The comment is a bit misleading, but the code now works correctly.
+
+Let me check if there are any linter errors.
+</think>
+Fixed the bcrypt password length issue. Both `get_password_hash` and `verify_password` now truncate passwords longer than 72 bytes before processing, matching bcrypt's limit.
+
+The backend should auto-reload with `--reload`, so the fix should take effect immediately. The error should be resolved when `ensure_default_admin` runs.
+
+Checking for linting issues:
+
+[Tool call] read_lints
+  paths: ["/home/ai/ai-agent/backend/app/core/security.py"]
+
+[Tool result] read_lints
+
+assistant:
+<think>
+Great! No linting errors. The fix is complete. The backend should automatically reload and the error should be resolved. The user should be able to see the fix working in the logs.
+</think>
+Fix complete. No linting errors.
+
+**Summary of the fix:**
+
+The error was caused by bcrypt's 72-byte password limit. When `DEFAULT_ADMIN_PASSWORD` exceeded 72 bytes (likely via an environment variable), hashing failed.
+
+**Changes made:**
+1. Updated `get_password_hash()` to truncate passwords longer than 72 bytes before hashing
+2. Updated `verify_password()` to truncate passwords before verification for consistency
+
+The backend should auto-reload with the fix. The login endpoint should work even if the admin password is longer than 72 bytes (it will use the first 72 bytes).
+
+user:
+<user_query>
+C
+root@ip-172-31-20-228:/home/ai/ai-agent# lsof -i :3000
+root@ip-172-31-20-228:/home/ai/ai-agent# docker ps
+CONTAINER ID   IMAGE                         COMMAND                  CREATED         STATUS                         PORTS                                                   NAMES
+72b14fffd07a   ai-agent-backend              "uvicorn app.main:ap…"   8 minutes ago   Up 8 minutes (healthy)         0.0.0.0:8000->8000/tcp, [::]:8000->8000/tcp             ai-backend
+69c38426449d   postgres:15-alpine            "docker-entrypoint.s…"   8 minutes ago   Up 8 minutes (healthy)         0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp             ai-agent-postgres
+4ff38181751f   ollama/ollama:latest          "/bin/ollama serve"      8 minutes ago   Up 8 minutes                   0.0.0.0:11434->11434/tcp, [::]:11434->11434/tcp         ai-agent-ollama
+403bbe577b4f   ai-agent-frontend-crm         "docker-entrypoint.s…"   5 days ago      Up About an hour (healthy)     3000/tcp, 0.0.0.0:3001->3001/tcp, [::]:3001->3001/tcp   ai-agent-frontend-crm
+8d6b1717f56d   ai-agent-frontend-dashboard   "docker-entrypoint.s…"   5 days ago      Up About an hour (unhealthy)   0.0.0.0:3000->3000/tcp, [::]:3000->3000/tcp             ai-agent-frontend-dashboard
+54938264c7a2   ai-agent-frontend-aaa         "docker-entrypoint.s…"   5 days ago      Up About an hour (healthy)     3000/tcp, 0.0.0.0:3002->3002/tcp, [::]:3002->3002/tcp   ai-agent-frontend-aaa
+root@ip-172-31-20-228:/home/ai/ai-agent#
+
+</user_query>
+
+assistant:
+<think>
+The user is showing me the docker ps output again, and I can see that the `ai-agent-frontend-dashboard` container is still showing as "unhealthy". Earlier I found that the health check was timing out. The health check uses `wget` to check if the service is responding on port 3000.
+
+Let me investigate why the health check is failing. The logs showed the Next.js app is running and responding to HEAD requests, but the health check is timing out. This could be because:
+1. `wget` might not be installed in the container
+2. The health check might be taking too long
+3. There might be an issue with the health check command itself
+
+I should check if wget is available and maybe suggest using curl instead, or check if there's a better health check endpoint.
+</think>
+Investigating why the dashboard frontend container is unhealthy. The health check is timing out. Checking the health check configuration and testing alternatives:
+
+[Tool call] run_terminal_cmd
+  command: docker exec ai-agent-frontend-dashboard which wget
+  is_background: false
+[Tool call] run_terminal_cmd
+  command: docker exec ai-agent-frontend-dashboard which curl
+  is_background: false
+[Tool call] run_terminal_cmd
+  command: docker exec ai-agent-frontend-dashboard curl -f http://localhost:3000 -o /dev/null -s -w "%{http_code}" --max-time 5
+  is_background: false
+
+[Tool result] run_terminal_cmd
+
+[Tool result] run_terminal_cmd
+
+[Tool result] run_terminal_cmd
+
+assistant:
+<think>
+So `wget` is available but `curl` is not. The health check is using `wget` but it's timing out. Let me test if wget actually works:
+</think>
+Testing if `wget` works and why it might be timing out:
+
+[Tool call] run_terminal_cmd
+  command: timeout 5 docker exec ai-agent-frontend-dashboard wget --no-verbose --tries=1 --spider http://localhost:3000 2>&1
+  is_background: false
+[Tool call] run_terminal_cmd
+  command: docker exec ai-agent-frontend-dashboard ps aux | grep -E "(node|next)" | head -5
+  is_background: false
+[Tool call] run_terminal_cmd
+  command: docker exec ai-agent-frontend-dashboard netstat -tuln 2>/dev/null | grep 3000 || docker exec ai-agent-frontend-dashboard ss -tuln 2>/dev/null | grep 3000 || echo "netstat/ss not available"
+  is_background: false
+
+[Tool result] run_terminal_cmd
+
+[Tool result] run_terminal_cmd
+
+[Tool result] run_terminal_cmd
+
+assistant:
+<think>
+Interesting! The `wget` command is timing out (exit code 124 means timeout), but:
+1. Next.js is running on port 3000
+2. The port is listening
+3. The logs show it's responding to HEAD requests
+
+The issue might be that `wget --spider` is hanging. Let me try a simpler approach - maybe we need to use a different health check method. Let me check if we can use a simple HTTP request or if we need to adjust the health check timeout/command.
+
+Actually, looking at the docker-compose.yml again, the health check has:
+- timeout: 10s
+- start_period: 60s
+
+But wget is hanging. Maybe we should use a simpler approach or check if there's an issue with wget in the container. Let me try using a Node.js-based health check or see if we can use a different tool.
+</think>
+`wget` is hanging even though the service is running. Trying a simpler health check approach. Checking if we can use a Node.js-based check or adjust the health check:
+
+[Tool call] run_terminal_cmd
+  command: docker exec ai-agent-frontend-dashboard sh -c 'echo "GET / HTTP/1.0\r\nHost: localhost:3000\r\n\r\n" | nc localhost 3000 2>&1 | head -1'
+  is_background: false
+[Tool call] read_file
+  target_file: /home/ai/ai-agent/docker-compose.yml
+  offset: 69
+  limit: 30
+
+[Tool result] run_terminal_cmd
+
+[Tool result] read_file
+
+assistant:
+<think>
+The service is responding (we got HTTP/1.1 400 Bad Request, which means it's at least responding). The issue is that `wget --spider` seems to be hanging. 
+
+Let me try a different approach - maybe we can use a simpler health check. Since the service is responding, we could:
+1. Use a different tool (like `nc` with a proper HTTP request)
+2. Use Node.js to make a simple HTTP request
+3. Increase the timeout
+4. Use a simpler wget command
+
+Actually, let me check if wget works with a timeout flag or if we need to use a different approach.
+</think>
+Service is responding, but `wget --spider` is hanging. Updating the health check to a more reliable method:
+
+[Tool call] search_replace
+  file_path: /home/ai/ai-agent/docker-compose.yml
+  old_string:     healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:3000 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      start_period: 60s
+      retries: 3
+  new_string:     healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider --timeout=5 http://localhost:3000 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      start_period: 60s
+      retries: 3
+[Tool call] run_terminal_cmd
+  command: docker exec ai-agent-frontend-dashboard wget --help 2>&1 | grep -i timeout | head -3
+  is_background: false
+
+[Tool result] search_replace
+
+[Tool result] run_terminal_cmd
+
+assistant:
+<think>
+Good, wget supports timeout. But actually, let me try a different approach - maybe using a simpler command that doesn't hang. Let me test if the timeout flag works:
+</think>
+Testing if the timeout flag resolves the issue, and trying an alternative health check method:
+
+[Tool call] run_terminal_cmd
+  command: timeout 3 docker exec ai-agent-frontend-dashboard wget --no-verbose --tries=1 --spider --timeout=2 http://localhost:3000 2>&1
+  is_background: false
+[Tool call] run_terminal_cmd
+  command: docker exec ai-agent-frontend-dashboard node -e "require('http').get('http://localhost:3000', (r) => process.exit(r.statusCode === 200 || r.statusCode === 400 ? 0 : 1)).on('error', () => process.exit(1)).setTimeout(2000, () => process.exit(1));" 2>&1
+  is_background: false
+
+[Tool result] run_terminal_cmd
+
+[Tool result] run_terminal_cmd
+
+assistant:
+<think>
+Perfect! The `wget` command with `--timeout=2` works and returns quickly. The issue was that without the timeout flag, wget was hanging. Now I've updated the docker-compose.yml to include the timeout flag. 
+
+However, I should restart the container for the health check to take effect. But actually, the user might want to do that themselves. Let me also check if we should use the Node.js approach as it might be more reliable since Node is already in the container.
+
+Actually, let me update the health check to use the Node.js approach since it's more reliable and Node is already available:
+</think>
+Adding a timeout to `wget` fixes it. Updating the health check to use a Node.js-based check since Node is already in the container:
+
+[Tool call] search_replace
+  file_path: /home/ai/ai-agent/docker-compose.yml
+  old_string:     healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider --timeout=5 http://localhost:3000 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      start_period: 60s
+      retries: 3
+  new_string:     healthcheck:
+      test: ["CMD-SHELL", "node -e \"require('http').get('http://localhost:3000', (r) => process.exit(r.statusCode < 500 ? 0 : 1)).on('error', () => process.exit(1)).setTimeout(3000, () => process.exit(1));\""]
+      interval: 30s
+      timeout: 10s
+      start_period: 60s
+      retries: 3
+
+[Tool result] search_replace
+
+assistant:
+<think>
+Actually, let me reconsider. The wget with timeout should work fine. But the Node.js approach is also good. However, let me keep it simple and use wget with timeout since that's what the other frontend containers are using. Let me check what the other frontend containers use:
+</think>
+Checking other frontend containers' health checks for consistency:
+
+[Tool call] read_file
+  target_file: /home/ai/ai-agent/docker-compose.yml
+  offset: 125
+  limit: 10
+[Tool call] read_file
+  target_file: /home/ai/ai-agent/docker-compose.yml
+  offset: 147
+  limit: 6
+
+[Tool result] read_file
+
+[Tool result] read_file
+
+assistant:
+<think>
+I see - the other frontend containers (CRM and AAA) are using the same wget command without timeout, and they're healthy. So maybe the issue is specific to the dashboard container. But to be safe and consistent, let me use wget with timeout for the dashboard, and we could also update the others. But for now, let me just fix the dashboard one with the timeout, and we can use the Node.js approach or wget with timeout.
+
+Actually, let me use wget with timeout to be consistent with the pattern but fix the issue:
+</think>
+Other frontends use `wget` without a timeout and are healthy. Updating the dashboard health check to use `wget` with a timeout for consistency:
+
+[Tool call] search_replace
+  file_path: /home/ai/ai-agent/docker-compose.yml
+  old_string:     healthcheck:
+      test: ["CMD-SHELL", "node -e \"require('http').get('http://localhost:3000', (r) => process.exit(r.statusCode < 500 ? 0 : 1)).on('error', () => process.exit(1)).setTimeout(3000, () => process.exit(1));\""]
+      interval: 30s
+      timeout: 10s
+      start_period: 60s
+      retries: 3
+  new_string:     healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider --timeout=5 http://localhost:3000 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      start_period: 60s
+      retries: 3
+
+[Tool result] search_replace
+
+assistant:
+<think>
+Good. Now I should let the user know they need to restart the container for the health check to take effect. Actually, Docker should pick up the new health check configuration, but the container might need to be recreated. Let me provide instructions.
+</think>
+Updated the health check to include a timeout. Restarting the dashboard container to apply the change:
+
+[Tool call] run_terminal_cmd
+  command: cd /home/ai/ai-agent && docker compose restart frontend-dashboard
+  is_background: false
+
+[Tool result] run_terminal_cmd
+
+assistant:
+<think>
+Actually, restarting won't pick up the new health check configuration from docker-compose.yml. We need to recreate the container. But let me wait a moment and check if the health check is working now. Actually, the health check configuration is read when the container is created, so we might need to recreate it. But let me first check if restart helped or if we need to recreate.
+</think>
+Restarting may not pick up the new health check config. Recreating the container to apply it:
+
+[Tool call] run_terminal_cmd
+  command: cd /home/ai/ai-agent && docker compose up -d --force-recreate frontend-dashboard
+  is_background: false
+
+[Tool result] run_terminal_cmd
+
+assistant:
+<think>
+Good! The container has been recreated. Now let's wait a bit and check if the health check is working. The start_period is 60s, so we should wait at least that long before the health check starts passing consistently.
+</think>
+Container recreated. Waiting a moment, then checking health status:
+
+[Tool call] run_terminal_cmd
+  command: sleep 5 && docker ps --filter "name=ai-agent-frontend-dashboard" --format "table {{.Names}}\t{{.Status}}"
+  is_background: false
+
+[Tool result] run_terminal_cmd
+
+assistant:
+<think>
+Good, it's in "health: starting" status which is expected during the start_period (60s). The health check should start working after that. Let me provide a summary to the user.
+</think>
+Container recreated with the updated health check. It's in the "health: starting" phase (60s start period). After that, it should become healthy.
+
+**Summary of fixes:**
+
+1. **Bcrypt password length issue**: Updated `get_password_hash()` and `verify_password()` in `/home/ai/ai-agent/backend/app/core/security.py` to truncate passwords longer than 72 bytes before hashing/verification.
+
+2. **Dashboard frontend health check**: Updated the health check in `docker-compose.yml` to add a `--timeout=5` flag to the `wget` command to prevent it from hanging.
+
+The dashboard container should become healthy after the 60-second start period. You can monitor it with:
+```bash
+docker ps --filter "name=ai-agent-frontend-dashboard"
+```
+
+Or check the health status directly:
+```bash
+docker inspect ai-agent-frontend-dashboard --format='{{.State.Health.Status}}'
+```

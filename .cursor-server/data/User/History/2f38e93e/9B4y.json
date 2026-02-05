@@ -1,0 +1,16 @@
+{
+    "workbench.settings.applyToAllProfiles": [
+        "terminal.integrated.commandsToSkipShell"
+    ],
+    "redhat.telemetry.enabled": true,
+    "yaml.schemas": {
+        "kubernetes": "*.yaml"
+    },
+    "php.validate.executablePath": "",
+    "remote.SSH.remotePlatform": {
+        "3.133.60.120": "linux",
+        "ai-server": "linux"
+    },
+    "git.confirmSync": false,
+    "window.commandCenter": true
+}

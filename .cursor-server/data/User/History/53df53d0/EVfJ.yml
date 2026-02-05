@@ -1,0 +1,144 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: ai-agent-postgres
+    environment:
+      POSTGRES_USER: aiagent
+      POSTGRES_PASSWORD: aiagent123
+      POSTGRES_DB: ai_agent_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - ai-agent-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aiagent"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Ollama Service
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ai-agent-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    networks:
+      - ai-agent-network
+    restart: unless-stopped
+
+  # Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ai-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://aiagent:aiagent123@postgres:5432/ai_agent_db
+      - OLLAMA_URL=http://ollama:11434
+      - DEBUG=true
+      - LOG_LEVEL=INFO
+      - CORS_ORIGINS=["http://localhost:3000","http://localhost:3001","http://localhost:3002","http://ai-agent.bankid-sy.com","http://crm.bankid-sy.com","http://aaa.bankid-sy.com"]
+      - SECRET_KEY=your-secret-key-change-in-production
+    volumes:
+      - ./backend:/app
+      - backend_logs:/app/logs
+    depends_on:
+      postgres:
+        condition: service_healthy
+      ollama:
+        condition: service_started
+    networks:
+      - ai-agent-network
+    restart: unless-stopped
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  # Frontend Dashboard (port 3000)
+  frontend-dashboard:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: ai-agent-frontend-dashboard
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_AGENT_API_URL=http://localhost:8000
+      - NEXT_PUBLIC_BACKEND_URL=http://backend:8000
+      - NEXT_PUBLIC_AGENT_WS_URL=ws://localhost:8000
+      - PORT=3000
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      - backend
+    networks:
+      - ai-agent-network
+    restart: unless-stopped
+    command: npm run dev -- -p 3000
+
+  # Frontend CRM (port 3001)
+  frontend-crm:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: ai-agent-frontend-crm
+    ports:
+      - "3001:3001"
+    environment:
+      - NEXT_PUBLIC_AGENT_API_URL=http://localhost:8000
+      - NEXT_PUBLIC_BACKEND_URL=http://backend:8000
+      - NEXT_PUBLIC_AGENT_WS_URL=ws://localhost:8000
+      - PORT=3001
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      - backend
+    networks:
+      - ai-agent-network
+    restart: unless-stopped
+    command: npm run dev -- -p 3001
+
+  # Frontend AAA (port 3002)
+  frontend-aaa:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: ai-agent-frontend-aaa
+    ports:
+      - "3002:3002"
+    environment:
+      - NEXT_PUBLIC_AGENT_API_URL=http://localhost:8000
+      - NEXT_PUBLIC_BACKEND_URL=http://backend:8000
+      - NEXT_PUBLIC_AGENT_WS_URL=ws://localhost:8000
+      - PORT=3002
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      - backend
+    networks:
+      - ai-agent-network
+    restart: unless-stopped
+    command: npm run dev -- -p 3002
+
+volumes:
+  postgres_data:
+  backend_logs:
+  ollama_data:
+
+networks:
+  ai-agent-network:
+    driver: bridge

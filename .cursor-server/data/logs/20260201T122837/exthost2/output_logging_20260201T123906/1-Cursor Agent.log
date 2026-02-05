@@ -1,0 +1,7 @@
+[AnthropicProxy] Client created with dynamic credentials (transport recreated when token, backend URL, or privacy mode changes)
+[AnthropicProxy] 
+🚀 Anthropic-compatible proxy server running at http://127.0.0.1:45633
+[AnthropicProxy]    POST /v1/messages - Anthropic Messages API
+
+[AnthropicProxy] Started on http://127.0.0.1:45633
+API proxy started on port 45633

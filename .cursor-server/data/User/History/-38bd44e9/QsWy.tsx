@@ -1,0 +1,136 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import {
+  LayoutDashboard,
+  Building2,
+  Users,
+  CreditCard,
+  TrendingUp,
+  FileText,
+  AlertTriangle,
+  LogOut,
+  Settings,
+} from "lucide-react";
+
+interface MenuItem {
+  href: string;
+  label: string;
+  icon: React.ReactNode;
+}
+
+export default function CRMSidebar() {
+  const path = usePathname();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    // Use setTimeout to avoid synchronous setState in effect
+    setTimeout(() => setMounted(true), 0);
+  }, []);
+
+  const menuItems: MenuItem[] = [
+    { href: "/crm", label: "CRM Dashboard", icon: <LayoutDashboard className="w-5 h-5" /> },
+    { href: "/crm/tenants", label: "Tenants", icon: <Building2 className="w-5 h-5" /> },
+    { href: "/crm/users", label: "Users", icon: <Users className="w-5 h-5" /> },
+    { href: "/crm/subscriptions", label: "Subscription Plans", icon: <CreditCard className="w-5 h-5" /> },
+    { href: "/crm/analytics", label: "Analytics", icon: <TrendingUp className="w-5 h-5" /> },
+    { href: "/crm/audit", label: "Audit Logs", icon: <FileText className="w-5 h-5" /> },
+    { href: "/crm/incidents", label: "Incidents", icon: <AlertTriangle className="w-5 h-5" /> },
+  ];
+
+  const isActive = (href: string) => {
+    if (!mounted) return false;
+    if (href === "/crm") return path === "/crm";
+    return path.startsWith(href);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("auth_token");
+    window.location.href = "/crm/login";
+  };
+
+  return (
+    <aside
+      className="w-64 h-screen bg-sw-surface border-r border-sw-border flex flex-col overflow-hidden"
+      suppressHydrationWarning
+    >
+      {/* Header */}
+      <div className="flex-shrink-0 px-4 py-4 border-b border-sw-border">
+        <Link href="/crm" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-sw-primary to-sw-accent flex items-center justify-center">
+            <Building2 className="w-6 h-6 text-white" />
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-sw-text tracking-tight">
+              Shiftwave
+            </h2>
+            <p className="text-xs text-sw-textLight">CRM</p>
+          </div>
+        </Link>
+      </div>
+
+      {/* Navigation */}
+      <nav className="flex-1 overflow-y-auto overflow-x-hidden sidebar-scroll px-4 py-4">
+        <div className="space-y-2">
+          {menuItems.map((item) => {
+            const active = isActive(item.href);
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`block px-3 py-3 rounded-lg transition-all duration-200 font-medium ${
+                  active
+                    ? "bg-sw-primary text-white shadow-sm"
+                    : "text-sw-text hover:bg-sw-bg"
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <span className={`transition-colors ${
+                    active ? "text-white" : "text-sw-textLight"
+                  }`}>
+                    {item.icon}
+                  </span>
+                  <span className="text-sm">{item.label}</span>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      </nav>
+
+      {/* Footer */}
+      <div className="flex-shrink-0 px-4 py-4 border-t border-sw-border space-y-2">
+        <a
+          href="http://ai-agent.bankid-sy.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block px-3 py-3 rounded-lg transition-all duration-200 text-blue-400 hover:bg-sw-bg font-medium border border-blue-400/30"
+        >
+          <div className="flex items-center gap-3">
+            <LayoutDashboard className="w-5 h-5" />
+            <span className="text-sm">AI Dashboard</span>
+          </div>
+        </a>
+        <Link
+          href="/crm/settings"
+          className="block px-3 py-3 rounded-lg transition-all duration-200 text-sw-textLight hover:bg-sw-bg font-medium"
+        >
+          <div className="flex items-center gap-3">
+            <Settings className="w-5 h-5" />
+            <span className="text-sm">Settings</span>
+          </div>
+        </Link>
+        <button
+          onClick={handleLogout}
+          className="w-full flex items-center gap-3 px-3 py-3 rounded-lg transition-all duration-200 text-sw-textLight hover:bg-sw-bg font-medium"
+        >
+          <LogOut className="w-5 h-5" />
+          <span className="text-sm">Logout</span>
+        </button>
+      </div>
+    </aside>
+  );
+}
+

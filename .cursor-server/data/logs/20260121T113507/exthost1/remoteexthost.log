@@ -1,0 +1,41 @@
+2026-01-21 11:36:29.076 [info] Extension host with pid 177205 started
+2026-01-21 11:36:29.076 [info] [ExtHostShellExec] Initializing terminal executor with userTerminalHint: undefined
+2026-01-21 11:36:29.076 [info] [ExtHostShellExec] Detecting sandbox support...
+2026-01-21 11:36:29.076 [info] [ExtHostShellExec] Platform: linux, Shell type: unknown
+2026-01-21 11:36:29.076 [info] [ExtHostShellExec] dirname: /home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/out/vs/workbench/api/node
+2026-01-21 11:36:29.076 [info] [ExtHostShellExec] Sandbox helper path: /home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/resources/helpers/cursor-sandbox
+2026-01-21 11:36:29.076 [info] [ExtHostShellExec] process.resourcesPath: undefined
+2026-01-21 11:36:29.076 [info] [ExtHostShellExec] process.execPath: /home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/node
+2026-01-21 11:36:29.076 [info] [ExtHostShellExec] ripgrep path for sandboxing: /home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/resources/helpers/rg
+2026-01-21 11:36:29.076 [error] [shell-exec:sandbox] [isSandboxHelperSupported] Starting sandbox support check... undefined
+2026-01-21 11:36:29.076 [error] [shell-exec:sandbox] [checkBinaryAvailable] Resolved binary path: /home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/resources/helpers/cursor-sandbox undefined
+2026-01-21 11:36:29.076 [error] [shell-exec:sandbox] [checkBinaryAvailable] Binary path exists: true undefined
+2026-01-21 11:36:29.076 [error] [shell-exec:sandbox] [isSandboxHelperSupported] Running preflight with binary: /home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/resources/helpers/cursor-sandbox undefined
+2026-01-21 11:36:29.076 [error] [shell-exec:sandbox] [isSandboxHelperSupported] CWD: /home/ai undefined
+2026-01-21 11:36:29.077 [error] [shell-exec:sandbox] [isSandboxHelperSupported] Preflight succeeded, sandbox supported! undefined
+2026-01-21 11:36:29.077 [info] [ExtHostShellExec] Sandbox support detected: true
+2026-01-21 11:36:29.144 [info] Lock '/home/ai/.cursor-server/data/User/workspaceStorage/6ee029fe5f1672881c11d42bbe065b82/vscode.lock': Lock acquired.
+2026-01-21 11:36:39.434 [info] ExtensionService#_doActivateExtension vscode.emmet, startup: false, activationEvent: 'onLanguage'
+2026-01-21 11:36:39.439 [info] ExtensionService#_doActivateExtension vscode.git-base, startup: false, activationEvent: '*', root cause: anysphere.cursor-agent-exec
+2026-01-21 11:36:39.440 [info] ExtensionService#_doActivateExtension vscode.tunnel-forwarding, startup: false, activationEvent: 'onTunnel'
+2026-01-21 11:36:39.443 [info] ExtensionService#_doActivateExtension vscode.typescript-language-features, startup: false, activationEvent: 'onLanguage:typescriptreact'
+2026-01-21 11:36:42.045 [info] ExtHostSearch [cursorIgnore] internal fileSearch start reason=cursorIgnoreCheck roots=1 include=**/.cursorignore maxResults=0 numThreads=(default) folderQueries=[{"cwd":"/home/ai","disregardIgnoreFiles":false,"disregardParentIgnoreFiles":true,"disregardGlobalIgnoreFiles":true,"ignoreSymlinks":false,"rgNoIgnore":false,"rgNoIgnoreParent":true,"rgNoIgnoreGlobal":true,"rgFollow":true}]
+2026-01-21 11:36:42.270 [info] ExtensionService#_doActivateExtension vscode.git, startup: false, activationEvent: '*', root cause: anysphere.cursor-agent-exec
+2026-01-21 11:36:42.271 [info] ExtensionService#_doActivateExtension vscode.github, startup: false, activationEvent: '*'
+2026-01-21 11:36:44.876 [info] ExtensionService#_doActivateExtension vscode.extension-editing, startup: false, activationEvent: 'onLanguage:markdown'
+2026-01-21 11:36:44.878 [info] ExtensionService#_doActivateExtension vscode.markdown-language-features, startup: false, activationEvent: 'onLanguage:markdown'
+2026-01-21 11:36:45.194 [info] ExtHostSearch /home/ai/.cursor-server/cli/servers/Stable-2ca326e0d1ce10956aea33d54c0e2d8c13c58a30/server/node_modules/@vscode/ripgrep/bin/rg --files --hidden --case-sensitive --no-require-git -g '**/.cursorignore' -g '!**/.git' -g '!**/.svn' -g '!**/.hg' -g '!**/.DS_Store' -g '!**/Thumbs.db' -g '!**/node_modules' -g '!**/bower_components' -g '!**/*.code-search' --no-ignore-parent --follow --threads '10' --no-config --no-ignore-global
+ - cwd: /home/ai
+ - Sibling clauses: {}
+2026-01-21 11:36:45.462 [info] ExtHostSearch Search finished. Stats: {"cmdTime":278,"fileWalkTime":278,"directoriesWalked":0,"filesWalked":0,"cmdResultCount":0}
+2026-01-21 11:36:45.472 [info] ExtHostSearch [cursorIgnore] internal fileSearch done in 3427ms limitHit=false failed=false resultCount=0 cmdTime=278 fileWalkTime=278 providerTime=(unknown)
+2026-01-21 11:36:50.449 [info] ExtensionService#_doActivateExtension anysphere.cursor-mcp, startup: false, activationEvent: 'onStartupFinished'
+2026-01-21 11:36:50.450 [info] ExtensionService#_doActivateExtension anysphere.cursor-shadow-workspace, startup: false, activationEvent: 'onStartupFinished'
+2026-01-21 11:36:50.452 [info] ExtensionService#_doActivateExtension vscode.debug-auto-launch, startup: false, activationEvent: 'onStartupFinished'
+2026-01-21 11:36:50.452 [info] ExtensionService#_doActivateExtension vscode.merge-conflict, startup: false, activationEvent: 'onStartupFinished'
+2026-01-21 11:36:59.835 [info] ExtensionService#_doActivateExtension anysphere.cursor-retrieval, startup: false, activationEvent: '*', root cause: anysphere.cursor-agent-exec
+2026-01-21 11:37:12.168 [info] ExtensionService#_doActivateExtension anysphere.cursor-agent-exec, startup: false, activationEvent: '*'
+2026-01-21 11:37:14.048 [info] Eager extensions activated
+2026-01-21 11:42:37.146 [info] Extension host terminating: renderer disconnected for too long (2)
+2026-01-21 11:42:37.160 [info] Lock '/home/ai/.cursor-server/data/User/workspaceStorage/6ee029fe5f1672881c11d42bbe065b82/vscode.lock': Marking the lockfile as scheduled to be released in 6000 ms.
+2026-01-21 11:42:37.210 [info] Extension host with pid 177205 exiting with code 0

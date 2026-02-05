@@ -1,0 +1,5 @@
+Listening on 127.0.0.1:39715
+[2025-11-24 09:37:05] info Disposed of connection to running server.
+[2025-11-24 09:37:05] info Checking /home/ai/.cursor-server/cli/servers/Stable-a8d8905b06c8da1739af6f789efd59c28ac2a680/log.txt and /home/ai/.cursor-server/cli/servers/Stable-a8d8905b06c8da1739af6f789efd59c28ac2a680/pid.txt for a running server...
+[2025-11-24 09:37:05] info Found running server (pid=3364458)
+[2025-11-24 10:07:02] info Disposed of connection to running server.

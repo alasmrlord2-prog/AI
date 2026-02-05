@@ -1,0 +1,19 @@
+<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Stylized H/Wave symbol with gradient -->
+  <defs>
+    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1399FF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#00D1CE;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Four parallel diagonal lines forming H/Wave shape -->
+  <path d="M8 12 L12 28" stroke="url(#logoGradient)" stroke-width="3" stroke-linecap="round"/>
+  <path d="M12 12 L16 28" stroke="url(#logoGradient)" stroke-width="3" stroke-linecap="round"/>
+  <path d="M16 12 L20 28" stroke="url(#logoGradient)" stroke-width="3" stroke-linecap="round"/>
+  <path d="M20 12 L24 28" stroke="url(#logoGradient)" stroke-width="3" stroke-linecap="round"/>
+  
+  <!-- Connecting horizontal line (optional, for H shape) -->
+  <path d="M10 20 L22 20" stroke="url(#logoGradient)" stroke-width="2.5" stroke-linecap="round" opacity="0.6"/>
+</svg>
+

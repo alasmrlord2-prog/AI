@@ -1,0 +1,20 @@
+{
+  "allow_shell": true,
+  "allow_read_file": true,
+  "allow_doc_search": true,
+  "allow_logs": true,
+  "long_memory_enabled": true,
+  "agent_mode": "root",
+  "memory_mode": "short",
+  "require_approval": [
+    "run_shell"
+  ],
+  "allowed_paths": [],
+  "restricted_paths": [
+    "/proc/kcore",
+    "/dev/mem",
+    "/sys/kernel"
+  ],
+  "base_path": null,
+  "host_mount_path": "/host/ai-agent"
+}

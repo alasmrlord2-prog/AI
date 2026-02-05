@@ -1,0 +1,499 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ============================================
+   🎨 BRAND IDENTITY SYSTEM - Complete Design System
+   ============================================ */
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  
+  /* Spacing System - 8px base unit */
+  --spacing-micro: 0.5rem;    /* 8px */
+  --spacing-small: 1rem;       /* 16px */
+  --spacing-normal: 1.5rem;    /* 24px */
+  --spacing-medium: 2rem;      /* 32px */
+  --spacing-large: 3rem;        /* 48px */
+  --spacing-xlarge: 4rem;      /* 64px */
+  
+  /* Typography Scale */
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --font-weight-black: 900;
+  
+  /* Letter Spacing */
+  --letter-spacing-tight: -0.025em;
+  --letter-spacing-normal: 0;
+  --letter-spacing-wide: 0.025em;
+  --letter-spacing-wider: 0.05em;
+  
+  /* Icon System */
+  --icon-size-sm: 1rem;        /* 16px */
+  --icon-size-md: 1.25rem;     /* 20px */
+  --icon-size-lg: 1.5rem;      /* 24px */
+  --icon-size-xl: 2rem;        /* 32px */
+  
+  /* Border Radius System */
+  --radius-sm: 0.375rem;       /* 6px */
+  --radius-md: 0.5rem;         /* 8px */
+  --radius-lg: 0.625rem;       /* 10px */
+  --radius-xl: 0.75rem;        /* 12px */
+  --radius-2xl: 1rem;          /* 16px */
+  --radius-full: 9999px;
+  
+  /* Shadow System */
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+
+:root {
+  /* Border Radius */
+  --radius: 0.625rem; /* 10px - consistent rounded corners */
+  
+  /* Light Mode Colors (if needed) */
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  /* ============================================
+     🎨 PRIMARY COLOR SYSTEM
+     ============================================ */
+  
+  /* Primary Brand Colors - Modern Tech Blue/Purple Gradient */
+  --primary: oklch(0.65 0.22 264);           /* Primary brand color - vibrant blue */
+  --primary-foreground: oklch(0.98 0 0);    /* White text on primary */
+  --primary-hover: oklch(0.70 0.22 264);    /* Lighter on hover */
+  --primary-active: oklch(0.60 0.22 264);   /* Darker when active */
+  
+  /* Secondary Colors - Complementary Purple */
+  --secondary: oklch(0.27 0 0);              /* Dark gray for secondary actions */
+  --secondary-foreground: oklch(0.98 0 0);   /* White text */
+  --secondary-hover: oklch(0.32 0 0);        /* Slightly lighter */
+  
+  /* Accent Colors - Teal/Cyan for highlights */
+  --accent: oklch(0.50 0.15 180);           /* Teal accent */
+  --accent-foreground: oklch(0.98 0 0);      /* White text */
+  --accent-hover: oklch(0.55 0.15 180);     /* Lighter teal */
+  
+  /* ============================================
+     🎨 NEUTRAL COLOR SYSTEM
+     ============================================ */
+  
+  /* Background Hierarchy */
+  --background: oklch(0.08 0 0);            /* Deep black background */
+  --foreground: oklch(0.98 0 0);            /* Pure white text */
+  
+  /* Card System */
+  --card: oklch(0.12 0 0);                  /* Slightly lighter than background */
+  --card-foreground: oklch(0.95 0 0);       /* Off-white text */
+  --card-hover: oklch(0.15 0 0);            /* Lighter on hover */
+  
+  /* Muted Colors - For secondary text */
+  --muted: oklch(0.20 0 0);                 /* Dark gray background */
+  --muted-foreground: oklch(0.65 0 0);      /* Medium gray text */
+  
+  /* Border & Input System */
+  --border: oklch(1 0 0 / 0.12);            /* Subtle borders */
+  --input: oklch(1 0 0 / 0.15);             /* Input backgrounds */
+  --input-focus: oklch(0.65 0.22 264 / 0.3); /* Focus ring */
+  --ring: oklch(0.65 0.22 264);             /* Focus ring color */
+  
+  /* Popover & Overlay */
+  --popover: oklch(0.15 0 0);               /* Popover background */
+  --popover-foreground: oklch(0.98 0 0);     /* Popover text */
+  
+  /* ============================================
+     🎨 STATUS COLOR SYSTEM
+     ============================================ */
+  
+  /* Success - Green */
+  --success: oklch(0.65 0.20 145);          /* Success green */
+  --success-foreground: oklch(0.98 0 0);    /* White text */
+  --success-bg: oklch(0.65 0.20 145 / 0.15); /* Success background */
+  
+  /* Warning - Yellow/Orange */
+  --warning: oklch(0.75 0.18 70);           /* Warning yellow */
+  --warning-foreground: oklch(0.10 0 0);    /* Dark text */
+  --warning-bg: oklch(0.75 0.18 70 / 0.15); /* Warning background */
+  
+  /* Error/Destructive - Red */
+  --destructive: oklch(0.65 0.22 25);       /* Error red */
+  --destructive-foreground: oklch(0.98 0 0); /* White text */
+  --destructive-bg: oklch(0.65 0.22 25 / 0.15); /* Error background */
+  
+  /* Info - Blue */
+  --info: oklch(0.65 0.22 240);             /* Info blue */
+  --info-foreground: oklch(0.98 0 0);       /* White text */
+  --info-bg: oklch(0.65 0.22 240 / 0.15);   /* Info background */
+  
+  /* ============================================
+     🎨 CHART COLOR SYSTEM
+     ============================================ */
+  
+  --chart-1: oklch(0.65 0.22 264);          /* Primary blue */
+  --chart-2: oklch(0.70 0.17 162);          /* Teal */
+  --chart-3: oklch(0.75 0.18 70);           /* Yellow */
+  --chart-4: oklch(0.65 0.22 25);           /* Red */
+  --chart-5: oklch(0.65 0.20 300);          /* Purple */
+  
+  /* ============================================
+     🎨 SIDEBAR COLOR SYSTEM
+     ============================================ */
+  
+  --sidebar: oklch(0.11 0 0);               /* Sidebar background - slightly lighter than main */
+  --sidebar-foreground: oklch(0.90 0 0);    /* Sidebar text */
+  --sidebar-primary: oklch(0.65 0.22 264);  /* Active item color */
+  --sidebar-primary-foreground: oklch(0.98 0 0); /* Active item text */
+  --sidebar-accent: oklch(0.18 0 0);        /* Hover background */
+  --sidebar-accent-foreground: oklch(0.98 0 0); /* Hover text */
+  --sidebar-border: oklch(1 0 0 / 0.10);    /* Sidebar border */
+  --sidebar-ring: oklch(0.65 0.22 264);     /* Sidebar focus ring */
+  
+  /* Additional utility colors for Tailwind */
+  --color-sidebar-bg: #1a1d24;              /* Sidebar background */
+  --color-sidebar-text: #e5e7eb;            /* Sidebar text */
+  --color-sidebar-text-muted: #9ca3af;      /* Muted text */
+  --color-sidebar-active: #6366f1;           /* Active item (indigo-500) */
+  --color-sidebar-hover: #2a2d35;           /* Hover background */
+  --color-sidebar-border: rgba(255, 255, 255, 0.1); /* Border */
+  --color-sidebar-group: #6b7280;           /* Group header text */
+}
+
+/* ============================================
+   🎨 BASE LAYER - Typography & Base Styles
+   ============================================ */
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  
+  html {
+    overflow: hidden;
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-normal);
+    letter-spacing: var(--letter-spacing-normal);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Typography Hierarchy */
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: var(--font-weight-bold);
+    letter-spacing: var(--letter-spacing-tight);
+    line-height: 1.2;
+  }
+  
+  h1 {
+    font-size: 2.25rem;      /* 36px */
+    font-weight: var(--font-weight-extrabold);
+  }
+  
+  h2 {
+    font-size: 1.875rem;     /* 30px */
+    font-weight: var(--font-weight-bold);
+  }
+  
+  h3 {
+    font-size: 1.5rem;       /* 24px */
+    font-weight: var(--font-weight-semibold);
+  }
+  
+  h4 {
+    font-size: 1.25rem;      /* 20px */
+    font-weight: var(--font-weight-semibold);
+  }
+  
+  h5 {
+    font-size: 1.125rem;     /* 18px */
+    font-weight: var(--font-weight-medium);
+  }
+  
+  h6 {
+    font-size: 1rem;         /* 16px */
+    font-weight: var(--font-weight-medium);
+  }
+  
+  p {
+    line-height: 1.6;
+    font-weight: var(--font-weight-normal);
+  }
+  
+  /* Links */
+  a {
+    transition: color 0.2s ease, opacity 0.2s ease;
+  }
+  
+  a:hover {
+    opacity: 0.8;
+  }
+  
+  /* Code & Monospace */
+  code, pre {
+    font-family: var(--font-mono);
+  }
+}
+
+/* ============================================
+   🎨 ANIMATIONS & TRANSITIONS
+   ============================================ */
+
+@keyframes slide-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in {
+  animation: slide-in 0.3s ease-out;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.2s ease-out;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out;
+}
+
+/* ============================================
+   🎨 INTERACTION STATES
+   ============================================ */
+
+/* Button States */
+button {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Input States */
+input, textarea, select {
+  transition: all 0.2s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--input-focus);
+}
+
+/* Card Hover States */
+.card-hover {
+  transition: all 0.2s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* ============================================
+   🎨 SCROLLBAR SYSTEM - Brand Consistent
+   ============================================ */
+
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: oklch(0.35 0 0) oklch(0.11 0 0);
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: oklch(0.11 0 0);
+  border-radius: var(--radius-md);
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: oklch(0.35 0 0);
+  border-radius: var(--radius-md);
+  border: 2px solid oklch(0.11 0 0);
+  transition: background 0.2s ease;
+}
+
+.scrollbar-thin:hover::-webkit-scrollbar-thumb,
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.50 0.22 264);
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:active {
+  background: oklch(0.60 0.22 264);
+}
+
+/* Sidebar Specific Scrollbar */
+.sidebar-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: oklch(0.30 0 0) oklch(0.11 0 0);
+}
+
+.sidebar-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar-scroll::-webkit-scrollbar-thumb {
+  background: oklch(0.30 0 0);
+  border-radius: var(--radius-full);
+  border: 1px solid transparent;
+}
+
+.sidebar-scroll::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.40 0 0);
+}
+
+/* ============================================
+   🎨 UTILITY CLASSES
+   ============================================ */
+
+/* Spacing Utilities */
+.spacing-micro { gap: var(--spacing-micro); }
+.spacing-small { gap: var(--spacing-small); }
+.spacing-normal { gap: var(--spacing-normal); }
+.spacing-medium { gap: var(--spacing-medium); }
+.spacing-large { gap: var(--spacing-large); }
+.spacing-xlarge { gap: var(--spacing-xlarge); }
+
+/* Icon Sizes */
+.icon-sm { width: var(--icon-size-sm); height: var(--icon-size-sm); }
+.icon-md { width: var(--icon-size-md); height: var(--icon-size-md); }
+.icon-lg { width: var(--icon-size-lg); height: var(--icon-size-lg); }
+.icon-xl { width: var(--icon-size-xl); height: var(--icon-size-xl); }
+
+/* Status Colors */
+.text-success { color: var(--success); }
+.text-warning { color: var(--warning); }
+.text-destructive { color: var(--destructive); }
+.text-info { color: var(--info); }
+
+.bg-success { background-color: var(--success-bg); }
+.bg-warning { background-color: var(--warning-bg); }
+.bg-destructive { background-color: var(--destructive-bg); }
+.bg-info { background-color: var(--info-bg); }
+
+/* Focus Visible - Accessibility */
+*:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}

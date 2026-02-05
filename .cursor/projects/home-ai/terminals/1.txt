@@ -1,0 +1,48 @@
+---
+pid: 8108
+cwd: |
+  C:\Users\Khalil Esmael
+---
+ai@35.159.233.158's password:
+cb7bce34f95c: running
+Found existing installation at /home/ai/.cursor-server...
+Starting VS Code CLI... "/home/ai/.cursor-server/cursor-dc8361355d709f306d5159635a677a571b277bc0" command-shell --cli-data-dir "/home/ai/.cursor-server/cli" --on-port --on-host=127.0.0.1 --parent-process-id 9562 &> "/home/ai/.cursor-server/.cli.dc8361355d709f306d5159635a677a571b277bc0.log" < /dev/null
+printenv:
+    SHELL=/bin/bash
+    PWD=/home/ai
+    LOGNAME=ai
+    XDG_SESSION_TYPE=tty
+    MOTD_SHOWN=pam
+    HOME=/home/ai
+    LANG=C.UTF-8
+    VSCODE_AGENT_FOLDER=/home/ai/.cursor-server
+    SSH_CONNECTION=3.69.173.44 4004 172.31.20.228 22
+    XDG_SESSION_CLASS=user
+    USER=ai
+    SHLVL=0
+    XDG_SESSION_ID=3
+    XDG_RUNTIME_DIR=/run/user/1001
+    SSH_CLIENT=3.69.173.44 4004 22
+    PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+    DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1001/bus
+    _=/usr/bin/printenv
+Removing old logfile at /home/ai/.cursor-server/.cli.dc8361355d709f306d5159635a677a571b277bc0.log
+Spawned remote CLI: 9581
+Waiting for server log...
+cb7bce34f95c: start
+SSH_AUTH_SOCK====
+DISPLAY====
+listeningOn==127.0.0.1:36517==
+osReleaseId==ubuntu==
+arch==x86_64==
+vscodeArch==x64==
+bitness==64==
+tmpDir==/run/user/1001==
+platform==linux==
+unpackResult====
+didLocalDownload==0==
+downloadTime====
+installTime====
+serverStartTime==61==
+execServerToken==1bf51622-8c58-4bc7-adec-f03b7b242944==
+cb7bce34f95c: end
